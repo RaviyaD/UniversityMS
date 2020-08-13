@@ -1,32 +1,32 @@
 {
   "name": "management_system",
   "version": "0.1.0",
-  "private": true,
+  "description": "SPM project",
+  "author": "WE-27",
+  "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "concurrently": "^5.3.0",
-    "electron": "^9.2.0",
-    "electron-builder": "^22.8.0",
+    "cross-env": "^7.0.2",
     "electron-is-dev": "^1.2.0",
     "firebase": "^7.17.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3",
-    "wait-on": "^5.2.0"
+    "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-pack": "build --em.main=build/main.js",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "build": "npm run react-build && npm run electron-build",
+    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "build --em.main=build/electron.js",
     "preelectron-pack": "npm build"
   },
-  "main": "public/main.js",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -46,10 +46,17 @@
     "appId": "com.example.electron-cra",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "package.json"
     ],
     "directories": {
       "buildResources": "assets"
     }
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "electron": "^9.2.0",
+    "electron-builder": "^22.8.0",
+    "wait-on": "^5.2.0"
   }
 }
