@@ -5,6 +5,7 @@ import Navbar from "./component/Navbar/Navbar";
 import testComponent1 from "./component/testComponent1";
 import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
+import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
 
 class App extends React.Component {
 
@@ -30,6 +31,7 @@ class App extends React.Component {
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/test1" exact component={testComponent1}/>
                         <Route path="/test2" exact component={testComponent2}/>
+                        <Route path="/addworkindays" exact component={AddWorkingHours}/>
 
                     </BrowserRouter>
                 </div>
