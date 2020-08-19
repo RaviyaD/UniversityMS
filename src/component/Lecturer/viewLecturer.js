@@ -2,6 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import * as firebase from 'firebase'
 import LecturerRow from "./lecturerRow";
+import {Table} from "react-bootstrap";
 
 class ViewLecturer extends React.Component{
     constructor(props) {
@@ -51,9 +52,23 @@ class ViewLecturer extends React.Component{
 
     render() {
         return (
-            <div>
+            <Table striped bordered hover size="sm">
+                <thead>
+                <tr>
+                    <th> NAME </th>
+                    <th> EMPID</th>
+                    <th> FACULTY</th>
+                    <th> DEPARTMENT </th>
+                    <th> CENTER </th>
+                    <th> BUILDING </th>
+                    <th> LEVEL </th>
+                    <th> RANK </th>
+                </tr>
+                </thead>
+                <tbody>
                 {this.handleList()}
-            </div>
+                </tbody>
+            </Table>
         );
     }
 

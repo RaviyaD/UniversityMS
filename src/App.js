@@ -1,10 +1,13 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Link, Route} from "react-router-dom";
 import Navbar from "./component/Navbar/Navbar";
 import testComponent1 from "./component/testComponent1";
 import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
+import MainLecturer from "./component/Lecturer/mainLecturer";
+import MainSubject from "./component/Subject/mainSubject";
+import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
 
 class App extends React.Component {
 
@@ -28,8 +31,11 @@ class App extends React.Component {
                     <BrowserRouter>
                         <Navbar openNav={this.openNav} closeNav={this.closeNav}/>
                         <Route path="/" exact component={HomePage}/>
-                        <Route path="/test1" exact component={testComponent1}/>
+                        <Route path="/subject" exact component={MainSubject}/>
+                        <Route path="/lecturer" exact component={MainLecturer}/>
                         <Route path="/test2" exact component={testComponent2}/>
+                        <Route path="/addworkindays" exact component={AddWorkingHours}/>
+
                     </BrowserRouter>
                 </div>
             </div>

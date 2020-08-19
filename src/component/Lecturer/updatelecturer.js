@@ -260,8 +260,8 @@ class Updatelecturer extends React.Component{
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
-                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '30px', marginRight: '30px', backgroundColor: '#888844' }}>
-                                Update
+                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '40%', marginRight: '30px', backgroundColor: '#888844' }}>
+                                UPDATE LECTURER
                             </Button>
                         </Form.Group>
                     </div>
