@@ -93,7 +93,7 @@ class Subject extends React.Component {
     render() {
         return (
             <div>
-                <h3 style={{ margin: '50px', color: '#888844' }} >Add Lecturer</h3>
+                <h3 style={{ margin: '50px', color: '#888844' }} >Add Subject</h3>
                 <Form>
                     <div className="form-group">
                         <fieldset>

@@ -78,8 +78,8 @@ class DeleteLecturer extends Component{
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
-                            <Button lg type="button" onClick={this.handleDelete} style={{ marginLeft: '30px', marginRight: '30px', backgroundColor: '#888844' }}>
-                                Delete
+                            <Button lg type="button" onClick={this.handleDelete} style={{ marginLeft: '40%', marginRight: '30px', backgroundColor: '#888844' }}>
+                                DELETE LECTURER
                             </Button>
                         </Form.Group>
                     </div>

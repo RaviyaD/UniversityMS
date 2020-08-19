@@ -5,6 +5,13 @@ import Navbar from "./component/Navbar/Navbar";
 import testComponent1 from "./component/testComponent1";
 import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
+import Subject from "./component/Subject/subject";
+import MainLecturer from "./component/Lecturer/mainLecturer";
+import Lecturer from "./component/Lecturer/lecturer";
+import ViewLecturer from "./component/Lecturer/viewLecturer";
+import Updatelecturer from "./component/Lecturer/updatelecturer";
+import DeleteLecturer from "./component/Lecturer/deleteLecturer";
+import MainSubject from "./component/Subject/mainSubject";
 
 class App extends React.Component {
 
@@ -28,7 +35,12 @@ class App extends React.Component {
                     <BrowserRouter>
                         <Navbar openNav={this.openNav} closeNav={this.closeNav}/>
                         <Route path="/" exact component={HomePage}/>
-                        <Route path="/test1" exact component={testComponent1}/>
+                        <Route path="/subject" exact component={MainSubject}/>
+                        <Route path="/lecturer" exact component={MainLecturer}/>
+                        <Route path="/addLecturer" exact component={Lecturer}/>
+                        <Route path="/viewLecturer" exact component={ViewLecturer}/>
+                        <Route path="/editLecturer" exact component={Updatelecturer}/>
+                        <Route path="/deleteLecturer" exact component={DeleteLecturer}/>
                         <Route path="/test2" exact component={testComponent2}/>
 
                     </BrowserRouter>

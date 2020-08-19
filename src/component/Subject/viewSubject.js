@@ -2,6 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import * as firebase from 'firebase'
 import SubjectRow from "./subjectRow";
+import {Table} from "react-bootstrap";
 
 class ViewSubject extends React.Component{
     constructor(props) {
@@ -42,6 +43,7 @@ class ViewSubject extends React.Component{
         })
     }
     handleList(){
+        console.log("asa");
         return this.state.list.map((res , i )=>{
             return  <SubjectRow obj={res} key={i} /> ;
         });
@@ -49,9 +51,23 @@ class ViewSubject extends React.Component{
 
     render() {
         return (
-            <div>
+            <Table striped bordered hover size="sm">
+                <thead>
+                <tr>
+                    <th> CODE </th>
+                    <th> NAME</th>
+                    <th> YEAR </th>
+                    <th> SEMESTER </th>
+                    <th> LECTURE HOURS </th>
+                    <th> TUTE HOURS  </th>
+                    <th> LAB HOURS  </th>
+                    <th> EVALUATION HOURS </th>
+                </tr>
+                </thead>
+                <tbody>
                 {this.handleList()}
-            </div>
+                </tbody>
+            </Table>
         );
     }
 

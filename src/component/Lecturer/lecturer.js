@@ -3,6 +3,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import * as firebase from 'firebase'
 
+
 class Lecturer extends React.Component {
     constructor(props) {
         super(props);
@@ -29,36 +30,31 @@ class Lecturer extends React.Component {
     handleName(event) {
         this.setState({
             Name: event.target.value
-        })
-        console.log(event.target.value)
+        });
     }
 
     handleempID(event) {
         this.setState({
             empID: event.target.value
-        })
-        console.log(event.target.value)
+        });
     }
 
     handlefaculty(event) {
         this.setState({
             faculty: event.target.value
-        })
-        console.log(event.target.value)
+        });
     }
 
     handledepartment(event) {
         this.setState({
             department: event.target.value
-        })
-        console.log(event.target.value)
+        });
     }
 
     handleCenter(event) {
         this.setState({
             center: event.target.value
-        })
-        console.log(event.target.value)
+        });
     }
 
     handleLevel(event) {
@@ -81,16 +77,13 @@ class Lecturer extends React.Component {
         this.setState({
             level: event.target.value,
             rank: v + '.' + this.state.empID
-        })
-        console.log(event.target.value)
-        console.log(this.state.rank)
+        });
     }
 
     handleBuilding(event) {
         this.setState({
             building: event.target.value
-        })
-        console.log(event.target.value)
+        });
     }
 
     handleSubmit() {
@@ -209,8 +202,8 @@ class Lecturer extends React.Component {
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
-                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '30px', marginRight: '30px', backgroundColor: '#888844' }}>
-                                ADD
+                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '40%', marginRight: '30px', backgroundColor: '#888844' }}>
+                                ADD LECTURER
                             </Button>
                         </Form.Group>
                     </div>
