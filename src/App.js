@@ -12,6 +12,9 @@ import LocationMain from "./component/Location/LocationMain";
 import AddWorkingDays from "./component/WorkingD&T/AddWorkingDays";
 import MainView from "./component/WorkingD&T/MainView/MainView";
 import EditBuilding from "./component/Location/Building/EditBuilding";
+import EditRoom from "./component/Location/Room/EditRoom";
+import RoomInformation from "./component/Location/Room/RoomInformation";
+import BuildingInformation from "./component/Location/Building/BuildingInformation";
 
 class App extends React.Component {
 
@@ -44,6 +47,9 @@ class App extends React.Component {
                         <Route path="/workingView" exact component={MainView}/>
                         <Route path="/location-info" exact component={LocationMain}/>
                         <Route path="/edit-building/:id" exact component={EditBuilding}/>
+                        <Route path="/edit-room/:id/:bid" exact component={EditRoom}/>
+                        <Route path="/room-info" exact component={RoomInformation}/>
+                        <Route path="/building-info" exact component={BuildingInformation}/>
 
 
 

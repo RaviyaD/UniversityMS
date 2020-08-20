@@ -100,7 +100,7 @@ export default class BuildingInformation extends Component{
     render(){
         return(
             <div style={{marginTop:'40px'}}>
-                <h5 style={{  color: '#888844' }} >Building Information</h5>
+                <h5 style={{  color: '#888844' }} >Building Details</h5>
                 <Button lg type="button" onClick={this.handleShow} variant="light" style={{  backgroundColor: '#888844',color:"white",marginTop:'30px' }}>
                     ADD BUILDING
                 </Button>

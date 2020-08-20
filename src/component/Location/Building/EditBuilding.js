@@ -63,13 +63,15 @@ export default class EditBuilding extends Component{
 
             }
         })
-        this.props.history.push('/location-info')
+        this.props.history.push('/building-info')
     }
 
 
     render() {
-        return (<div>
-            <h3 style={{ margin: '50px', color: '#888844' }} >Edit Building Name Here</h3>
+        return (<div style={{ marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
+            <Row>
+                <Col sm={9}>
+                    <h3 style={{ margin: '20px', color: '#888844' }} >Edit Room</h3>
 
             <Form>
                 <div className="form-group">
@@ -89,7 +91,11 @@ export default class EditBuilding extends Component{
                     </Form.Group>
                 </div>
             </Form>
+                </Col>
+                <Col sm={3} style={{'background-color': '#888844'}}>
 
+                </Col>
+            </Row>
         </div>);
     }
 }

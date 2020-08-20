@@ -74,7 +74,7 @@ export default class LocationMain extends React.Component{
                         </Nav>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title>Location Details</Card.Title>
+                        <Card.Title>Location</Card.Title>
                         <Card.Text>
                             {this.state.viewLocationDetails ? <LocationDetails/> : null}
                             {this.state.viewBuildingDetails ? <BuildingInformation/> : null}
