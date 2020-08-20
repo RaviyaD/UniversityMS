@@ -1,23 +1,30 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Link, Route} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import Navbar from "./component/Navbar/Navbar";
-import testComponent1 from "./component/testComponent1";
-import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
 import MainLecturer from "./component/Lecturer/mainLecturer";
 import MainSubject from "./component/Subject/mainSubject";
 import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
 import LocationMain from "./component/Location/LocationMain";
-import AddBuilding from "./component/Location/Building/AddBuilding";
 import AddWorkingDays from "./component/WorkingD&T/AddWorkingDays";
 import MainView from "./component/WorkingD&T/MainView/MainView";
+import EditBuilding from "./component/Location/Building/EditBuilding";
+import EditRoom from "./component/Location/Room/EditRoom";
+import RoomInformation from "./component/Location/Room/RoomInformation";
+import BuildingInformation from "./component/Location/Building/BuildingInformation";
+import Student from "./component/Students/Student";
+import Tags from "./component/Tags/Tags";
+import Semester from "./component/Students/Semester/Semester";
+import Programme from "./component/Students/Programme/Programme";
+import Group from "./component/Students/Group/Groups";
+import SubGroups from "./component/Students/SubGroup/SubGroups";
 
 class App extends React.Component {
 
     openNav() {
-        document.getElementById("mySidenav").style.width = "200px";
-        document.getElementById("main").style.marginLeft = "200px";
+        document.getElementById("mySidenav").style.width = "230px";
+        document.getElementById("main").style.marginLeft = "230px";
         document.body.style.backgroundColor = "rgba(0,0,0,0)";
     }
 
@@ -42,13 +49,23 @@ class App extends React.Component {
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/subject" exact component={MainSubject}/>
                         <Route path="/lecturer" exact component={MainLecturer}/>
-                        <Route path="/test1" exact component={testComponent1}/>
-                        <Route path="/test2" exact component={testComponent2}/>
+                        <Route path="/addworkindays" exact component={AddWorkingHours}/>
+                        <Route path="/Student" exact component={Student}/>
+                        <Route path="/Student/Semester" exact component={Semester}/>
+                        <Route path="/Student/Semester/Programme" exact component={Programme}/>
+                        <Route path="/Student/Semester/Programme/Group" exact component={Group}/>
+                        <Route path="/Student/Semester/Programme/Group/SubGroup" exact component={SubGroups}/>
+                        <Route path="/Tags/" exact component={Tags}/>
                         <Route path="/workingTimes" exact component={AddWorkingHours}/>
                         <Route path="/workingDays" exact component={AddWorkingDays}/>
                         <Route path="/workingView" exact component={MainView}/>
                         <Route path="/location-info" exact component={LocationMain}/>
-                        <Route path="/add-building" exact component={AddBuilding}/>
+                        <Route path="/edit-building/:id" exact component={EditBuilding}/>
+                        <Route path="/edit-room/:id/:bid" exact component={EditRoom}/>
+                        <Route path="/room-info" exact component={RoomInformation}/>
+                        <Route path="/building-info" exact component={BuildingInformation}/>
+
+
 
                     </BrowserRouter>
                 </div>

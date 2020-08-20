@@ -19,10 +19,12 @@
     color: black;
     display: block;
     transition: 0.3s;
+    text-decoration: none;
 }
 
 .sidenav a:hover {
     color: #f1f1f1;
+    text-decoration: none;
 }
 
 .sidenav .closebtn {
@@ -35,4 +37,5 @@
     color: #f1f1f1;
     cursor: pointer;
 }
+
 
