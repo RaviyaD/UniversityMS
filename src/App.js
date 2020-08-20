@@ -35,6 +35,8 @@ class App extends React.Component {
                     <BrowserRouter>
                         <Navbar openNav={this.openNav} closeNav={this.closeNav}/>
                         <Route path="/" exact component={HomePage}/>
+                        <Route path="/subject" exact component={MainSubject}/>
+                        <Route path="/lecturer" exact component={MainLecturer}/>
                         <Route path="/test1" exact component={testComponent1}/>
                         <Route path="/test2" exact component={testComponent2}/>
                         <Route path="/workingTimes" exact component={AddWorkingHours}/>
