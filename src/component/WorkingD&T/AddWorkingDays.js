@@ -66,13 +66,13 @@ export default class AddWorkingDays extends React.Component {
         <LoadingScreen
             loading={loading}
             bgColor='#ffffff'
-            spinnerColor='#9ee5f8'
-            textColor='#676767'
+            spinnerColor='#000000'
+            textColor='#000000'
             text='Loading Data'
         >
           <Container>
             <Typography style={{fontFamily:'Lucida Bright'}} component="h1" variant="h4" align="center">
-              Working Dates
+              Working Days
             </Typography>
             {
               this.warning()
@@ -227,14 +227,14 @@ export default class AddWorkingDays extends React.Component {
         {
           label: 'Yes',
           onClick: () => {
-            window.location.reload()
+            //window.location.reload()
             this.setState({ loading: true }, () => {
               for (let i = 0; i < this.state.selected.length; i++) {
                 firebase.database().ref('Workingdays/' + this.state.selected[i]).set({
                   day: this.state.selected[i]
                 })
               }
-              this.getData()
+              this.props.history.push('/workingView')
             })
 
           }
@@ -255,14 +255,14 @@ export default class AddWorkingDays extends React.Component {
           label: 'Yes',
           onClick: () => {
             this.setState({ loading: true }, () => {
-              window.location.reload()
+            //  window.location.reload()
               firebase.database().ref('Workingdays').remove()
               for (let i = 0; i < this.state.selected.length; i++) {
                 firebase.database().ref('Workingdays/' + this.state.selected[i]).set({
                   day: this.state.selected[i]
                 })
               }
-              this.getData()
+              this.props.history.push('/workingView')
             })
           }
         },
@@ -282,8 +282,8 @@ export default class AddWorkingDays extends React.Component {
           label: 'Yes',
           onClick: () => {
             this.setState({ loading: true }, () => {
-              window.location.reload()
-              firebase.database().ref('Workingdays').remove().then(this.getData)
+              //window.location.reload()
+              firebase.database().ref('Workingdays').remove().then(()=>this.props.history.push('/workingView'))
             })
           }
         },
@@ -303,7 +303,7 @@ export default class AddWorkingDays extends React.Component {
             this.state.isSetData ? (<Alert className={'d-flex justify-content-center'} style={{height:'40px',margin:'10px',textAlign:'center'}} severity="success">
               <p className={'text-center'} style={{textAlign:'center',paddingTop:'0px'}}>You Has Been Already Set Data</p>
             </Alert>) : (<Alert className={'d-flex justify-content-center'} style={{height:'40px',margin:'10px',textAlign:'center'}} severity="warning">
-              <p className={'text-center'} style={{textAlign:'center',paddingTop:'0px'}}>  Please Select Working Days</p>
+              <p className={'text-center'} style={{textAlign:'center',paddingTop:'0px'}}> Select Working Days</p>
             </Alert>)
           }
         </div>
