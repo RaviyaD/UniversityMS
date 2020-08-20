@@ -6,6 +6,8 @@ import testComponent1 from "./component/testComponent1";
 import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
 import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
+import AddWorkingDays from "./component/WorkingD&T/AddWorkingDays";
+import MainView from "./component/WorkingD&T/MainView/MainView";
 
 class App extends React.Component {
 
@@ -31,8 +33,9 @@ class App extends React.Component {
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/test1" exact component={testComponent1}/>
                         <Route path="/test2" exact component={testComponent2}/>
-                        <Route path="/addworkindays" exact component={AddWorkingHours}/>
-
+                        <Route path="/workingTimes" exact component={AddWorkingHours}/>
+                        <Route path="/workingDays" exact component={AddWorkingDays}/>
+                        <Route path="/workingView" exact component={MainView}/>
                     </BrowserRouter>
                 </div>
             </div>
