@@ -12,7 +12,6 @@ class Navbar extends React.Component {
                     <Link to="/subject">Subject</Link>
                     <Link to="/test1">Test 1</Link>
                     <Link to="/test2">Test 2</Link>
-                    <Link to="/addworkindays">WorkingDays</Link>
                     <Link to="/location-info">Location Details</Link>
                     <Link to="/workingView">Working Times</Link>
                 </div>

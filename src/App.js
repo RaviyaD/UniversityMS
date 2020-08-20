@@ -40,7 +40,6 @@ class App extends React.Component {
                         <Route path="/workingTimes" exact component={AddWorkingHours}/>
                         <Route path="/workingDays" exact component={AddWorkingDays}/>
                         <Route path="/workingView" exact component={MainView}/>
-                        <Route path="/addworkindays" exact component={AddWorkingHours}/>
                         <Route path="/location-info" exact component={LocationMain}/>
                         <Route path="/add-building" exact component={AddBuilding}/>
 

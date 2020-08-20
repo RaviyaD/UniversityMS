@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {Col, Row, Table} from 'reactstrap';
 import moment from "moment";
-import PerfectScrollbar from 'react-perfect-scrollbar'
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import {DateRangeRounded, HourglassEmptyRounded} from "@material-ui/icons";
 import {Button} from "@material-ui/core";
 import { withRouter } from 'react-router-dom';
