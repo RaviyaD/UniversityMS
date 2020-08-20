@@ -19,6 +19,7 @@ import Semester from "./component/Students/Semester/Semester";
 import Programme from "./component/Students/Programme/Programme";
 import Group from "./component/Students/Group/Groups";
 import SubGroups from "./component/Students/SubGroup/SubGroups";
+import StatisticsMain from "./component/Statistics/StatisticsMain";
 
 class App extends React.Component {
 
@@ -63,6 +64,7 @@ class App extends React.Component {
                         <Route path="/edit-room/:id/:bid" exact component={EditRoom}/>
                         <Route path="/room-info" exact component={RoomInformation}/>
                         <Route path="/building-info" exact component={BuildingInformation}/>
+                        <Route path="/stat-info" exact component={StatisticsMain}/>
 
 
 
