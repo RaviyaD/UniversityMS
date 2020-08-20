@@ -6,6 +6,7 @@
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -16,6 +17,7 @@
     "electron-builder": "^22.8.0",
     "electron-is-dev": "^1.2.0",
     "firebase": "^7.17.2",
+    "font-awesome": "^4.7.0",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
@@ -23,7 +25,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-times": "^3.1.12"
+    "react-times": "^3.1.12",
+    "sweetalert": "^2.1.2"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -69,6 +72,7 @@
     "electron": "^9.2.0",
     "electron-builder": "^22.8.0",
     "react-confirm-alert": "^2.6.1",
+    "react-dual-listbox": "^2.0.0",
     "react-loading-screen": "0.0.17",
     "reactstrap": "^8.5.1",
     "wait-on": "^5.2.0"

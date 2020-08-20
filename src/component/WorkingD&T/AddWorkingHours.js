@@ -1,12 +1,19 @@
 import React, {Component} from "react";
 import * as firebase from "firebase";
-import {Container, Row, Col, Alert} from 'reactstrap';
+import {Container, Row, Col} from 'reactstrap';
+import Alert from '@material-ui/lab/Alert';
 import Typography from "@material-ui/core/Typography";
 import TimePicker from 'react-times';
 import 'react-times/css/material/default.css';
 import 'react-times/css/classic/default.css';
 import {Button} from "@material-ui/core";
-import {DeleteForeverRounded, SaveOutlined, UpdateOutlined, UpdateSharp} from "@material-ui/icons";
+import {
+    DateRangeRounded,
+    DeleteForeverRounded,
+    HomeRounded,
+    SaveOutlined,
+    UpdateSharp
+} from "@material-ui/icons";
 import LoadingScreen from "react-loading-screen";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -149,18 +156,18 @@ export default class AddWorkingHours extends Component{
                         text='Loading'
                     >
                 <Container>
-                    <Typography component="h1" variant="h4" align="center">
+                    <Typography style={{fontFamily:'Lucida Bright'}} component="h1" variant="h4" align="center">
                         Set Working Times of a Day
                     </Typography>
 
                     <Row>
-                        <div style={{ backgroundColor: 'lightgrey', width: '600px', border: '15px solid green', padding: '10px', margin: 'auto', alignItems:'center'}}>
+                        <div  style={{ backgroundColor: '#d5d0e5', width: '600px', border: '10px solid black', padding: '10px', margin: 'auto', alignItems:'center'}}>
 
                             <Row>
-                                <Col xs="4" style={{marginTop:'10px',marginLeft:'0px'}}>
-                                    <p style={{marginTop:'10px',marginLeft:'0px'}} >Start Time</p>
+                                <Col xs="4" style={{marginTop:'5px',marginLeft:'0px'}}>
+                                    <p align={"center"} style={{marginTop:'10px',marginLeft:'0px'}} className={"font-weight-bolder"} >Start Time</p>
                                 </Col>
-                                <Col  xs="6"  style={{marginTop:'10px'}}>
+                                <Col  xs="6"  style={{marginTop:'5px'}}>
                                     <TimePicker style={{alignItems:'right'}} colorPalette="dark" theme="classic"  format={'HH:mm'} time={this.state.startTime}
                                                 timeConfig={{
                                                     from: 6,
@@ -171,43 +178,58 @@ export default class AddWorkingHours extends Component{
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs="4" style={{marginTop:'10px',marginLeft:'0px'}}>
-                                    <p style={{marginTop:'10px',marginLeft:'0px'}}>End Time</p>
+                                <Col xs="4" style={{marginTop:'5px',marginLeft:'0px'}}>
+                                    <p align={"center"} className={"font-weight-bolder"}  style={{marginTop:'10px',marginLeft:'0px'}}>End Time</p>
                                 </Col>
                                 <Col xs="6" style={{marginTop:'10px'}}>
                                     <TimePicker  colorPalette="dark" theme="classic"  format={'HH:mm'} time={this.state.endTime}
-                                                onTimeChange={this.onTimeChangeEndTime.bind(this)}/>
+                                                 timeConfig={{
+                                                     from: 6,
+                                                     to: 20,
+                                                     step: 15,
+                                                     unit: 'minutes'
+                                                 }}   onTimeChange={this.onTimeChangeEndTime.bind(this)}/>
                                 </Col>
                             </Row>
                         </div>
                     </Row>
 
                     <Row style={{marginBottom:'10px'}}>
-                        <div style={{ backgroundColor: 'lightgrey', width: '600px', border: '15px solid green', padding: '10px', margin: 'auto'}}>
+                        <div style={{ backgroundColor: '#d5d0e5', width: '600px', border: '10px solid black', padding: '10px', margin: 'auto'}}>
 
                             <Row>
-                                <Col xs="4" style={{marginTop:'10px',marginLeft:'0px'}}>
-                                    <p style={{marginTop:'10px',marginLeft:'0px'}} >Interval Start Time</p>
+                                <Col xs="4" style={{marginTop:'5px',marginLeft:'0px'}}>
+                                    <p align={"center"} className={"font-weight-bolder"} style={{marginTop:'10px',marginLeft:'0px'}} >Interval Start Time</p>
                                 </Col>
-                                <Col  xs="6"  style={{marginTop:'10px'}}>
+                                <Col  xs="6"  style={{marginTop:'5px'}}>
                                     <TimePicker style={{alignItems:'right'}} colorPalette="dark" theme="classic"  format={'HH:mm'} time={this.state.lunchStart}
-                                                onTimeChange={this.onTimeChangeIntStartTime.bind(this)}/>
+                                                timeConfig={{
+                                                    from: 6,
+                                                    to: 20,
+                                                    step: 15,
+                                                    unit: 'minutes'
+                                                }}   onTimeChange={this.onTimeChangeIntStartTime.bind(this)}/>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs="4" style={{marginTop:'10px',marginLeft:'0px'}}>
-                                    <p style={{marginTop:'10px',marginLeft:'0px'}}>Interval End Time</p>
+                                <Col xs="4" style={{marginTop:'5px',marginLeft:'0px'}}>
+                                    <p align={"center"} className={"font-weight-bolder"} style={{marginTop:'10px',marginLeft:'0px'}}>Interval End Time</p>
                                 </Col>
-                                <Col xs="6" style={{marginTop:'10px'}}>
-                                    <TimePicker colorPalette="light" theme="classic"  format={'HH:mm'} time={this.state.lunchEnd}
-                                                onTimeChange={this.onTimeChangeIntEndTime.bind(this)}/>
+                                <Col xs="6" style={{marginTop:'5px'}}>
+                                    <TimePicker colorPalette="dark" theme="classic"  format={'HH:mm'} time={this.state.lunchEnd}
+                                                timeConfig={{
+                                                    from: 6,
+                                                    to: 20,
+                                                    step: 15,
+                                                    unit: 'minutes'
+                                                }}   onTimeChange={this.onTimeChangeIntEndTime.bind(this)}/>
                                 </Col>
                             </Row>
                         </div>
                     </Row>
 
 
-                    <FormControl variant="outlined" >
+                    <FormControl size={'small'} className={'d-flex justify-content-center'} style={{margin:'5px'}} variant="outlined" >
                         <InputLabel htmlFor="outlined-age-native-simple">TimeSlot</InputLabel>
                         <Select
                             native
@@ -222,84 +244,88 @@ export default class AddWorkingHours extends Component{
                             <option value={30}>30 Minute</option>
                         </Select>
                     </FormControl>
+                    <p  className={"d-flex justify-content-center"} style={{margin:'5px',display:'inline', fontFamily:'Candara',fontSize:'25px'}}>Total  Hours of a Day  :  <strong style={{fontSize:'25px'}}> {this.totHours()}</strong></p>
 
+                    <Row className={'d-flex justify-content-center'} style={{marginTop:'5px'}}>
                     {this.checkWithTimeSlot()}
+                    </Row>
 
-                    <Row style={{marginTop:'10px'}}>
-                        <Col sm="12" md={{ size: 6, offset: 3 }}>
+                    <Row className={'d-flex justify-content-center'} style={{marginTop:'5px'}}>
+                        <Col sm="auto" >
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="primary"
                                 startIcon={<SaveOutlined />}
                                 onClick={this.onSaveTime}
                                 hidden={isSetTime}
                                 style={{marginTop:'10px'}}
                                 disabled={disable}
+                                size={'small'}
                             >
                                 Save
                             </Button>
                         </Col>
                     </Row>
 
-                    <Row style={{marginTop:'10px'}}>
-                        <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<UpdateOutlined />}
-                                onClick={this.accessUpdate}
-                                hidden={ !isUpdate || !isSetTime}
-                                style={{marginTop:'10px'}}
-                            >
-                                Do You Want To update
-                            </Button>
-                        </Col>
-                    </Row>
 
-                    <Row style={{marginTop:'10px'}}>
-                        <Col sm="12" md={{ size: 6, offset: 3 }}>
+
+                    <Row  className={'d-flex justify-content-center'} style={{marginTop:'5px'}}>
+
+                        <Col sm="auto" >
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="primary"
                                 startIcon={<UpdateSharp />}
                                 onClick={this.updateDates}
-                                hidden={!isSetTime || isUpdate }
+                                hidden={!isSetTime }
                                 style={{marginTop:'10px'}}
                                 disabled={disable}
+                                size={'small'}
                             >
                                 Update
                             </Button>
                         </Col>
                     </Row>
 
-                    <Row style={{marginTop:'10px'}}>
-                        <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                startIcon={<DeleteForeverRounded />}
-                                onClick={this.deletealls}
-                                hidden={!isSetTime}
-                                style={{marginRight:'10px'}}
-                            >
-                                Delete All
-                            </Button>
-                        </Col>
+
+                    <Row style={{marginTop:'10px'}} >
+
+                        <Button
+                            variant="outlined"
+                            color={"primary"}
+                            startIcon={<HomeRounded />}
+                            onClick={()=>this.props.history.push('/workingView')}
+                            size={'small'}
+                        >
+                            MainView
+                        </Button>
+
+                        <Button
+                            className={'d-flex justify-content-center'}
+                            variant="outlined"
+                            color="secondary"
+                            startIcon={<DeleteForeverRounded />}
+                            onClick={this.deletealls}
+                            hidden={ !isSetTime }
+                            style={{marginLeft:'auto'}}
+                            size={'small'}
+                        >
+                            Delete All Data
+                        </Button>
+
+
+                        <Button style={{marginLeft:'auto'}}
+                            variant="outlined"
+                            color={"primary"}
+                            startIcon={<DateRangeRounded />}
+                            onClick={()=>this.props.history.push('/workingDays')}
+                            size={'small'}
+                        >
+                            Working Days
+                        </Button>
+
                     </Row>
 
-                    <Row style={{marginTop:'10px'}}>
-                        <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                startIcon={<DeleteForeverRounded />}
-                                onClick={()=>this.props.history.push('/')}
-                                style={{marginRight:'10px'}}
-                            >
-                                MainView
-                            </Button>
-                        </Col>
-                    </Row>
 
 
 
@@ -382,7 +408,7 @@ export default class AddWorkingHours extends Component{
                     onClick: () => {
                         this.setState({ loading: true }, () => {
                             window.location.reload()
-                            firebase.database().ref('WorkingTime').remove().then(this.getData)
+                            firebase.database().ref('WorkingTime').remove().then(() => {this.props.history.push('/workingView')})
                         })
                     }
                 },
@@ -412,13 +438,13 @@ export default class AddWorkingHours extends Component{
             var keyS = result.indexOf(this.state.lunchStart)
             var keyE = result.indexOf(this.state.lunchEnd)
             if(keyE === -1 || keyS === -1){
-                return(<Alert style={{height:'50px'}}  color="warning">
+                return(<Alert className={'d-flex justify-content-center'} style={{height:'40px',margin:'10px',textAlign:'center'}} severity={"error"}>
                     <p style={{textAlign:'center',paddingTop:'0px'}}>Change Lunch Start or End Time or TimeSlot</p>
                 </Alert>)
             }
         }else {
             return (
-                <Alert style={{height:'50px'}}  color="success">
+                <Alert className={'d-flex justify-content-center'} style={{height:'40px',margin:'10px',textAlign:'center'}} severity={"error"}>
                     <p style={{textAlign:'center',paddingTop:'0px'}}>Change Start or End Time or TimeSlot</p>
                 </Alert>
             )
@@ -427,6 +453,20 @@ export default class AddWorkingHours extends Component{
 
 
 
+    }
+
+    totHours = () => {
+        var start = moment(this.state.startTime, 'HH:mm');
+        var end = moment(this.state.endTime, 'HH:mm');
+
+
+        var gap = end.diff(start, 'minutes')
+        var x = gap
+        var d = moment.duration(x, 'minutes');
+        var hours = Math.floor(d.asHours());
+        var mins = Math.floor(d.asMinutes()) - hours * 60;
+        let j = hours +" hours:"+mins + " mins"
+        return j
     }
 
 }

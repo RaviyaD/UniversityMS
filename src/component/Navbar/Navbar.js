@@ -13,6 +13,8 @@ class Navbar extends React.Component {
                     <Link to="/addworkindays">WorkingDays</Link>
                     <Link to="/Student">Students</Link>
                     <Link to="/Tags">Tags</Link>
+                    <Link to="/location-info">Location Details</Link>
+                    <Link to="/workingView">Working Times</Link>
                 </div>
             </div>
         )

@@ -2,6 +2,7 @@ import React from 'react'
 import {Form, Row, Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import * as firebase from 'firebase'
+import swal from "sweetalert";
 
 class Subject extends React.Component {
     constructor(props) {
@@ -87,23 +88,37 @@ class Subject extends React.Component {
             LabHours: this.state.labHrs,
             EvaluationHours: this.state.evalHrs
 
+        }, ()=>{
+            swal("OK!!", "Subject Added!", "success").then(() => null);
+            this.setState({
+                year: '',
+                semester: '',
+                name: '',
+                code: '',
+                lecHrs: '',
+                tuteHrs: '',
+                labHrs: '',
+                evalHrs: ''
+            });
         })
     }
 
     render() {
         return (
-            <div>
+            <div style={{marginLeft: '30px', marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
+                <Row>
+                    <Col sm={9}>
                 <h3 style={{ margin: '50px', color: '#888844' }} >Add Subject</h3>
                 <Form>
                     <div className="form-group">
                         <fieldset>
                             <Form.Group as={Row} style={{ marginLeft: '30px', marginRight: '30px' }}>
                                 <Row>
-                                <Col>
+                                <Col style={{marginLeft:'40px'}}>
                                     <Row>
                                     <Col sm={6}>
                                 <Form.Label style={{fontSize:'20px'}}>
-                                    Offered Year
+                                    <b>Offered Year</b>
                                 </Form.Label>
                                     </Col>
                                 <Col sm={6}>
@@ -130,7 +145,7 @@ class Subject extends React.Component {
                                 <Row>
                                 <Col sm={6}>
                                         <Form.Label style={{fontSize:'20px'}}>
-                                            Offered Semester
+                                            <b>Offered Semester</b>
                                         </Form.Label>
                                     </Col>
                                 <Col md={6}>
@@ -150,7 +165,7 @@ class Subject extends React.Component {
                         </fieldset>
                         <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Subject Name
+                                <b>Subject Name</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.name} onChange={this.handleName} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -158,7 +173,7 @@ class Subject extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextCode" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Subject Code
+                                <b>Subject Code</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.code} onChange={this.handleCode} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -166,7 +181,7 @@ class Subject extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextlectHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of lecture hours
+                                <b>Number of lecture hours</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.lecHrs} onChange={this.handleLecHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -174,7 +189,7 @@ class Subject extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextTuteHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of tutorial hours
+                                <b>Number of tutorial hours</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.tuteHrs} onChange={this.handleTuteHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -182,7 +197,7 @@ class Subject extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextlabHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of lab hours
+                                <b>Number of lab hours</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.labHrs} onChange={this.handleLabHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -190,19 +205,24 @@ class Subject extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextevalHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of Evaluation hours
+                                <b>Number of Evaluation hours</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.evalHrs} onChange={this.handleEvalHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
-                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '30px', marginRight: '30px', backgroundColor: '#888844' }}>
-                                ADD
+                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '40%', marginRight: '30px', backgroundColor: '#888844' }}>
+                                ADD SUBJECT
                             </Button>
                         </Form.Group>
                     </div>
                 </Form>
+                    </Col>
+                    <Col sm={3} style={{'background-color': '#888844'}}>
+
+                    </Col>
+                </Row>
             </div>
         )
     }
