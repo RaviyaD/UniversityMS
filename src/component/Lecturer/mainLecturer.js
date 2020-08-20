@@ -73,7 +73,7 @@ class MainLecturer extends React.Component{
                         </Nav>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title>Lecturers</Card.Title>
+                        <Card.Title>LECTURERS</Card.Title>
                         <Card.Text>
                             {this.state.viewLec ? <ViewLecturer/> : null}
                             {this.state.addLec ? <Lecturer/> : null}

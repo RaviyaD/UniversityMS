@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Row, Col, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import * as firebase from 'firebase'
-
+import swal from 'sweetalert';
 
 class Lecturer extends React.Component {
     constructor(props) {
@@ -10,11 +10,11 @@ class Lecturer extends React.Component {
         this.state = {
             Name: '',
             empID: '',
-            faculty: '',
+            faculty: 'Faculty of Computing',
             department: '',
-            center: '',
-            building: '',
-            level: '',
+            center: 'Malabe',
+            building: 'Main Building',
+            level: 'Professor',
             rank: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +35,8 @@ class Lecturer extends React.Component {
 
     handleempID(event) {
         this.setState({
-            empID: event.target.value
+            empID: event.target.value,
+            rank: '1.' + event.target.value
         });
     }
 
@@ -98,19 +99,36 @@ class Lecturer extends React.Component {
                 Level: this.state.level,
                 rank: this.state.rank
 
+            }, ()=>{
+                this.setState({
+                    faculty: 'Faculty of Computing',
+                    center: 'Malabe',
+                    building: 'Main Building',
+                    level: 'Professor',
+                    rank: '',
+                    Name:'',
+                    empID:'',
+                    department: '',
+                });
+                swal("OK!!", "Lecturer Added!", "success").then(() => null);
+
             })
+        }else{
+            swal("EMPLOYEE ID!!", "Must have 6 values!!", "warning").then(() => null);
         }
     }
 
     render() {
         return (
-            <div>
-                <h3 style={{ margin: '50px', color: '#888844' }} >Add Lecturer</h3>
+            <div style={{marginLeft: '30px', marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
+                <Row>
+                    <Col sm={9}>
+                <h3 style={{ margin: '70px', color: '#888844' }} >Add Lecturer</h3>
                 <Form>
                     <div className="form-group">
                         <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Name
+                              <b>Name</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.Name} onChange={this.handleName} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -118,7 +136,7 @@ class Lecturer extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextEmpID" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Employee ID
+                                <b>Employee ID</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.empID} onChange={this.handleempID} style={{ marginLeft: '30px', marginRight: '30px' }} />
@@ -126,10 +144,10 @@ class Lecturer extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Faculty
+                               <b> Faculty</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control as="select" placeholder={this.state.faculty} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handlefaculty}>
+                                <Form.Control as="select" value={this.state.faculty} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handlefaculty}>
                                     <option>Faculty of Computing</option>
                                     <option>Faculty of Engineering</option>
                                     <option>Faculty of Business</option>
@@ -141,7 +159,7 @@ class Lecturer extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextDepartment" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Department
+                                <b>Department</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.department} onChange={this.handledepartment} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -149,10 +167,10 @@ class Lecturer extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextCenter" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Center
+                                <b>Center</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control as="select" placeholder={this.state.center} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleCenter}>
+                                <Form.Control as="select" value={this.state.center} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleCenter}>
                                     <option>Malabe</option>
                                     <option>Metro</option>
                                     <option>Matara</option>
@@ -164,25 +182,23 @@ class Lecturer extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextBuilding" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Building
+                                <b>Building</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control as="select" placeholder={this.state.building} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleBuilding}>
-                                    <option>New Building</option>
+                                <Form.Control as="select" value={this.state.building} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleBuilding}>
+                                    <option>Main Building</option>
                                     <option>D-block</option>
-                                    <option>Matara</option>
-                                    <option>Kandy</option>
-                                    <option>Kurunagala</option>
-                                    <option>Jaffna</option>
+                                    <option>New Building</option>
+                                    <option>Engineering Building</option>
                                 </Form.Control>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextLevel" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Level
+                                <b>Level</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control as="select" placeholder={this.state.level} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleLevel}>
+                                <Form.Control as="select" value={this.state.level} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleLevel}>
                                     <option>Professor</option>
                                     <option>Assistant Professor</option>
                                     <option>Senior Lecturer(HG)</option>
@@ -195,7 +211,7 @@ class Lecturer extends React.Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextRank" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Rank
+                                <b>Rank</b>
                             </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="text" placeholder={this.state.rank} onChange={this.handleRank} style={{ marginLeft: '30px', marginRight: '30px' }}/>
@@ -208,6 +224,11 @@ class Lecturer extends React.Component {
                         </Form.Group>
                     </div>
                 </Form>
+                    </Col>
+                    <Col sm={3} style={{'background-color': '#888844'}}>
+
+                    </Col>
+                </Row>
             </div>
         )
     }

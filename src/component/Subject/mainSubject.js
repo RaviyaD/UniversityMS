@@ -73,7 +73,7 @@ class MainSubject extends React.Component{
                         </Nav>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title>Subjects</Card.Title>
+                        <Card.Title>SUBJECTS</Card.Title>
                         <Card.Text>
                             {this.state.viewSub ? <ViewSubject/> : null}
                             {this.state.addSub ? <Subject/> : null}
