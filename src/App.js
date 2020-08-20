@@ -1,13 +1,17 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Link, Route} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import Navbar from "./component/Navbar/Navbar";
-import testComponent1 from "./component/testComponent1";
-import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
 import MainLecturer from "./component/Lecturer/mainLecturer";
 import MainSubject from "./component/Subject/mainSubject";
 import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
+import Student from "./component/Students/Student";
+import Tags from "./component/Tags/Tags";
+import Semester from "./component/Students/Semester/Semester";
+import Programme from "./component/Students/Programme/Programme";
+import Group from "./component/Students/Group/Groups";
+import SubGroups from "./component/Students/SubGroup/SubGroups";
 
 class App extends React.Component {
 
@@ -33,9 +37,13 @@ class App extends React.Component {
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/subject" exact component={MainSubject}/>
                         <Route path="/lecturer" exact component={MainLecturer}/>
-                        <Route path="/test2" exact component={testComponent2}/>
                         <Route path="/addworkindays" exact component={AddWorkingHours}/>
-
+                        <Route path="/Student" exact component={Student}/>
+                        <Route path="/Student/Semester" exact component={Semester}/>
+                        <Route path="/Student/Semester/Programme" exact component={Programme}/>
+                        <Route path="/Student/Semester/Programme/Group" exact component={Group}/>
+                        <Route path="/Student/Semester/Programme/Group/SubGroup" exact component={SubGroups}/>
+                        <Route path="/Tags/" exact component={Tags}/>
                     </BrowserRouter>
                 </div>
             </div>
