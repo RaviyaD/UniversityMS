@@ -1,6 +1,7 @@
 import React from 'react'
 import * as firebase from "firebase";
 import {Button, Col, Form, Row} from "react-bootstrap";
+import swal from "sweetalert";
 
 class UpdateSubject extends React.Component{
     constructor(props) {
@@ -99,6 +100,20 @@ class UpdateSubject extends React.Component{
             LabHours: this.state.labHrs,
             EvaluationHours: this.state.evalHrs
 
+        }
+        , ()=>{
+                swal("OK!!", "Subject Updated!", "success").then(() => null);
+                this.setState({
+                        year: '',
+                        semester: '',
+                        name: '',
+                        code: '',
+                        lecHrs: '',
+                        tuteHrs: '',
+                        labHrs: '',
+                        evalHrs: '',
+                        search:'',
+                })
         })
     }
 
@@ -136,126 +151,97 @@ class UpdateSubject extends React.Component{
 
     render() {
         return (
-            <div>
+            <div style={{marginLeft: '30px', marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
+                <Row>
+                    <Col sm={9}>
                 <h3 style={{ margin: '50px', color: '#888844' }} >Update Subject</h3>
                 <Form>
                     <div className="form-group">
                         <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Search
+                               <b>SEARCH</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.search} onChange={this.handleSearch} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="text" value={this.state.search} onChange={this.handleSearch} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
-                        <fieldset>
-                            <Form.Group as={Row} style={{ marginLeft: '30px', marginRight: '30px' }}>
-                                <Row>
-                                    <Col>
-                                        <Row>
-                                            <Col sm={6}>
-                                                <Form.Label style={{fontSize:'20px'}}>
-                                                    Offered Year
-                                                </Form.Label>
-                                            </Col>
-                                            <Col sm={6}>
-                                                <Row>
-                                                    <input style={{margin:'10px'}} value={this.state.year} type="radio" id="year1" name="year" onChange={this.handleYear}/>
-                                                    <label>Year 1</label>
-                                                </Row>
-                                                <Row>
-                                                    <input style={{margin:'10px'}} value={this.state.year} type="radio" id="year2" name="year" onChange={this.handleYear}/>
-                                                    <label>Year 2</label>
-                                                </Row>
-                                                <Row>
-                                                    <input style={{margin:'10px'}} value={this.state.year} type="radio" id="year3" name="year" onChange={this.handleYear}/>
-                                                    <label>Year 3</label>
-                                                </Row>
-                                                <Row>
-                                                    <input style={{margin:'10px'}} value={this.state.year} type="radio" id="year4" name="year" onChange={this.handleYear}/>
-                                                    <label>Year 4</label>
-                                                </Row>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col>
-                                        <Row>
-                                            <Col sm={6}>
-                                                <Form.Label style={{fontSize:'20px'}}>
-                                                    Offered Semester
-                                                </Form.Label>
-                                            </Col>
-                                            <Col md={6}>
-                                                <Row>
-                                                    <input style={{margin:'10px'}} value={this.state.semester} type="radio" id="sem1" name="semester" onChange={this.handleSemester}/>
-                                                    <label>Semester 1</label>
-                                                </Row>
-                                                <Row>
-                                                    <input style={{margin:'10px'}} value={this.state.semester} type="radio" id="sem2" name="semester" onChange={this.handleSemester}/>
-                                                    <label>Semester 2</label>
-                                                </Row>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            </Form.Group>
-                        </fieldset>
                         <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Subject Name
+                                <b>Year</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.name} onChange={this.handleName} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="text" value={this.state.year} onChange={this.handleYear} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
+                            <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
+                                <b>Semester</b>
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control type="text" value={this.state.semester} onChange={this.handleSemester} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
+                            <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
+                                <b>Subject Name</b>
+                            </Form.Label>
+                            <Col sm="10">
+                                <Form.Control type="text" value={this.state.name} onChange={this.handleName} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextCode" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Subject Code
+                                <b>Subject Code</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control readOnly type="text" placeholder={this.state.code} onChange={this.handleCode} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control readOnly type="text" value={this.state.code} onChange={this.handleCode} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextlectHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of lecture hours
+                                <b>Number of lecture hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.lecHrs} onChange={this.handleLecHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="text" value={this.state.lecHrs} onChange={this.handleLecHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextTuteHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of tutorial hours
+                                <b>Number of tutorial hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.tuteHrs} onChange={this.handleTuteHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="text" value={this.state.tuteHrs} onChange={this.handleTuteHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextlabHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of lab hours
+                                <b>Number of lab hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.labHrs} onChange={this.handleLabHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="text" value={this.state.labHrs} onChange={this.handleLabHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextevalHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
                             <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                                Number of Evaluation hours
+                                <b>Number of Evaluation hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.evalHrs} onChange={this.handleEvalHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="text" value={this.state.evalHrs} onChange={this.handleEvalHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
-                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '30px', marginRight: '30px', backgroundColor: '#888844' }}>
-                                ADD
+                            <Button lg type="button" onClick={this.handleSubmit} style={{ marginLeft: '40%', marginRight: '30px', backgroundColor: '#888844' }}>
+                                UPDATE SUBJECT
                             </Button>
                         </Form.Group>
                     </div>
                 </Form>
-            </div>
+            </Col>
+            <Col sm={3} style={{'background-color': '#888844'}}>
+
+    </Col>
+    </Row>
+    </div>
         )
     }
 }
