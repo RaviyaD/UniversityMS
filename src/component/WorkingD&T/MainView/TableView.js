@@ -13,32 +13,32 @@ class TableView extends Component{
         const {selected,result,lstrt,lend,isSetTime} = this.props
        return(
 
-           <Table style={ isSetTime ? { textAlign:'center', marginTop: '5px', border: '3px solid gray'} : {marginTop: '100px',marginBottom:'100px',border: '3px solid gray'}} bordered >
-            <thead>
-            <tr>
+           <Table style={ isSetTime ? { textAlign:'center', marginTop: '5px', border: '3px solid black'} : {marginTop: '100px',marginBottom:'100px',border: '3px solid black'}} bordered >
+            <thead >
+            <tr style={{border: '3px solid black'}}>
                 {this.showTableHeaders(selected)}
                 {selected.map((index) => {
                     return(
-                        <th style={{fontFamily:'Optima',fontSize:'20px',border: '3px solid gray'}} className={"text-center"} >{index}</th>
+                        <th key={index} style={{fontFamily:'Optima',fontSize:'20px',border: '3px solid black'}} className={"text-center"} >{index}</th>
                     )
                 })}
             </tr>
             </thead>
-            <tbody>
+            <tbody >
             {this.showTableNoColumn(result)}
             {
                 result.map((index,value) => {
                     if(selected.length === 0){
                         return(
-                            <tr hidden={result.length === (value+1)}>
+                            <tr style={{border:'#000000'}} hidden={result.length === (value+1)}>
                                 {Array.from(Array(1).keys()).map((i) => {
                                     if(moment(index,'HH:mm') >= moment(lstrt,'HH:mm') && moment(result[(value + 1)],'HH:mm') <= moment(lend,'HH:mm') ){
                                         return(
-                                            <td className={"text-center"} style={{backgroundColor:'RED'}}>{index} - {result[(value + 1)]}</td>
+                                            <td key={value} className={"text-center"} style={{backgroundColor:'RED'}}>{index} - {result[(value + 1)]}</td>
                                         )
                                     }else{
                                         return(
-                                            <td className={"text-center"}>{index} - {result[(value + 1)]}</td>
+                                            <td  key={value} className={"text-center"}>{index} - {result[(value + 1)]}</td>
                                         )
                                     }
 
@@ -52,11 +52,11 @@ class TableView extends Component{
                             {selected.map((i) => {
                                 if(moment(index,'HH:mm') >= moment(lstrt,'HH:mm') && moment(result[(value + 1)],'HH:mm') <= moment(lend,'HH:mm') ){
                                     return(
-                                        <td style={{fontFamily:'Copperplate',fontSize:'18px',backgroundColor:'#F34646'}} className={"text-center"} >{index} - {result[(value + 1)]}</td>
+                                        <td key={value} style={{fontFamily:'Copperplate',fontSize:'18px',backgroundColor:'#F34646'}} className={"text-center"} >{index} - {result[(value + 1)]}</td>
                                     )
                                 }else{
                                     return(
-                                        <td style={{fontFamily:'Optima',fontSize:'15px'}} className={"text-center"}>{index} - {result[(value + 1)]}</td>
+                                        <td key={value} style={{fontFamily:'Optima',fontSize:'15px'}} className={"text-center"}>{index} - {result[(value + 1)]}</td>
                                     )
                                 }
 
@@ -92,7 +92,7 @@ class TableView extends Component{
         if (array.length === 0) {
             return (
                 <tr style={{padding:'90px'}}>
-                    <td  className={"text-center"} colSpan={this.props.selected.length}>No Working Hours Set
+                    <td  className={"text-center"} colSpan={this.props.selected.length}>Set Working Hours
                         <Button
                             style={{marginLeft:'30px'}}
                             variant="outlined"
