@@ -144,8 +144,7 @@ export default class AddRoom extends React.Component {
                                         <Col sm="10">
                                             <Form.Control as="select" placeholder={"Select Room Type"} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleType}>
                                                 <option>Lecture hall</option>
-                                                <option>Lab</option>
-                                                <option>Auditoriam</option>
+                                                <option>Labotary</option>
                                             </Form.Control>
 
                                         </Col>
