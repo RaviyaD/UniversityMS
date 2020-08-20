@@ -10,11 +10,11 @@ class Navbar extends React.Component {
                     <a to="javascript:void(0)" className="closebtn" onClick={this.props.closeNav}>&times;</a>
                     <Link to="/lecturer">Lecturer</Link>
                     <Link to="/subject">Subject</Link>
-                    <Link to="/addworkindays">WorkingDays</Link>
+                    <Link to="/workingView">Working Times</Link>
                     <Link to="/Student">Students</Link>
                     <Link to="/Tags">Tags</Link>
                     <Link to="/location-info">Location Details</Link>
-                    <Link to="/workingView">Working Times</Link>
+
                 </div>
             </div>
         )

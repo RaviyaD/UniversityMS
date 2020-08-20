@@ -49,7 +49,6 @@ class App extends React.Component {
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/subject" exact component={MainSubject}/>
                         <Route path="/lecturer" exact component={MainLecturer}/>
-                        <Route path="/addworkindays" exact component={AddWorkingHours}/>
                         <Route path="/Student" exact component={Student}/>
                         <Route path="/Student/Semester" exact component={Semester}/>
                         <Route path="/Student/Semester/Programme" exact component={Programme}/>
