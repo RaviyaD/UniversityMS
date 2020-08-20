@@ -2,12 +2,13 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter, Link, Route} from "react-router-dom";
 import Navbar from "./component/Navbar/Navbar";
-import testComponent1 from "./component/testComponent1";
 import testComponent2 from "./component/testComponent2";
 import HomePage from "./component/Home/HomePage";
 import MainLecturer from "./component/Lecturer/mainLecturer";
 import MainSubject from "./component/Subject/mainSubject";
 import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
+import LocationMain from "./component/Location/LocationMain";
+import AddBuilding from "./component/Location/Building/AddBuilding";
 
 class App extends React.Component {
 
@@ -35,6 +36,8 @@ class App extends React.Component {
                         <Route path="/lecturer" exact component={MainLecturer}/>
                         <Route path="/test2" exact component={testComponent2}/>
                         <Route path="/addworkindays" exact component={AddWorkingHours}/>
+                        <Route path="/location-info" exact component={LocationMain}/>
+                        <Route path="/add-building" exact component={AddBuilding}/>
 
                     </BrowserRouter>
                 </div>
