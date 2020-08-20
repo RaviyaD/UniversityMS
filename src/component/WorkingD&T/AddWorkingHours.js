@@ -301,12 +301,12 @@ export default class AddWorkingHours extends Component{
                         </Button>
 
                         <Button
-                            className={'d-flex justify-content-center'}
+                            hidden={ !isSetTime }
+                            className={'justify-content-center'}
                             variant="outlined"
                             color="secondary"
                             startIcon={<DeleteForeverRounded />}
                             onClick={this.deletealls}
-                            hidden={ !isSetTime }
                             style={{marginLeft:'auto'}}
                             size={'small'}
                         >
@@ -337,37 +337,35 @@ export default class AddWorkingHours extends Component{
     }
 
     onSaveTime = () => {
-        this.setState({ loading: true }, () => {
-            window.location.reload()
 
-                firebase.database().ref('WorkingTime').set({
-                    startTime: this.state.startTime,
-                    endTime: this.state.endTime,
-                    lunchStart : this.state.lunchStart,
-                    lunchEnd : this.state.lunchEnd,
-                    timeSlot:this.state.timeSlot
-                })
+        confirmAlert({
+            title: 'Confirm Update',
+            message: 'Are you sure to Save Details',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        this.setState({ loading: true }, () => {
+                           // window.location.reload()
+                            firebase.database().ref('WorkingTime').set({
+                                startTime: this.state.startTime,
+                                endTime: this.state.endTime,
+                                lunchStart : this.state.lunchStart,
+                                lunchEnd : this.state.lunchEnd,
+                                timeSlot:this.state.timeSlot
+                            }).then(()=>this.props.history.push('/workingView'))
 
-        })
-    }
-
-    accessUpdate = () => {
-        if(this.state.isSetTime){
-            confirmAlert({
-                title: 'Confirm',
-                message: 'Are you sure to Update Working Daye',
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: () =>  this.setState({isUpdate:false})
-                    },
-                    {
-                        label: 'No',
+                        })
                     }
-                ]
-            });
-        }
+                },
+                {
+                    label: 'No',
+                }
+            ]
+        });
     }
+
+
 
     updateDates = () => {
         confirmAlert({
@@ -378,7 +376,7 @@ export default class AddWorkingHours extends Component{
                     label: 'Yes',
                     onClick: () => {
                         this.setState({ loading: true }, () => {
-                            window.location.reload()
+                           // window.location.reload()
                             firebase.database().ref('WorkingTime').remove()
                             firebase.database().ref('WorkingTime').set({
                                 startTime: this.state.startTime,
@@ -386,8 +384,8 @@ export default class AddWorkingHours extends Component{
                                 lunchStart : this.state.lunchStart,
                                 lunchEnd : this.state.lunchEnd,
                                 timeSlot:this.state.timeSlot
-                            })
-                            this.getData()
+                            }).then(()=>this.props.history.push('/workingView'))
+
                         })
                     }
                 },
@@ -407,8 +405,9 @@ export default class AddWorkingHours extends Component{
                     label: 'Yes',
                     onClick: () => {
                         this.setState({ loading: true }, () => {
-                            window.location.reload()
+
                             firebase.database().ref('WorkingTime').remove().then(() => {this.props.history.push('/workingView')})
+                            this.props.history.push('/workingView')
                         })
                     }
                 },
@@ -465,7 +464,11 @@ export default class AddWorkingHours extends Component{
         var d = moment.duration(x, 'minutes');
         var hours = Math.floor(d.asHours());
         var mins = Math.floor(d.asMinutes()) - hours * 60;
-        let j = hours +" hours:"+mins + " mins"
+        let j
+        if(mins === 0)
+            j = hours +" hours"
+        else
+            j = hours +" hours : "+mins + " mins"
         return j
     }
 

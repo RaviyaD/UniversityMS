@@ -92,13 +92,13 @@ class TableView extends Component{
         if (array.length === 0) {
             return (
                 <tr style={{padding:'90px'}}>
-                    <td  className={"text-center"} colSpan={this.props.selected.length}>No Working Hours Set Yet
+                    <td  className={"text-center"} colSpan={this.props.selected.length}>No Working Hours Set
                         <Button
                             style={{marginLeft:'30px'}}
                             variant="outlined"
                             color={"primary"}
                             startIcon={<HourglassEmptyRounded />}
-                            onClick={()=>this.props.history.push('/workingDays')}
+                            onClick={()=>this.props.history.push('/workingTimes')}
                             size={'small'}
                         >
                             Working Hours

@@ -103,7 +103,7 @@ export default class MainView extends Component{
                            </Button>
 
 
-                           <p  className={"text-center"} style={{margin:'auto',display:'inline', fontFamily:'Candara',fontSize:'15px'}}>Total  Hours of a Week :<strong style={{fontSize:'20px'}}> {this.state.tothr}</strong></p>
+                           <p  className={"text-center"} style={{margin:'auto',display:'inline', fontFamily:'Candara',fontSize:'15px'}}>Total  Hours of a Week :<strong style={{fontSize:'20px'}}> {this.totHrWeek()}</strong></p>
 
                            <Button style={{marginLeft:'auto'}}
                                variant="outlined"
@@ -130,6 +130,34 @@ export default class MainView extends Component{
 
         var current = moment(start);
 
+        /*var gap = end.diff(start, 'minutes') * this.state.selected.length
+
+        var x = gap
+        var d = moment.duration(x, 'minutes');
+        var hours = Math.floor(d.asHours());
+        var mins = Math.floor(d.asMinutes()) - hours * 60;
+        let j
+        if(mins === 0)
+            j = hours +" hours"
+        else
+            j = hours +" hours : "+mins + " mins"
+        this.setState({tothr:j}) */
+
+        while (current <= end) {
+            result.push(current.format('HH:mm'));
+            current.add(slot, 'minutes');
+        }
+       console.log(result)
+       this.setState({result:result})
+
+    }
+
+    totHrWeek = () => {
+        var start = moment(this.state.startTime, 'HH:mm');
+        var end = moment(this.state.endTime, 'HH:mm');
+
+
+
         var gap = end.diff(start, 'minutes') * this.state.selected.length
 
         var x = gap
@@ -141,19 +169,6 @@ export default class MainView extends Component{
             j = hours +" hours"
         else
             j = hours +" hours : "+mins + " mins"
-        this.setState({tothr:j})
-
-        while (current <= end) {
-            result.push(current.format('HH:mm'));
-            current.add(slot, 'minutes');
-        }
-       console.log(result)
-       this.setState({result:result})
-
+        return j
     }
-
-    gotoAddTime = () => {
-        this.props.history.push('/workingTimes')
-    }
-
 }
