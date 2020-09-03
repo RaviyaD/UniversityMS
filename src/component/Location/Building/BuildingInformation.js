@@ -15,16 +15,8 @@ export default class BuildingInformation extends Component{
 
     constructor(props){
         super(props)
-
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAddBuildingName = this.handleAddBuildingName.bind(this);
-
-
+        this.deleteBuilding = this.deleteBuilding.bind(this);
         this.state = {
-            show:false,
-            addBuildingName:'',
             DisplayBuildings:[],
 
         }
@@ -45,55 +37,11 @@ export default class BuildingInformation extends Component{
 
     }
 
-    handleShow(){
-        this.setState({
-            show:true,
 
-        })
-    }
 
-    handleClose(){
-        this.setState({
-            show:false,
-
-        })
-    }
-
-    handleAddBuildingName(event){
-        this.setState({
-            addBuildingName: event.target.value
-        })
-    }
-
-    handleSubmit(e) {
-
-        e.preventDefault();
-        const myRef = firebase.database().ref().child('Buildings').push().getKey();
-
-        const buildingObject = {
-            buildingName: this.state.addBuildingName,
-            buildingId:myRef
-
-        };
-        firebase.database().ref('Buildings/' + myRef).set(
-            buildingObject,
-            err => {
-                if (err)
-                    console.log(err)
-                else
-                    console.log("Successful !!!");
-            })
-    }
-
-    deleteBuilding(bid){
+    deleteBuilding =(bid) => {
         if (window.confirm('Are you sure to delete the building?')) {
-            firebase.database().ref().child(`Buildings/` + bid).remove(
-                err => {
-                    if (err)
-                        console.log(err)
-                    else
-                        console.log("harii")
-                })
+            firebase.database().ref(`Buildings`).child(bid).remove()
         }
     }
 
@@ -101,40 +49,7 @@ export default class BuildingInformation extends Component{
         return(
             <div style={{marginTop:'40px'}}>
                 <h5 style={{  color: '#888844' }} >Building Details</h5>
-                <Button lg type="button" onClick={this.handleShow} variant="light" style={{  backgroundColor: '#888844',color:"white",marginTop:'30px' }}>
-                    ADD BUILDING
-                </Button>
-
-                <Dialog open={this.state.show} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Add Building</DialogTitle>
-                    <Form style={{width:500}}>
-                        <div className="form-group">
-                            <DialogContent>
-
-
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    value={this.state.addBuildingName}
-                                    onChange={this.handleAddBuildingName}
-                                    label="Building Name"
-                                    type="text"
-                                    fullWidth
-                                />
-                            </DialogContent>
-                            <DialogActions>
-                                <Button variant="secondary" onClick={this.handleClose} >
-                                    Cancel
-                                </Button>
-                                <Button onClick={this.handleSubmit} variant="light" style={{backgroundColor: '#888844',color:"white"}}>
-                                    Add
-                                </Button>
-                            </DialogActions>
-                        </div>
-                    </Form>
-                </Dialog>
-
-                <Table striped bordered hover size="sm" style={{marginTop:'40px',textAlign:"center"}}>
+                 <Table striped bordered hover size="sm" style={{marginTop:'40px',textAlign:"center"}}>
                     <thead>
                     <tr>
                         <th> Building Names </th>

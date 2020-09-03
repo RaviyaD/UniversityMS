@@ -8,7 +8,7 @@ export default class StudentStatistics extends Component{
 
     render(){
         return(<div>
-            this is lecture
+
         </div>)
     }
 }

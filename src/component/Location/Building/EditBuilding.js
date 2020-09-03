@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import * as firebase from "firebase";
 
 import {Button, Col, Row,Form} from "react-bootstrap";
+import LoadingScreen from "react-loading-screen";
 
 
 export default class EditBuilding extends Component{
@@ -14,7 +15,8 @@ export default class EditBuilding extends Component{
         // State
         this.state = {
             name:'',
-            id:''
+            id:'',
+            loading:true
         }
     }
 
@@ -25,7 +27,9 @@ export default class EditBuilding extends Component{
 
                 this.setState({
                     name: snapshot.val().buildingName
-                })
+                },()=>this.setState({
+                    loading:false
+                }))
                 console.log("actua; value =========" + this.state.name);
             }
         })
@@ -38,7 +42,7 @@ export default class EditBuilding extends Component{
 
 
 
-    onSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault()
 
 
@@ -46,8 +50,8 @@ export default class EditBuilding extends Component{
         firebase.database().ref().child(`Buildings/`+this.props.match.params.id).on('value',snapshot => {
 
             firebase.database().ref().child(`Buildings/`+this.props.match.params.id).update({
-                buildingName:this.state.name
-
+                buildingName:this.state.name,
+                buildingId:this.props.match.params.id
             })
             if(snapshot.hasChildren()){
 
@@ -68,10 +72,18 @@ export default class EditBuilding extends Component{
 
 
     render() {
-        return (<div style={{ marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
+        return (
+            <LoadingScreen
+                loading={this.state.loading}
+                bgColor='#ffffff'
+                spinnerColor='#000000'
+                textColor='#000000'
+                text='Loading'
+            >
+            <div style={{ marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
             <Row>
                 <Col sm={9}>
-                    <h3 style={{ margin: '20px', color: '#888844' }} >Edit Room</h3>
+                    <h3 style={{ margin: '20px', color: '#888844' }} >Edit Building</h3>
 
             <Form>
                 <div className="form-group">
@@ -96,6 +108,6 @@ export default class EditBuilding extends Component{
 
                 </Col>
             </Row>
-        </div>);
+            </div></LoadingScreen>);
     }
 }
