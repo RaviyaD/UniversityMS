@@ -19,6 +19,7 @@ import Semester from "./component/Students/Semester/Semester";
 import Programme from "./component/Students/Programme/Programme";
 import Group from "./component/Students/Group/Groups";
 import SubGroups from "./component/Students/SubGroup/SubGroups";
+import StatisticsMain from "./component/Statistics/StatisticsMain";
 
 class App extends React.Component {
 
@@ -41,8 +42,8 @@ class App extends React.Component {
                 <div id="main">
                     <span style={{fontSize: 30, cursor: "pointer"}} onClick={this.openNav}>&#9776;</span>
                     <div style={{float:'right',marginTop:'-15px',marginRight:'25px'}}>
-                        <img src={require('./userlogo.png')} style={{width:'50px',height:"50px"}}/>
-                        <p style={{margin:'2px', fontFamily:'Candara',fontSize:'15px'}}><strong>User</strong></p>
+                        <img src={require('./avatar.jpg')} style={{width:'50px',height:"50px"}}/>
+                        <p style={{margin:'2px', fontFamily:'Candara',fontSize:'15px'}}><strong>Admin</strong></p>
                     </div>
 
                     <BrowserRouter>
@@ -64,6 +65,7 @@ class App extends React.Component {
                         <Route path="/edit-room/:id/:bid" exact component={EditRoom}/>
                         <Route path="/room-info" exact component={RoomInformation}/>
                         <Route path="/building-info" exact component={BuildingInformation}/>
+                        <Route path="/stat-info" exact component={StatisticsMain}/>
 
 
 

@@ -35,7 +35,6 @@ class Semester extends React.Component{
     }
 
     deleteSemester(no){
-        console.log(parseInt(no));
         firebase.database().ref('Student/' + this.state.year+"/semesters/"+parseInt(no)).remove(()=>{
             console.log("Deleted");
         })
@@ -47,6 +46,7 @@ class Semester extends React.Component{
                 <h4>Year - {this.state.year} - Semester List</h4>
                 <small><strong>Semester defined - 6 months period</strong></small>
                 <br/>
+                <hr/>
                 {
                     this.state.list.map((item,key)=>{
                         return (

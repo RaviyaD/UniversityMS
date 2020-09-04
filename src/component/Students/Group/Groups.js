@@ -60,6 +60,7 @@ class Groups extends React.Component {
         return (
             <div>
                 <h4>Year- {this.state.year} Semester- {this.state.semester} Programme- {this.state.pro} Group List</h4>
+                <hr/>
                 {
                     this.state.list.map((item, key) => {
                         return (

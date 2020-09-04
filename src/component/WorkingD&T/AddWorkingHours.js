@@ -151,13 +151,13 @@ export default class AddWorkingHours extends Component{
                     <LoadingScreen
                         loading={loading}
                         bgColor='#ffffff'
-                        spinnerColor='#9ee5f8'
-                        textColor='#676767'
+                        spinnerColor='#000000'
+                        textColor='#000000'
                         text='Loading'
                     >
                 <Container>
                     <Typography style={{fontFamily:'Lucida Bright'}} component="h1" variant="h4" align="center">
-                        Set Working Times of a Day
+                        Working Hours
                     </Typography>
 
                     <Row>

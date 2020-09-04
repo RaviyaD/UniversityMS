@@ -42,7 +42,7 @@ export default class MainView extends Component{
                     day.push(daySnapShot.key)
 
                 })
-                this.setState({selected: day})
+                this.setState({selected: day},()=>this.sortDayArray())
             }else {
                 console.log('hellow')
                 this.setState({isSetData:false})
@@ -78,13 +78,13 @@ export default class MainView extends Component{
             <LoadingScreen
                 loading={this.state.loading}
                 bgColor='#ffffff'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
+                spinnerColor='#000000'
+                textColor='#000000'
                 text='Loading'
             >
                <Container>
                    <Typography style={{fontFamily:'Lucida Bright'}} component="h1" variant="h4" align="center">
-                       Working Dates & Times
+                       Working Days & Hours
                    </Typography>
 
                    <TableView selected={selected} result={result} lstrt={this.state.lunchStart} lend={this.state.lunchEnd}
@@ -103,7 +103,7 @@ export default class MainView extends Component{
                            </Button>
 
 
-                           <p  className={"text-center"} style={{margin:'auto',display:'inline', fontFamily:'Candara',fontSize:'15px'}}>Total  Hours of a Week :<strong style={{fontSize:'20px'}}> {this.totHrWeek()}</strong></p>
+                           <p hidden={!this.state.isSetTime}  className={"text-center"} style={{margin:'auto',display:'inline', fontFamily:'Candara',fontSize:'15px'}}>Total  Hours of a Week :<strong style={{fontSize:'20px'}}> {this.totHrWeek()}</strong></p>
 
                            <Button style={{marginLeft:'auto'}}
                                variant="outlined"
@@ -170,5 +170,17 @@ export default class MainView extends Component{
         else
             j = hours +" hours : "+mins + " mins"
         return j
+    }
+
+    sortDayArray = () => {
+        var list = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        var sorted = []
+        for(let i=0;i<7;i++){
+            for(let j=0;j<this.state.selected.length;j++){
+                if(list[i] == this.state.selected[j])
+                    sorted.push(this.state.selected[j])
+            }
+        }
+        this.setState({selected:sorted})
     }
 }

@@ -62,6 +62,7 @@ class SubGroups extends React.Component {
             <div>
                 <h4>Year- {this.state.year} Semester- {this.state.semester} Programme- {this.state.pro} Group- {this.state.group} SubGroup
                     List</h4>
+                <hr/>
                 {
                     this.state.list.map((item, key) => {
                         return (

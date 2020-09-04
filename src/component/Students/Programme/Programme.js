@@ -61,6 +61,7 @@ class Programme extends React.Component {
         return (
             <div>
                 <h4>Year {this.state.year} - Semester {this.state.semester} -Programme List</h4>
+                <hr/>
                 {
                     this.state.list.map((item, key) => {
 

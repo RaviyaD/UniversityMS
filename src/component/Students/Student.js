@@ -66,7 +66,7 @@ class Student extends React.Component {
                                           key={key}>
                                         <Row>
                                             <Col> <strong>Year</strong> {item.val().no}</Col>
-                                            <Col><strong>Code</strong> {item.val().yearCode}</Col>
+                                            <Col><strong>Short Form </strong> {item.val().yearCode}</Col>
                                             <Col><strong>Note</strong> {item.val().Note}</Col>
                                         </Row>
                                     </Link>
