@@ -14,7 +14,7 @@ export default class LecturerStatistics extends Component{
 
         this.state = {
             Lecturers:[],
-            branchType:'Matara',
+            branchType:'Malabe',
             branchType2:'Malabe',
             facultyType:'Faculty of Computing',
             lecturer_count: [{
@@ -63,11 +63,11 @@ export default class LecturerStatistics extends Component{
                 yaxis: {
                     show: true,
                     forceNiceScale: false,
-                    max: 100,
-                    title: 'count in percentage',
                     labels: {
-                        formatter: (value) => value.toFixed(0) +'%',
-                    },
+                        formatter: function(val, index) {
+                            return val.toFixed(0);
+                        }
+                    }
                 },
                 grid: {
                     show: true,
