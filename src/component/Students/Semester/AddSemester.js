@@ -45,7 +45,7 @@ class AddSemester extends React.Component {
             <div>
                 <Form onSubmit={this.addSemester}>
                     <FormGroup>
-                        <Button disabled={this.state.disabled} type="submit"> Add Semester</Button>
+                        <Button type="submit"> Add Semester</Button>
                     </FormGroup>
                 </Form>
             </div>
