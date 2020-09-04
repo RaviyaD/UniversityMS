@@ -82,6 +82,7 @@ export default class AddBuilding extends React.Component {
                     else
                         console.log("Successful !!!");
                 })
+            window.confirm('Successfully Entered!').then(window.location.reload())
         }
     }
 
