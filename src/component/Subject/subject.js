@@ -184,7 +184,7 @@ class Subject extends React.Component {
                                 <b>Number of lecture hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.lecHrs} onChange={this.handleLecHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="number" placeholder={this.state.lecHrs} onChange={this.handleLecHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextTuteHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
@@ -192,7 +192,7 @@ class Subject extends React.Component {
                                 <b>Number of tutorial hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.tuteHrs} onChange={this.handleTuteHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="number" placeholder={this.state.tuteHrs} onChange={this.handleTuteHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextlabHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
@@ -200,7 +200,7 @@ class Subject extends React.Component {
                                 <b>Number of lab hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.labHrs} onChange={this.handleLabHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="number" placeholder={this.state.labHrs} onChange={this.handleLabHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlaintextevalHour" style={{ marginLeft: '30px', marginRight: '30px' }}>
@@ -208,7 +208,7 @@ class Subject extends React.Component {
                                 <b>Number of Evaluation hours</b>
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="text" placeholder={this.state.evalHrs} onChange={this.handleEvalHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                                <Form.Control type="number" placeholder={this.state.evalHrs} onChange={this.handleEvalHours} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
