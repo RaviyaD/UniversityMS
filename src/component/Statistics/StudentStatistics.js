@@ -42,6 +42,13 @@ export default class StudentStatistics extends Component{
                     fontSize:'20px',
                     categories: ['Percentage'
                     ],
+                },
+                yaxis:{
+                    forceNiceScale: false,
+                    max: 100,
+                    labels: {
+                        formatter: (value) => value+ "%",
+                    },
                 }
             },
             totGroupss: [{
@@ -67,6 +74,13 @@ export default class StudentStatistics extends Component{
                     fontSize:'20px',
                     categories: ['Percentage'
                     ],
+                },
+                yaxis:{
+                    forceNiceScale: false,
+                    max: 100,
+                    labels: {
+                        formatter: (value) => value+ "%",
+                    },
                 }
             },
         };
