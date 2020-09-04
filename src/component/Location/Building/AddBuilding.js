@@ -5,8 +5,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row"
 import Button from "react-bootstrap/Button";
 
-
-
 export default class AddBuilding extends React.Component {
     constructor(props) {
         super(props);
@@ -14,12 +12,23 @@ export default class AddBuilding extends React.Component {
         this.handleBuildingName = this.handleBuildingName.bind(this);
         this.state = {
             buildingName:'',
+            Build:[],
+            nameError:'',
         };
 
     }
+    componentDidMount() {
+        firebase.database().ref().child('Buildings').on('value', snapshot => {
+            let allDisplayBuildings = [];
+            snapshot.forEach(snap => {
+                console.log(snap.key);
+                allDisplayBuildings.push(snap.val());
+            });
+            this.setState({ Build: allDisplayBuildings},()=>console.log("okay"));
 
 
-
+        })
+    }
 
     handleBuildingName(event) {
         this.setState({
@@ -29,26 +38,51 @@ export default class AddBuilding extends React.Component {
     }
 
 
+    validations(){
+
+        let nameError = '';
+        for(let j=0;j<this.state.Build.length;j++){
+            if((this.state.buildingName === this.state.Build[j].buildingName) || !this.state.buildingName){
+                nameError = "Invalid Building Name"
+            }
+        }
+
+        if(nameError){
+            this.setState({
+                nameError
+            })
+            return false;
+        }
+
+        this.setState({
+            nameError:''
+        })
+        return  true;
+    }
 
     handleSubmit(e) {
 
         e.preventDefault();
+        const isValid = this.validations();
+
+
         const myRef = firebase.database().ref().child('Buildings').push().getKey();
 
         const buildingObject = {
             buildingName: this.state.buildingName,
-            buildingId:myRef
+            buildingId: myRef
 
         };
-        firebase.database().ref('Buildings/' + myRef).set(
-            buildingObject,
-            err => {
-                if (err)
-                    console.log(err)
-                else
-                    console.log("Successful !!!");
-            })
-
+        if(isValid === true) {
+            firebase.database().ref('Buildings/' + myRef).set(
+                buildingObject,
+                err => {
+                    if (err)
+                        console.log(err)
+                    else
+                        console.log("Successful !!!");
+                })
+        }
     }
 
     render() {
@@ -67,6 +101,9 @@ export default class AddBuilding extends React.Component {
                                     <Col sm="10">
                                         <Form.Control type="text" value={this.state.buildingName} onChange={this.handleBuildingName} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                                     </Col>
+                                    <div  style={{ fontSize: 16, color: "red" ,marginLeft:'50px'}}>
+                                        {this.state.nameError}
+                                    </div>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
@@ -85,3 +122,4 @@ export default class AddBuilding extends React.Component {
         )
     }
 }
+
