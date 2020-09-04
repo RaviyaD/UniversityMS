@@ -67,6 +67,7 @@ export default class AddRoom extends React.Component {
     }
 
     handleSubmit(e) {
+
         let obj = this.state.BuildingNames.find(o => o.buildingId === this.state.buildingId);
         e.preventDefault();
         var myRef = firebase.database().ref().child('Room').push().getKey();
@@ -89,6 +90,14 @@ export default class AddRoom extends React.Component {
                     console.log("Successful !!!");
             })
 
+        window.confirm('Successfully Entered!')
+        this.setState({
+            buildingId: '',
+            buildingName:'',
+            roomName:'',
+            roomType:'',
+            capacity:''
+        })
     }
 
     render() {
@@ -143,8 +152,10 @@ export default class AddRoom extends React.Component {
                                         </Form.Label>
                                         <Col sm="10">
                                             <Form.Control as="select" placeholder={"Select Room Type"} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleType}>
-                                                <option>Lecture hall</option>
+                                                <option>Select Type</option>
                                                 <option>Labotary</option>
+                                                <option>Lecture hall</option>
+
                                             </Form.Control>
 
                                         </Col>

@@ -4,6 +4,9 @@ import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button/Button";
 import {Table} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 
 
@@ -89,14 +92,11 @@ export default class RoomInformation extends Component{
                                 <td>{b.capacity}</td>
                                 <td>{b.buildingName}</td>
                                 <td>
-                                    <Button variant="outlined" color="" size="small"
-                                            style={{marginRight:5}}>
-                                        <Link className="edit-link" style={{color:"black"}} to={"/edit-room/" + b.buildingId +"/"+b.roomName}>
-                                            Edit
-                                        </Link></Button>
-                                    <Button
-                                        variant="outlined" color="secondary" size="small"
-                                        onClick={() => { this.deletee(b.roomName,b.buildingId) }}>delete</Button>
+                                    <Link className="edit-link" style={{color:"black"}} to={"/edit-room/" + b.buildingId +"/"+b.roomName}>
+                                            <IconButton>
+                                                <EditIcon fontSize="small"/></IconButton>
+                                        </Link>
+                                    <IconButton  onClick={() => { this.deletee(b.roomName,b.buildingId) }}> <DeleteIcon fontSize="small" /></IconButton >
                                 </td>
 
                             </tr>

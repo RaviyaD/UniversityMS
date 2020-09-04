@@ -13,7 +13,8 @@ class Navbar extends React.Component {
                     <Link to="/workingView">Working Times</Link>
                     <Link to="/Student">Students</Link>
                     <Link to="/Tags">Tags</Link>
-                    <Link to="/location-info">Location Details</Link>
+                    <Link to="/location-info">Locations</Link>
+                    <Link to="/stat-info">Statistics</Link>
 
                 </div>
             </div>
