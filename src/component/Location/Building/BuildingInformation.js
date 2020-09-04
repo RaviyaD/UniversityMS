@@ -2,12 +2,15 @@ import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
-import {Form, Table} from 'react-bootstrap'
+import {Col, Form, Table} from 'react-bootstrap'
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as firebase from "firebase";
 import Button from "@material-ui/core/Button/Button";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 
 
@@ -63,21 +66,12 @@ export default class BuildingInformation extends Component{
                             return <tr>
                                 <td>{b.buildingName} </td>
                                 <td>
-
-                                    <Button
-                                        variant="outlined" color="#e89c19" size="small"
-                                        style={{marginRight:30}}
-                                    >
-                                        <Link className="edit-link" style={{color:"black"}} to={"/edit-building/" + b.buildingId}>
-                                            Edit
+                                    <Link className="edit-link" style={{color:"black"}} to={"/edit-building/" + b.buildingId}>
+                                        <IconButton>
+                                            <EditIcon fontSize="small"/></IconButton>
                                         </Link>
-                                    </Button>
 
-                                    <Button  variant="outlined" color="secondary" size="small"
-                                             onClick={()=>this.deleteBuilding(b.buildingId)}>
-                                        Delete
-                                    </Button>
-
+                                    <IconButton onClick={()=>this.deleteBuilding(b.buildingId)}> <DeleteIcon fontSize="small" /></IconButton >
 
                                 </td>
 
