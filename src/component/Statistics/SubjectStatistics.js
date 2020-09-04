@@ -14,10 +14,10 @@ export default class SubjectStatistics extends Component{
             Labs:[],
             Tutes:[],
             totSub: [ {
-                name: 'Semester 1',
+                name: '',
                 data: []
             }, {
-                name: 'Semester 2',
+                name: '',
                 data: []
             }],
             options1: {
@@ -34,7 +34,7 @@ export default class SubjectStatistics extends Component{
                     }
                 },
                 title: {
-                    text: 'Subject Count By Year & Senester',
+                    text: 'Subject Count By Year & Semester',
                     align: 'center',
                     margin: 10,
                     offsetX: 0,
@@ -160,8 +160,10 @@ export default class SubjectStatistics extends Component{
 
         this.setState({
             totSub: [ {
+                name:'Semester 1',
                 data: year_sem1
             }, {
+                name:'Semester 2',
                 data: year_sem2
             }]
         })
