@@ -12,7 +12,7 @@ export default class StatisticsMain extends React.Component{
     constructor(props) {
         super(props);
         this.state={
-            viewLecture:false,
+            viewLecture:true,
             viewSubject:false,
             viewStudent:false,
 

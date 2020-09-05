@@ -4,33 +4,37 @@ import {Carousel} from "react-bootstrap";
 class HomePage extends React.Component{
     render() {
         return(
-            <Carousel>
-                <Carousel.Item>
-                    <img
+            <div>
+                <div className='container-fluid' >
+                    <Carousel>
+                        <Carousel.Item style={{'height':"450px"}} >
+                            <img style={{'height':"500px"}}
+                            className="d-block w-100"
+                            src={'assets/img/12.jpg'}  />
+                        <Carousel.Caption>
+                            <h3>University Time-Table Generator</h3>
+                        </Carousel.Caption>
+                    </Carousel.Item  >
+                    <Carousel.Item style={{'height':"450px"}}>
+                        <img style={{'height':"500px"}}
                         className="d-block w-100"
-                        src="../../assets/navBar6.jpg"
-                        alt="First slide"
-                    />
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Second slide&bg=282c34"
-                        alt="Third slide"
-                    />
-
+                        src={'assets/img/13.jpg'}    />
                     <Carousel.Caption>
+                        <h3>The challenge is not to manage time, but to manage ourselves</h3>
                     </Carousel.Caption>
                 </Carousel.Item>
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Third slide&bg=20232a"
-                        alt="Third slide"
-                    />
-                </Carousel.Item>
-            </Carousel>
-        )
+                <Carousel.Item style={{'height':"450px"}}>
+                    <img style={{'height':"500px"}}
+                    className="d-block w-100"
+                    src={'assets/img/14.jpg'}   />
+                <Carousel.Caption>
+                    <h3>WE-27</h3>
+                </Carousel.Caption>
+            </Carousel.Item>
+    </Carousel>
+    </div>
+    </div>
+    )
     }
 }
 export default HomePage;
