@@ -23,7 +23,6 @@ class AddProgramme extends React.Component {
         this.setState({
             [name]: value
         })
-        console.log(event.target.value)
     }
 
     addProgramme(event) {
@@ -35,6 +34,11 @@ class AddProgramme extends React.Component {
             .ref("Student/" + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.code).set(
             pr
         )
+        this.setState({
+            name: null,
+            code: null,
+            description: null
+        })
     }
 
     render() {
@@ -42,15 +46,23 @@ class AddProgramme extends React.Component {
             <Form onSubmit={this.addProgramme}>
                 <FormGroup>
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" name="name" onChange={this.changeHandler} required/>
+                    <Form.Control type="text" name="name"
+                                  onChange={this.changeHandler}
+                                  value={this.state.name}
+                                  required/>
                 </FormGroup>
                 <FormGroup>
                     <Form.Label>Code Form</Form.Label>
-                    <Form.Control type="text" name="code" onChange={this.changeHandler} required/>
+                    <Form.Control type="text" name="code"
+                                  onChange={this.changeHandler}
+                                  value={this.state.code}
+                                  required/>
                 </FormGroup>
                 <FormGroup>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control type="text" name="description" onChange={this.changeHandler}/>
+                    <Form.Control type="text" name="description"
+                                  onChange={this.changeHandler}
+                                  value={this.state.description}/>
                 </FormGroup>
                 <Button type="submit">Add Programme</Button>
             </Form>

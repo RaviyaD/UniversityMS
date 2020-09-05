@@ -12,7 +12,8 @@ class AddSubGroups extends React.Component {
             semester: this.props.semester,
             pro: this.props.pro,
             group: this.props.group,
-            id: this.props.id
+            id: this.props.id,
+            key:this.props.keyCollection
 
         }
         this.changeHandler = this.changeHandler.bind(this);
@@ -34,7 +35,7 @@ class AddSubGroups extends React.Component {
         subG.no = this.state.no;
         subG.ID = this.state.id + "." + this.state.no;
         firebase.database().ref("Student/" + this.state.year + "/semesters/" + this.state.semester +
-            "/programmes/" + this.state.pro + "/Groups/" + parseInt(this.state.group) + "/subGroups/" + subG.no)
+            "/programmes/" + this.state.pro + "/Groups/" + parseInt(this.state.key) + "/subGroups/" + subG.no)
             .set(
                 subG
             )

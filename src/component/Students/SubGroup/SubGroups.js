@@ -5,7 +5,7 @@ import AddSubGroups from "./AddSubGroups";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import UpdateSubGroup from "../Group/UpdateGroup";
+import UpdateSubGroup from "../SubGroup/UpdateSubGroup";
 import {Col, Row} from "react-bootstrap";
 
 class SubGroups extends React.Component {
@@ -18,6 +18,7 @@ class SubGroups extends React.Component {
             pro: props.location.state.pro,
             group: props.location.state.group,
             id: props.location.state.id,
+            keyCollection:props.location.state.key,
             update: false,
             key: null,
             no: null,
@@ -27,7 +28,7 @@ class SubGroups extends React.Component {
 
     componentDidMount() {
         firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/"
-            + this.state.pro + "/Groups/" + parseInt(this.state.group) + "/subGroups")
+            + this.state.pro + "/Groups/" + parseInt(this.state.keyCollection) + "/subGroups")
             .on("value", snapshot => {
                 this.setState({
                     list: []
@@ -43,7 +44,7 @@ class SubGroups extends React.Component {
 
     deleteSubGroup(no) {
         firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.pro + "/Groups/" +
-            parseInt(this.state.group) + "/subGroups/" + parseInt(no)).remove(() => {
+            parseInt(this.state.keyCollection) + "/subGroups/" + parseInt(no)).remove(() => {
             console.log("Deleted");
         })
     }
@@ -76,7 +77,6 @@ class SubGroups extends React.Component {
                                             </Col>
                                             <Col>
                                                 <strong> Generated ID:</strong> {item.val().ID}
-
                                             </Col>
                                         </Row>
                                     </Link>
@@ -100,11 +100,14 @@ class SubGroups extends React.Component {
                                                      pro={this.state.pro}
                                                      group={this.state.group}
                                                      noU={this.state.no}
+                                                     keyCollection={this.state.keyCollection}
                                                      updateCom={this.updateComponent}/> : null}
                 <hr/>
                 Add new Sub Group:
                 <AddSubGroups year={this.state.year} semester={this.state.semester}
-                              pro={this.state.pro} group={this.state.group}
+                              pro={this.state.pro}
+                              keyCollection={this.state.keyCollection}
+                              group={this.state.group}
                               id={this.state.id}
                 />
             </div>
