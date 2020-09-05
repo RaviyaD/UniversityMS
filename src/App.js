@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Link, Route} from "react-router-dom";
 import Navbar from "./component/Navbar/Navbar";
 import HomePage from "./component/Home/HomePage";
 import MainLecturer from "./component/Lecturer/mainLecturer";
@@ -34,6 +34,7 @@ class App extends React.Component {
         document.getElementById("main").style.marginLeft = "0";
         document.body.style.backgroundColor = "white";
     }
+
 
     render() {
         return (

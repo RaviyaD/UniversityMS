@@ -10,7 +10,7 @@ class MainSubject extends React.Component{
     constructor(props) {
         super(props);
         this.state={
-            viewSub:false,
+            viewSub:true,
             addSub:false,
             updateSub:false,
             deleteSub:false

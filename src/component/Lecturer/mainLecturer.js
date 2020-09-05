@@ -10,7 +10,7 @@ class MainLecturer extends React.Component{
     constructor(props) {
         super(props);
         this.state={
-            viewLec:false,
+            viewLec:true,
             addLec:false,
             updateLec:false,
             deleteLec:false

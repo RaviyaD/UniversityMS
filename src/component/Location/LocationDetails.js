@@ -17,7 +17,7 @@ export default class LocationDetails extends Component{
             buildingId:'',
             Room:[],
             Building:[],
-            checkType:'',
+            checkType:'Lecture hall',
             noo:false
         };
     }
@@ -72,8 +72,8 @@ const no = ''
                 <h5 style={{ marginTop: '30px', color: '#888844' }} >Location Details</h5>
                 <Form>
                     <Col sm="7" style={{ marginTop: '30px',borderColor:'#333333'}}>
+                        <label>Select Room Type to Search</label>
                         <Form.Control as="select" placeholder={"Select Room Type to view the details"} style={{  marginRight: '30px',fontcolor:'black' }} onChange={this.handleType} value={this.state.checkType}>
-                            <option>Select Room Type to Search</option>
                             <option>Lecture hall</option>
                             <option>Labotary</option>
                         </Form.Control>
@@ -96,12 +96,11 @@ const no = ''
                                 {
                                     this.state.Room.map(rr=>{
                                         if(rr.buildingName===b){
+
                                             if(rr.roomType===this.state.checkType){
                                                 return <h6>
                                                     {rr.roomName}
                                                 </h6>
-                                            }else{
-                                             return   <h6>{rr.roomName}</h6>
                                             }}
                                     })
 
