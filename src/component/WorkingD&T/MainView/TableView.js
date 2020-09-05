@@ -79,7 +79,7 @@ class TableView extends Component{
                     style={{marginLeft:'30px'}}
                     color={"primary"}
                     startIcon={<DateRangeRounded />}
-                    onClick={()=> this.props.history.push('/workingTime')}
+                    onClick={()=> this.props.history.push('/workingDays')}
                     size={'small'}
                 >
                     Working Days

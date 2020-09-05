@@ -1,7 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import "./Navbar.css"
-
+import {
+   HomeRounded
+} from "@material-ui/icons";
 class Navbar extends React.Component {
     render() {
         return (
@@ -15,6 +17,7 @@ class Navbar extends React.Component {
                     <Link to="/Tags">Tags</Link>
                     <Link to="/location-info">Locations</Link>
                     <Link to="/stat-info">Statistics</Link>
+                    <Link to="/"><HomeRounded/>Home</Link>
 
                 </div>
             </div>
