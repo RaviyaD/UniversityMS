@@ -1,15 +1,13 @@
 import React from "react";
-import AddYear from "../Year/AddYear";
 import firebase from "firebase";
 import {Link} from "react-router-dom";
 import AddGroup from "./AddGroup";
-import AddProgramme from "../Programme/AddProgramme";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import UpdateProgramme from "../Programme/UpdateProgramme";
 import UpdateGroup from "./UpdateGroup";
 import {Col, Row} from "react-bootstrap";
+import '../common.css';
 
 class Groups extends React.Component {
     constructor(props) {
@@ -32,7 +30,6 @@ class Groups extends React.Component {
                 this.setState({
                     list: []
                 })
-                console.log(snapshot.val())
                 snapshot.forEach(groups => {
                     this.setState(state => ({
                         list: [...state.list, groups]
@@ -73,7 +70,8 @@ class Groups extends React.Component {
                                             semester: this.state.semester,
                                             pro: this.state.pro,
                                             group: item.val().no,
-                                            id: item.val().ID
+                                            id: item.val().ID,
+                                            key:item.key
                                         }
                                     }}>
                                         <Row>
@@ -96,19 +94,21 @@ class Groups extends React.Component {
                                         <DeleteIcon fontSize="small"/>
                                     </IconButton>
                                 </Col>
-
-
                             </Row>
                         )
                     })
                 }
+            <br/>
+            <hr/>
+            <div className="widthCommon">
                 {this.state.update ? <UpdateGroup id={this.state.key}
                                                   year={this.state.year}
                                                   semester={this.state.semester}
-
                                                   pro={this.state.pro}
                                                   noU={this.state.no}
                                                   updateCom={this.updateComponent}/> : null}
+            </div>
+
                 <hr/>
                 Add new Group:
                 <AddGroup year={this.state.year} semester={this.state.semester} pro={this.state.pro}/>

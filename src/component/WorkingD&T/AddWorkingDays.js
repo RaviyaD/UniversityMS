@@ -249,7 +249,7 @@ export default class AddWorkingDays extends React.Component {
   updateDates = () => {
     confirmAlert({
       title: 'Confirm Delete',
-      message: 'Are you sure to Update  Working Days',
+      message: 'Are you sure to Update Working Days',
       buttons: [
         {
           label: 'Yes',
@@ -301,7 +301,7 @@ export default class AddWorkingDays extends React.Component {
         <div>
           {
             this.state.isSetData ? (<Alert className={'d-flex justify-content-center'} style={{height:'40px',margin:'10px',textAlign:'center'}} severity="success">
-              <p className={'text-center'} style={{textAlign:'center',paddingTop:'0px'}}>You Has Been Already Set Data</p>
+              <p className={'text-center'} style={{textAlign:'center',paddingTop:'0px'}}>You Has Been Already Set Days</p>
             </Alert>) : (<Alert className={'d-flex justify-content-center'} style={{height:'40px',margin:'10px',textAlign:'center'}} severity="warning">
               <p className={'text-center'} style={{textAlign:'center',paddingTop:'0px'}}> Select Working Days</p>
             </Alert>)
@@ -314,7 +314,7 @@ export default class AddWorkingDays extends React.Component {
     if(this.state.isSetData){
       confirmAlert({
         title: 'Confirm',
-        message: 'Are you sure to Update Working Daye',
+        message: 'Are you sure to Update Working Days',
         buttons: [
           {
             label: 'Yes',

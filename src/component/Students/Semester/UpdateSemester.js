@@ -1,20 +1,19 @@
 import React from "react";
-import Year from "../../../Class/Students/Year";
 import * as firebase from "firebase";
 import Semester from "../../../Class/Students/Semester";
 import {Button, Form, FormGroup} from "react-bootstrap";
 
-class AddSemester extends React.Component {
+class updateSemester extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             year: this.props.year,
-            list: this.props.list,
-            semNo: null,
-            time_period: null
+            no: this.props.no,
+            key:this.props.key,
+            time_period: this.props.time
         }
         this.changeHandler = this.changeHandler.bind(this);
-        this.addSemester = this.addSemester.bind(this);
+        this.updateSemester = this.updateSemester.bind(this);
     }
 
     changeHandler(event) {
@@ -25,15 +24,17 @@ class AddSemester extends React.Component {
         })
     }
 
-    addSemester(event) {
+    updateSemester(event) {
         event.preventDefault();
         let sem = new Semester();
         sem.no = this.state.semNo;
         sem.time_period = this.state.time_period;
         sem.semCode = "S" + this.state.semNo;
-        firebase.database().ref("Student/" + this.state.year + "/semesters/" + sem.no + "/").set(
-            sem
-        )
+        firebase.database().ref("Student/" + this.state.year + "/semesters/")
+            .child(this.state.key)
+            .update({
+                'no':sem.no,'time_period':sem.time_period,'semCode':sem.semCode
+            })
         this.setState({
             semNo: null,
             time_period: null
@@ -48,7 +49,7 @@ class AddSemester extends React.Component {
                     <FormGroup>
                         <Form.Label>Semester No</Form.Label>
                         <Form.Control type="text" name="semNo" onChange={this.changeHandler}
-                                      value={this.state.semNo}
+                                      value={this.state.no}
                                       required/>
                     </FormGroup>
                     <FormGroup>
@@ -58,7 +59,7 @@ class AddSemester extends React.Component {
                                       required/>
                     </FormGroup>
                     <FormGroup>
-                        <Button type="submit">Add Semester</Button>
+                        <Button type="submit">Update Semester</Button>
                     </FormGroup>
                 </Form>
             </div>
@@ -66,4 +67,4 @@ class AddSemester extends React.Component {
     }
 }
 
-export default AddSemester;
+export default updateSemester;

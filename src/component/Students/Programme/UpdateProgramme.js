@@ -23,7 +23,6 @@ class UpdateProgramme extends React.Component {
         this.setState({
             [name]: value
         })
-        console.log(event.target.value)
     }
 
     updateProgramme(event) {

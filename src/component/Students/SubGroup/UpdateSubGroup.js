@@ -13,8 +13,8 @@ class UpdateSubGroups extends React.Component{
             pro:this.props.pro,
             group: this.props.group,
             id: this.props.idG,
-            no: this.props.noU
-
+            no: this.props.noU,
+            keyCollection: this.props.keyCollection
         }
         this.changeHandler = this.changeHandler.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
@@ -35,12 +35,10 @@ class UpdateSubGroups extends React.Component{
         subG.no = this.state.no;
         subG.ID = this.state.id + "."+this.state.no;
         firebase.database().ref("Student/" + this.state.year + "/semesters/" + this.state.semester +
-            "/programmes/" + this.state.pro + "/Groups/" +parseInt(this.state.group)+"/subGroups/").child(this.state.key)
+            "/programmes/" + this.state.pro + "/Groups/" +parseInt(this.state.keyCollection)+"/subGroups/").child(this.state.key)
             .update({
                 'ID':subG.ID, 'no':subG.no
             })
-        console.log(this.state.key)
-
 
         this.setState({
             no:""
