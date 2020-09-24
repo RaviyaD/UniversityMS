@@ -5,6 +5,7 @@ import Navbar from "./component/Navbar/Navbar";
 import HomePage from "./component/Home/HomePage";
 import MainLecturer from "./component/Lecturer/mainLecturer";
 import MainSubject from "./component/Subject/mainSubject";
+import Session from "./component/Session/session";
 import AddWorkingHours from "./component/WorkingD&T/AddWorkingHours";
 import LocationMain from "./component/Location/LocationMain";
 import AddWorkingDays from "./component/WorkingD&T/AddWorkingDays";
@@ -52,6 +53,7 @@ class App extends React.Component {
                         <Route path="/subject" exact component={MainSubject}/>
                         <Route path="/lecturer" exact component={MainLecturer}/>
                         <Route path="/Student" exact component={Student}/>
+                        <Route path="/Session" exact component={Session}/>
                         <Route path="/Student/Semester" exact component={Semester}/>
                         <Route path="/Student/Semester/Programme" exact component={Programme}/>
                         <Route path="/Student/Semester/Programme/Group" exact component={Group}/>
