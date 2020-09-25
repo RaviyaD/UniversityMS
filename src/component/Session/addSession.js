@@ -89,20 +89,20 @@ class AddSession extends React.Component {
 
     }
     handleSubject(event){
-        let name = event.target.value;
+        let code = event.target.value;
         this.setState({
-            Sname:event.target.value
+            Scode:event.target.value
         });
         this.state.Slist.map((team,i) => {
-            if(team.Name === name){
+            if(team.Code === code){
                 let prog = team.Code.substr(0,2);
                 this.setState({
-                    Scode : team.Code,
+                    Sname : team.Name,
                     Syear: team.Year,
                     Ssem: team.Semester,
                     Sprog:prog
                 }, ()=>{
-                    console.log(this.state.Scode);
+                    console.log(this.state.Sname);
                     console.log(this.state.Syear);
                     console.log(this.state.Ssem);
                     console.log(this.state.Sprog);
@@ -136,7 +136,6 @@ class AddSession extends React.Component {
                                     })
                                 });
                             }
-
                         });
                 }
                 else{
@@ -145,10 +144,12 @@ class AddSession extends React.Component {
                             console.log(snapshot);
                             if (snapshot.exists()) {
                                 snapshot.forEach(lectSnapshot => {
-                                    this.state.Glist.push(lectSnapshot.val());
-                                    this.setState({
-                                        Glist: this.state.Glist
-                                    })
+                                    if(lectSnapshot.val().ID.substr(1,1) === this.state.Syear){
+                                        this.state.Glist.push(lectSnapshot.val());
+                                        this.setState({
+                                            Glist: this.state.Glist
+                                        })
+                                    }
                                 });
                             }
                         })
@@ -161,7 +162,10 @@ class AddSession extends React.Component {
 
     handlegID(event){
         this.setState({
-            Gid:event.target.value
+            Gid:event.target.value,
+            sessionID:this.state.sessionID.concat((event.target.value).split("."))
+        }, ()=>{
+            console.log(this.state.sessionID);
         })
     }
 
@@ -218,7 +222,9 @@ class AddSession extends React.Component {
            Lecturers.push({label: team, value: team})
         });
         return(
-            <div>
+            <div style={{marginLeft: '30px', marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
+                <Row>
+                    <Col sm={9}>
                 <h3 style={{ margin: '70px', color: '#888844' }} >Add Session</h3>
                 <Form>
                 {/*<Form.Group as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>*/}
@@ -244,21 +250,21 @@ class AddSession extends React.Component {
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>
                         <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                            <b>Subject</b>
+                            <b>Subject Code</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control value={this.state.Sname} as="select" style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handleSubject}>
+                            <Form.Control value={this.state.Scode} as="select" style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handleSubject}>
                                 <option>SELECT</option>
-                                {this.state.Slist.map((team,i) => <option key={i} value={team.Name}>{team.Name}</option>)}
+                                {this.state.Slist.map((team,i) => <option key={i} value={team.Code}>{team.Code}</option>)}
                             </Form.Control>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
                         <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
-                            <b>Subject Code</b>
+                            <b>Subject</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text" value={this.state.Scode} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                            <Form.Control type="text" value={this.state.Sname} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>
@@ -279,7 +285,9 @@ class AddSession extends React.Component {
                         <Col sm="10">
                             <Form.Control as="select" value={this.state.Gid} style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handlegID}>
                                 <option>SELECT</option>
-                                {this.state.Glist.map((team,i) => <option key={i} value={team.ID}>{team.ID}</option>)}
+                                {this.state.Glist? (
+                                    this.state.Glist.map((team,i) => <option key={i} value={team.ID}>{team.ID}</option>)
+                                ): (<option>No groups for the specific year and semester</option>)}
                             </Form.Control>
                         </Col>
                     </Form.Group>
@@ -305,6 +313,11 @@ class AddSession extends React.Component {
                         </Button>
                     </Form.Group>
                 </Form>
+                    </Col>
+                    <Col sm={3} style={{'background-color': '#888844'}}>
+
+                    </Col>
+                </Row>
             </div>
         );
     }

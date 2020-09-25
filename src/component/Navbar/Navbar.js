@@ -21,6 +21,7 @@ class Navbar extends React.Component {
                     <Link to="/availableTime">Unavailability</Link>
                     <Link to="/OverLapping">Over Lapping sessions</Link>
                     <Link to="/consecutiveSessions">Consecutive Sessions</Link>
+                    <Link to="/genarate">Genarate Time Table</Link>
                     <Link to="/"><HomeRounded/>Home</Link>
 
                 </div>
