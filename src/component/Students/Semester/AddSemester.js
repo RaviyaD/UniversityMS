@@ -35,8 +35,8 @@ class AddSemester extends React.Component {
             sem
         )
         this.setState({
-            semNo: null,
-            time_period: null
+            semNo: "",
+            time_period: ""
         })
     }
 
@@ -47,13 +47,15 @@ class AddSemester extends React.Component {
                 <Form onSubmit={this.addSemester}>
                     <FormGroup>
                         <Form.Label>Semester No</Form.Label>
-                        <Form.Control type="text" name="semNo" onChange={this.changeHandler}
+                        <Form.Control type="text" name="semNo"
+                                      onChange={this.changeHandler}
                                       value={this.state.semNo}
                                       required/>
                     </FormGroup>
                     <FormGroup>
                         <Form.Label>Months</Form.Label>
-                        <Form.Control type="number" name="time_period" onChange={this.changeHandler}
+                        <Form.Control type="number" name="time_period"
+                                      onChange={this.changeHandler}
                                       value={this.state.time_period}
                                       required/>
                     </FormGroup>

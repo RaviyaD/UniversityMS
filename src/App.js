@@ -21,6 +21,9 @@ import Programme from "./component/Students/Programme/Programme";
 import Group from "./component/Students/Group/Groups";
 import SubGroups from "./component/Students/SubGroup/SubGroups";
 import StatisticsMain from "./component/Statistics/StatisticsMain";
+import availableTime from "./component/AvailableTime/availableTime";
+import overLapping from "./component/OverLap/overLapping";
+import conSessions from "./component/ConsecutiveSessions/conSessions";
 
 class App extends React.Component {
 
@@ -68,8 +71,9 @@ class App extends React.Component {
                         <Route path="/room-info" exact component={RoomInformation}/>
                         <Route path="/building-info" exact component={BuildingInformation}/>
                         <Route path="/stat-info" exact component={StatisticsMain}/>
-
-
+                        <Route path="/availableTime" exact component={availableTime}/>
+                        <Route path="/OverLapping" exact component={overLapping}/>
+                        <Route path="/consecutiveSessions" exact component={conSessions}/>
 
                     </BrowserRouter>
                 </div>

@@ -15,15 +15,20 @@ class Semester extends React.Component {
         this.state = {
             list: [],
             listNo: [],
-            year: props.location.state.yearNo,
+            yearNo: props.location.state.yearNo,
+            yearKey:props.location.state.yearKey,
             key:null,
             no: null,
-            update: false,
+            time:null,
+            update: false
         }
+        this.deleteSemester = this.updateComponent.bind(this)
+        this.updateComponent = this.updateComponent.bind(this)
     }
 
     componentDidMount() {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/").on("value", snapshot => {
+        firebase.database()
+            .ref('Student/' + this.state.yearKey + "/semesters/").on("value", snapshot => {
             this.setState({
                 list: []
             })
@@ -41,7 +46,8 @@ class Semester extends React.Component {
 
     deleteSemester(no) {
         console.log(no)
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + parseInt(no)).remove(() => {
+        firebase.database()
+            .ref('Student/' + this.state.year + "/semesters/" + parseInt(no)).remove(() => {
             console.log("Deleted");
         })
     }
@@ -59,7 +65,7 @@ class Semester extends React.Component {
     render() {
         return (
             <div>
-                <h4>Year - {this.state.year} - Semester List</h4>
+                <h4>Year - {this.state.yearNo} - Semester List</h4>
                 <small><strong>Semester defined - 6 months period</strong></small>
                 <br/>
                 <hr/>
@@ -71,7 +77,7 @@ class Semester extends React.Component {
                                     <Link to={{
                                         pathname: "/Student/Semester/Programme",
                                         state: {
-                                            year: this.state.year,
+                                            year: this.state.yearNo,
                                             semester: item.key
                                         }
                                     }}>
@@ -91,7 +97,8 @@ class Semester extends React.Component {
                                 </Col>
                                 <Col>
                                     <IconButton
-                                        onClick={() => this.updateComponent(item.key, item.val().no,item.val().time)}>
+                                        onClick={() =>
+                                            this.updateComponent(item.key, item.val().no,item.val().time_period)}>
                                         <EditIcon fontSize="small"/>
                                     </IconButton>
 
@@ -104,12 +111,12 @@ class Semester extends React.Component {
                     })
                 }
                 {this.state.update ? <UpdateSemester id={this.state.key}
-                                                      year={this.state.year}
+                                                      year={this.state.yearKey}
                                                       no={this.state.no}
                                                      time={this.state.time}
                                                       updateCom={this.updateComponent}/> : null}
                 <hr/>
-                <AddSemester list={this.state.list} year={this.state.year}/>
+                <AddSemester list={this.state.list} year={this.state.yearNo}/>
             </div>
         )
     }
