@@ -29,9 +29,11 @@ class AddSession extends React.Component {
             Studcount:'',
             duration:'',
             lects:[],
-            LectNames:[]
+            LectNames:[],
+            validated: false
         };
         this.handleSubject = this.handleSubject.bind(this);
+        this.SettingGroupList = this.SettingGroupList.bind(this);
         this.handlegroupID = this.handlegroupID.bind(this);
         this.handleStudCount = this.handleStudCount.bind(this);
         this.handleDuration = this.handleDuration.bind(this);
@@ -89,57 +91,54 @@ class AddSession extends React.Component {
 
     }
     handleSubject(event){
-        let code = event.target.value;
-        this.setState({
-            Scode:event.target.value
-        });
-        this.state.Slist.map((team,i) => {
-            if(team.Code === code){
-                let prog = team.Code.substr(0,2);
-                this.setState({
-                    Sname : team.Name,
-                    Syear: team.Year,
-                    Ssem: team.Semester,
-                    Sprog:prog
-                }, ()=>{
-                    console.log(this.state.Sname);
-                    console.log(this.state.Syear);
-                    console.log(this.state.Ssem);
-                    console.log(this.state.Sprog);
-                })
-            }
-        })
+
+            let code = event.target.value;
+            this.setState({
+                Scode:event.target.value
+            });
+            this.state.Slist.map((team,i) => {
+                if(team.Code === code){
+                    let prog = team.Code.substr(0,2);
+                    this.setState({
+                        Sname : team.Name,
+                        Syear: team.Year,
+                        Ssem: team.Semester,
+                        Sprog:prog
+                    })
+                }
+            })
+        if(this.state.tag ===''){
+            console.log("Tag is not clicked")
+        }else{
+            this.SettingGroupList();
+        }
+
 
     }
 
-    handlegroupID(event){
-        let tag = event.target.value;
-        this.setState({
-            tag: event.target.value,
-            sessionID:this.state.Scode.concat(event.target.value)
-        }, ()=>{
-            console.log(this.state.sessionID)
-        });
+    SettingGroupList(){
         if(this.state.Glist){
             this.setState({
                 Glist:[]
             }, ()=>{
-                if(tag === 'Lecture' || tag === 'Tutorial' ) {
-                    firebase.database().ref('Student/' + this.state.Syear + "/semesters/" + this.state.Ssem + "/programmes/" + this.state.Sprog + "/Groups")
+                if(this.state.tag === 'Lecture' || this.state.tag === 'Tutorial' ) {
+                    firebase.database().ref( "/GroupIDs")
                         .on('value', snapshot => {
                             console.log(snapshot);
                             if (snapshot.exists()) {
                                 snapshot.forEach(lectSnapshot => {
-                                    this.state.Glist.push(lectSnapshot.val());
-                                    this.setState({
-                                        Glist: this.state.Glist
-                                    })
+                                    if(lectSnapshot.val().ID.substr(1,1) === this.state.Syear) {
+                                        this.state.Glist.push(lectSnapshot.val());
+                                        this.setState({
+                                            Glist: this.state.Glist
+                                        })
+                                    }
                                 });
                             }
                         });
                 }
                 else{
-                    firebase.database().ref('SubGroup/')
+                    firebase.database().ref('SubGroupIDs/')
                         .on("value", snapshot => {
                             console.log(snapshot);
                             if (snapshot.exists()) {
@@ -157,6 +156,17 @@ class AddSession extends React.Component {
 
             })
         }
+    }
+    handlegroupID(event){
+        let tag = event.target.value;
+        this.setState({
+            tag: event.target.value,
+            sessionID:this.state.Scode.concat(event.target.value)
+        }, ()=>{
+            console.log(this.state.sessionID);
+            this.SettingGroupList();
+        });
+
 
     }
 
@@ -183,37 +193,43 @@ class AddSession extends React.Component {
 
 
     handleSubmit(){
+        if(this.state.LectNames === '' || this.state.Sname ==='' || this.state.Scode ==='' || this.state.tag === '' ||
+            this.state.Gid === '' || this.state.Studcount === '' || this.state.duration === ''){
+            swal("Error!!", "Fill the form!", "warning").then(() => null);
 
-        if ((this.state.tag ==="Practical"  && this.state.Studcount <50) || ((this.state.tag === "Lecture" || this.state.tag === "Tutorial" )  && this.state.Studcount >2)) {
-            this.state.lects.map((t)=>{
-                console.log(t.label);
-                this.state.LectNames.push(t.label);
-            });
-            firebase.database().ref('sessions/' + this.state.sessionID).set({
-                Lecturers : this.state.LectNames,
-                Subject: this.state.Sname,
-                SubCode: this.state.Scode,
-                Tag: this.state.tag,
-                GroupID: this.state.Gid,
-                StudCount: this.state.Studcount,
-                Duration: this.state.duration
-
-            }, ()=>{
-                this.setState({
-                    Lect: '',
-                    Sname: '',
-                    Scode: '',
-                    tag: '',
-                    Gid: '',
-                    Studcount:'',
-                    duration:''
-                });
-                swal("OK!!", "Session Added!", "success").then(() => null);
-
-            })
         }else{
-            swal("Check these out!!", "A practical must have less than 50 students!! A lecture or a tutorial has to have more than 2 students!!", "warning").then(() => null);
+            if ((this.state.tag ==="Practical"  && this.state.Studcount <50) || ((this.state.tag === "Lecture" || this.state.tag === "Tutorial" )  && this.state.Studcount >2)) {
+                this.state.lects.map((t)=>{
+                    console.log(t.label);
+                    this.state.LectNames.push(t.label);
+                });
+                firebase.database().ref('sessions/' + this.state.sessionID).set({
+                    Lecturers : this.state.LectNames,
+                    Subject: this.state.Sname,
+                    SubCode: this.state.Scode,
+                    Tag: this.state.tag,
+                    GroupID: this.state.Gid,
+                    StudCount: this.state.Studcount,
+                    Duration: this.state.duration
+
+                }, ()=>{
+                    this.setState({
+                        Lect: '',
+                        Sname: '',
+                        Scode: '',
+                        tag: '',
+                        Gid: '',
+                        Studcount:'',
+                        duration:''
+                    });
+                    swal("OK!!", "Session Added!", "success").then(() => null);
+
+                })
+            }else{
+                swal("Check these out!!", "A practical must have less than 50 students!! A lecture or a tutorial has to have more than 2 students!!", "warning").then(() => null);
+            }
         }
+
     }
 
     render() {
@@ -238,7 +254,7 @@ class AddSession extends React.Component {
                 {/*        </Form.Control>*/}
                 {/*    </Col>*/}
                 {/*</Form.Group>*/}
-                    <Form.Group as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>
+                    <Form.Group required as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>
                         <Form.Label column sm="8" style={{ marginLeft: '30px' }}>
                             <b>Lecturer(s)</b>
                         </Form.Label>
@@ -253,7 +269,7 @@ class AddSession extends React.Component {
                             <b>Subject Code</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control value={this.state.Scode} as="select" style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handleSubject}>
+                            <Form.Control required value={this.state.Scode} as="select" style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handleSubject}>
                                 <option>SELECT</option>
                                 {this.state.Slist.map((team,i) => <option key={i} value={team.Code}>{team.Code}</option>)}
                             </Form.Control>
@@ -264,7 +280,7 @@ class AddSession extends React.Component {
                             <b>Subject</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text" value={this.state.Sname} style={{ marginLeft: '30px', marginRight: '30px' }}/>
+                            <Form.Control type="text" disabled value={this.state.Sname} style={{ marginLeft: '30px', marginRight: '30px' }}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextFaculty" style={{ marginLeft: '30px', marginRight: '30px' }}>
@@ -272,7 +288,7 @@ class AddSession extends React.Component {
                             <b>Tag</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control as="select" value={this.state.tag} style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handlegroupID}>
+                            <Form.Control required as="select" value={this.state.tag} style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handlegroupID}>
                                 <option>SELECT</option>
                                 {this.state.Tlist.map((team,i) => <option key={i} value={team.name}>{team.name}</option>)}
                             </Form.Control>
@@ -283,7 +299,7 @@ class AddSession extends React.Component {
                             <b>Group ID</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control as="select" value={this.state.Gid} style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handlegID}>
+                            <Form.Control required as="select" value={this.state.Gid} style={{ marginLeft: '30px', marginRight: '30px'}} onChange={this.handlegID}>
                                 <option>SELECT</option>
                                 {this.state.Glist? (
                                     this.state.Glist.map((team,i) => <option key={i} value={team.ID}>{team.ID}</option>)
@@ -296,7 +312,7 @@ class AddSession extends React.Component {
                             <b>Student Count</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text" value={this.state.Studcount} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleStudCount}/>
+                            <Form.Control required type="text" value={this.state.Studcount} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleStudCount}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextName" style={{ marginLeft: '30px', marginRight: '30px' }}>
@@ -304,7 +320,7 @@ class AddSession extends React.Component {
                             <b>Duration</b>
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text" value={this.state.duration} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleDuration}/>
+                            <Form.Control required type="text" value={this.state.duration} style={{ marginLeft: '30px', marginRight: '30px' }} onChange={this.handleDuration}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlainButton" style={{ margin: '30px' }}>
