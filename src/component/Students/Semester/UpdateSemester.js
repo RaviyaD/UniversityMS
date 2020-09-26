@@ -9,7 +9,7 @@ class updateSemester extends React.Component {
         this.state = {
             year: this.props.year,
             no: this.props.no,
-            key:this.props.key,
+            key:this.props.id,
             time_period: this.props.time
         }
         this.changeHandler = this.changeHandler.bind(this);
@@ -27,28 +27,30 @@ class updateSemester extends React.Component {
     updateSemester(event) {
         event.preventDefault();
         let sem = new Semester();
-        sem.no = this.state.semNo;
+        sem.no = this.state.no;
+
         sem.time_period = this.state.time_period;
-        sem.semCode = "S" + this.state.semNo;
-        firebase.database().ref("Student/" + this.state.year + "/semesters/")
+        sem.semCode = "S" + this.state.no;
+        firebase.database().ref("Student/" + this.state.year+ "/semesters/")
             .child(this.state.key)
             .update({
                 'no':sem.no,'time_period':sem.time_period,'semCode':sem.semCode
             })
         this.setState({
-            semNo: null,
+            no: null,
             time_period: null
         })
+        this.props.updateCom('', '', '');
     }
 
 
     render() {
         return (
             <div>
-                <Form onSubmit={this.addSemester}>
+                <Form onSubmit={this.updateSemester}>
                     <FormGroup>
                         <Form.Label>Semester No</Form.Label>
-                        <Form.Control type="text" name="semNo" onChange={this.changeHandler}
+                        <Form.Control type="text" name="no" onChange={this.changeHandler}
                                       value={this.state.no}
                                       required/>
                     </FormGroup>

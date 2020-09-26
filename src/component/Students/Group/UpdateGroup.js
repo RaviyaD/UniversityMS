@@ -11,7 +11,8 @@ class UpdateGroup extends React.Component {
             year: this.props.year,
             semester: this.props.semester,
             pro: this.props.pro,
-            no: this.props.noU
+            no: this.props.noU,
+            reference:this.props.reference
         }
         this.changeHandler = this.changeHandler.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
@@ -37,8 +38,14 @@ class UpdateGroup extends React.Component {
 
         firebase.database().ref("Student/" + this.state.year + "/semesters/" + this.state.semester +
             "/programmes/" + this.state.pro + "/Groups/").child(this.state.key).update({
-            'ID': group.ID, 'no': group.no
+            'no': group.no
         })
+
+        firebase.database().ref('GroupIDs/')
+            .child(this.state.reference).update({
+            ID: group.ID
+        })
+
         this.setState({
             no: ""
         })
