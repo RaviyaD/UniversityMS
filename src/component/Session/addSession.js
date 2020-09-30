@@ -30,7 +30,9 @@ class AddSession extends React.Component {
             duration:'',
             lects:[],
             LectNames:[],
-            validated: false
+            validated: false,
+            sessionList:[],
+            inSessionList:false
         };
         this.handleSubject = this.handleSubject.bind(this);
         this.SettingGroupList = this.SettingGroupList.bind(this);
@@ -72,6 +74,17 @@ class AddSession extends React.Component {
                     this.state.Tlist.push(lectSnapshot.val());
                     this.setState({
                         Tlist:this.state.Tlist
+                    })
+                });
+            }
+        });
+
+        firebase.database().ref('sessions').on('value', snapshot =>{
+            if(snapshot.exists()){
+                snapshot.forEach(lectSnapshot => {
+                    this.state.sessionList.push(lectSnapshot.key);
+                    this.setState({
+                        sessionList:this.state.sessionList
                     })
                 });
             }
@@ -176,6 +189,15 @@ class AddSession extends React.Component {
             sessionID:this.state.sessionID.concat((event.target.value).split("."))
         }, ()=>{
             console.log(this.state.sessionID);
+            this.state.sessionList.map(m=>{
+                if(m===this.state.sessionID){
+                    this.setState({
+                        inSessionList:true
+                    }, ()=>{
+                        console.log(this.state.inSessionList)
+                    })
+                }
+            });
         })
     }
 
@@ -199,32 +221,84 @@ class AddSession extends React.Component {
 
         }else{
             if ((this.state.tag ==="Practical"  && this.state.Studcount <50) || ((this.state.tag === "Lecture" || this.state.tag === "Tutorial" )  && this.state.Studcount >2)) {
-                this.state.lects.map((t)=>{
-                    console.log(t.label);
-                    this.state.LectNames.push(t.label);
-                });
-                firebase.database().ref('sessions/' + this.state.sessionID).set({
-                    Lecturers : this.state.LectNames,
-                    Subject: this.state.Sname,
-                    SubCode: this.state.Scode,
-                    Tag: this.state.tag,
-                    GroupID: this.state.Gid,
-                    StudCount: this.state.Studcount,
-                    Duration: this.state.duration
+                    if(this.state.inSessionList){
+                                        swal({
+                                            title: "This session already exists!!",
+                                            text: "Once updated, you will be editing the existing data!",
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        })
+                                            .then((willDelete) => {
+                                                if (willDelete) {
 
-                }, ()=>{
-                    this.setState({
-                        Lect: '',
-                        Sname: '',
-                        Scode: '',
-                        tag: '',
-                        Gid: '',
-                        Studcount:'',
-                        duration:''
-                    });
-                    swal("OK!!", "Session Added!", "success").then(() => null);
+                                                    this.state.lects.map((t) => {
+                                                        console.log(t.label);
+                                                        this.state.LectNames.push(t.label);
+                                                    });
+                                                    firebase.database().ref('sessions/' + this.state.sessionID).set({
+                                                        Lecturers: this.state.LectNames,
+                                                        Subject: this.state.Sname,
+                                                        SubCode: this.state.Scode,
+                                                        Tag: this.state.tag,
+                                                        GroupID: this.state.Gid,
+                                                        StudCount: this.state.Studcount,
+                                                        Duration: this.state.duration
 
-                })
+                                                    }, () => {
+                                                        this.setState({
+                                                            Lect: '',
+                                                            Sname: '',
+                                                            Scode: '',
+                                                            tag: '',
+                                                            Gid: '',
+                                                            Studcount: '',
+                                                            duration: ''
+                                                        });
+                                                        swal("OK!!", "Session Modified!", "success").then(() => null);
+
+                                                    });
+                                                }else{
+                                                    this.setState({
+                                                        Lect: '',
+                                                        Sname: '',
+                                                        Scode: '',
+                                                        tag: '',
+                                                        Gid: '',
+                                                        Studcount: '',
+                                                        duration: ''
+                                                    });
+                                                }
+                                            })
+
+                    }else{
+                                        this.state.lects.map((t)=>{
+                                            console.log(t.label);
+                                            this.state.LectNames.push(t.label);
+                                        });
+                                        firebase.database().ref('sessions/' + this.state.sessionID).set({
+                                            Lecturers : this.state.LectNames,
+                                            Subject: this.state.Sname,
+                                            SubCode: this.state.Scode,
+                                            Tag: this.state.tag,
+                                            GroupID: this.state.Gid,
+                                            StudCount: this.state.Studcount,
+                                            Duration: this.state.duration
+
+                                        }, ()=>{
+                                            swal("OK!!", "Session Added!", "success").then(() => null);
+                                            this.setState({
+                                                Lect: '',
+                                                Sname: '',
+                                                Scode: '',
+                                                tag: '',
+                                                Gid: '',
+                                                Studcount:'',
+                                                duration:''
+                                            });
+                                        });
+                                    }
+
             }else{
                 swal("Check these out!!", "A practical must have less than 50 students!! A lecture or a tutorial has to have more than 2 students!!", "warning").then(() => null);
             }
