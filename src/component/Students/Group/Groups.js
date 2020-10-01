@@ -20,12 +20,14 @@ class Groups extends React.Component {
             update: false,
             key: null,
             no: null,
+            reference:null
         }
         this.updateComponent = this.updateComponent.bind(this)
     }
 
     componentDidMount() {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.pro + "/Groups")
+        firebase.database()
+            .ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.pro + "/Groups")
             .on("value", snapshot => {
                 this.setState({
                     list: []
@@ -38,19 +40,28 @@ class Groups extends React.Component {
             })
     }
 
-    deleteGroup(no) {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.pro + "/Groups/" + parseInt(no)).remove(() => {
-            console.log("Deleted");
+    deleteGroup(key,ref) {
+        firebase.database()
+            .ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.pro + "/Groups/" + parseInt(key)).remove(() => {
+        })
+        firebase.database()
+            .ref("GroupIDs/" + ref).remove(() => {
         })
     }
 
-    updateComponent(key, no) {
+    updateComponent(key, no,ref) {
         let switchU = !this.state.update;
         this.setState({
             update: switchU,
             key: key,
-            no: no
+            no: no,
+            reference:ref
         })
+    }
+
+    generatedID(key){
+        let ID = "Y"+ this.state.year.toString()+"."+this.state.semester+"."+this.state.pro+"."+key
+        return ID;
     }
 
     render() {
@@ -80,17 +91,17 @@ class Groups extends React.Component {
 
                                             </Col>
                                             <Col>
-                                                <strong>Generated ID</strong>{item.val().ID}
+                                                <strong>Generated ID : </strong> {this.generatedID(item.val().no)}
 
                                             </Col>
                                         </Row>
                                     </Link>
                                 </Col>
                                 <Col>
-                                    <IconButton onClick={() => this.updateComponent(item.key, item.val().no)}>
+                                    <IconButton onClick={() => this.updateComponent(item.key, item.val().no,item.val().ref)}>
                                         <EditIcon fontSize="small"/>
                                     </IconButton>
-                                    <IconButton onClick={() => this.deleteGroup(item.val().no)}>
+                                    <IconButton onClick={() => this.deleteGroup(item.key,item.val().ref)}>
                                         <DeleteIcon fontSize="small"/>
                                     </IconButton>
                                 </Col>
@@ -106,6 +117,7 @@ class Groups extends React.Component {
                                                   semester={this.state.semester}
                                                   pro={this.state.pro}
                                                   noU={this.state.no}
+                                                  reference={this.state.reference}
                                                   updateCom={this.updateComponent}/> : null}
             </div>
 

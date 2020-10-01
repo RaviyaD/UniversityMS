@@ -62,7 +62,13 @@ class Student extends React.Component {
                         return (
                             <Row>
                                 <Col>
-                                    <Link to={{pathname: "/Student/Semester", state: {yearNo: item.val().no}}}
+                                    <Link to={{
+                                        pathname: "/Student/Semester",
+                                        state: {
+                                            yearNo: item.val().no,
+                                            yearKey: item.key
+                                        }
+                                    }}
                                           key={key}>
                                         <Row>
                                             <Col> <strong>Year</strong> {item.val().no}</Col>
@@ -73,7 +79,8 @@ class Student extends React.Component {
                                 </Col>
                                 <Col>
                                     <IconButton
-                                        onClick={() => this.updateComponent(item.key, item.val().no, item.val().Note)}>
+                                        onClick={() =>
+                                            this.updateComponent(item.key, item.val().no, item.val().Note)}>
                                         <EditIcon fontSize="small"/></IconButton>
 
                                     <IconButton onClick={() => this.deleteYear(item.val().no)}>

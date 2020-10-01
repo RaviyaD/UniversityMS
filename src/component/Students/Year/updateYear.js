@@ -22,7 +22,6 @@ class UpdateYear extends React.Component {
         this.setState({
             [name]: value
         })
-        console.log(event.target.value)
     }
 
     updateYear(event) {

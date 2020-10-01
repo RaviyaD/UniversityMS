@@ -33,12 +33,23 @@ class AddSubGroups extends React.Component {
         event.preventDefault();
         let subG = new SubGroup();
         subG.no = this.state.no;
-        subG.ID = this.state.id + "." + this.state.no;
+        subG.ID = this.generateID(this.state.no)
         let sgID = subG.ID.split(".");
+
+        const Ref = firebase.database().ref('SubGroupIDs/').push().getKey();
+
+        firebase.database().ref("SubGroupIDs/" + Ref)
+            .set({
+                ID : subG.ID
+            })
+
         firebase.database().ref("Student/" + this.state.year + "/semesters/" + this.state.semester +
             "/programmes/" + this.state.pro + "/Groups/" + parseInt(this.state.key) + "/subGroups/" + subG.no)
             .set(
-                subG
+                {
+                    no: subG.no,
+                    ref: Ref
+                }
             )
         this.setState({
             no: ""
@@ -47,6 +58,10 @@ class AddSubGroups extends React.Component {
             .set(
                 subG
             )
+    }
+
+    generateID(no) {
+        return "Y" + this.state.year + ".S" + this.state.semester + "." + this.state.pro + "."+this.state.group +"."+ no;
     }
 
     render() {

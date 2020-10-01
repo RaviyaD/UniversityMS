@@ -35,9 +35,9 @@ class AddProgramme extends React.Component {
             pr
         )
         this.setState({
-            name: null,
-            code: null,
-            description: null
+            name: "",
+            code: "",
+            description: ""
         })
     }
 

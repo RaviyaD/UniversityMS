@@ -33,11 +33,22 @@ class AddGroup extends React.Component {
             group.no = "0" + group.no
 
         group.ID = this.generateID(group.no);
+        const Ref = firebase.database().ref('GroupIDs/').push().getKey();
+        firebase.database().ref("GroupIDs/" + Ref)
+            .set({
+                    ID : group.ID
+                })
+
+
         firebase.database().ref("Student/" + this.state.year + "/semesters/" + this.state.semester +
             "/programmes/" + this.state.pro + "/Groups/" + this.state.no)
             .set(
-                group
+                {
+                    no : group.no,
+                    ref : Ref
+                }
             )
+
         this.setState({
             no: ""
         })
