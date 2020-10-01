@@ -24,7 +24,6 @@ class ViewSession extends React.Component {
             if(snapshot.exists()){
                 snapshot.forEach(lectSnapshot => {
                     this.state.list.push(lectSnapshot.val());
-                    console.log(this.state.list);
                     if(lectSnapshot.hasChild('GroupID')){
                         this.setState({
                             GroupID: lectSnapshot.val().GroupID,

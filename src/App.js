@@ -25,6 +25,7 @@ import availableTime from "./component/AvailableTime/availableTime";
 import overLapping from "./component/OverLap/overLapping";
 import conSessions from "./component/ConsecutiveSessions/conSessions";
 import Genarate from "./component/GenarateTimeTable/Genarate";
+import RoomAllocationMain from "./Room Allocation/RoomAllocationMain";
 
 class App extends React.Component {
 
@@ -76,6 +77,7 @@ class App extends React.Component {
                         <Route path="/OverLapping" exact component={overLapping}/>
                         <Route path="/consecutiveSessions" exact component={conSessions}/>
                         <Route path="/stat-info" exact component={StatisticsMain}/>
+                        <Route path="/room-allocation" exact component={RoomAllocationMain}/>
                         <Route path="/genarate" exact component={Genarate}/>
 
 
