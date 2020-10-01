@@ -34,6 +34,22 @@ class UpdateYear extends React.Component {
         firebase.database().ref("Student/").child(this.state.key).update({
             'Note': this.state.note, 'no': this.state.year, 'yearCode': "Y" + this.state.year
         })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID').startAt('Y'+this.props.noU).on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                let endPart = data.val().ID.substring(2,11)
+                data.ref.update({
+                    ID : "Y"+year.no+endPart
+                })
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID').startAt('Y'+this.props.noU).on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                let endPart = data.val().ID.substring(2,13)
+                data.ref.update({
+                    ID : "Y"+year.no+endPart
+                })
+            })
+        })
         this.setState({
             year: "",
             note: ""

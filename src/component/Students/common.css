@@ -1,8 +1,22 @@
-.widthCommon{
 
-}
-
-widthAddCommon{
+.widthAddCommon{
     width: 400px;
     margin: 0;
+}
+
+.link {
+    color: black;
+}
+
+.topic{
+    font-style: italic;
+    font-weight: bold;
+    text-decoration: underline;
+    padding-bottom: 20px;
+}
+
+.backIcon{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
 }

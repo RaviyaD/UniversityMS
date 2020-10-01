@@ -7,6 +7,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateSubGroup from "../SubGroup/UpdateSubGroup";
 import {Col, Row} from "react-bootstrap";
+import "../common.css"
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+
 
 class SubGroups extends React.Component {
     constructor(props) {
@@ -18,11 +22,11 @@ class SubGroups extends React.Component {
             pro: props.location.state.pro,
             group: props.location.state.group,
             id: props.location.state.id,
-            keyCollection:props.location.state.key,
+            keyCollection: props.location.state.key,
             update: false,
             key: null,
             no: null,
-            reference:null
+            reference: null
         }
         this.updateComponent = this.updateComponent.bind(this)
     }
@@ -43,7 +47,7 @@ class SubGroups extends React.Component {
             })
     }
 
-    deleteSubGroup(no,ref) {
+    deleteSubGroup(no, ref) {
         firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + this.state.pro + "/Groups/" +
             parseInt(this.state.keyCollection) + "/subGroups/" + parseInt(no)).remove(() => {
             console.log("Deleted");
@@ -53,50 +57,56 @@ class SubGroups extends React.Component {
         })
     }
 
-    updateComponent(key, no,ref) {
+    updateComponent(key, no, ref) {
         let switchU = !this.state.update;
         this.setState({
             update: switchU,
             key: key,
             no: no,
-            reference:ref
+            reference: ref
         })
     }
 
-    generatedID(key){
-        let ID = "Y"+ this.state.year.toString()+"."+this.state.semester+"."+this.state.pro+"."+this.state.group+"."+key
+    generatedID(key) {
+        let ID = "Y" + this.state.year.toString() + "." + this.state.semester + "." + this.state.pro + "." + this.state.group + "." + key
         return ID;
     }
 
     render() {
         return (
             <div>
-                <h4>Year- {this.state.year} Semester- {this.state.semester} Programme- {this.state.pro} Group- {this.state.group} SubGroup
-                    List</h4>
+                <h4 className="topic">Year- {this.state.year} Semester- {this.state.semester} Programme- {this.state.pro} Group- {this.state.group} SubGroup
+                    List
+                    <IconButton onClick={() => {
+                        this.props.history.goBack()
+                    }}>
+                        <ArrowBackIosIcon fontSize="inherit" size="small"/>
+                    </IconButton>
+                </h4>
                 <hr/>
                 {
                     this.state.list.map((item, key) => {
                         return (
                             <Row>
                                 <Col>
-                                    <Link>
-                                        <Row>
-                                            <Col>
-                                                <strong>Sub - Group no:</strong> {item.val().no}
+                                    <Row>
+                                        <Col>
+                                            <strong>Sub - Group no:</strong> {item.val().no}
 
-                                            </Col>
-                                            <Col>
-                                                <strong> Generated ID:</strong> {this.generatedID(item.val().no)}
-                                            </Col>
-                                        </Row>
-                                    </Link>
+                                        </Col>
+                                        <Col>
+                                            <strong> Generated ID:</strong> {this.generatedID(item.val().no)}
+                                        </Col>
+                                    </Row>
                                 </Col>
                                 <Col>
-                                    <IconButton onClick={() => this.updateComponent(item.key, item.val().no,item.val().ref)}>
+                                    <IconButton
+                                        onClick={() => this.updateComponent(item.key, item.val().no, item.val().ref)}>
                                         <EditIcon fontSize="small"/>
                                     </IconButton>
-                                    <IconButton onClick={() => this.deleteSubGroup(item.key,item.val().ref)}> <DeleteIcon
-                                        fontSize="small"/></IconButton>
+                                    <IconButton onClick={() => this.deleteSubGroup(item.key, item.val().ref)}>
+                                        <DeleteIcon
+                                            fontSize="small"/></IconButton>
 
                                 </Col>
                             </Row>

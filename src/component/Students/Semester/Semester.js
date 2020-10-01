@@ -8,6 +8,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {Col, Row} from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateSemester from "../Semester/UpdateSemester";
+import "../common.css"
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 class Semester extends React.Component {
     constructor(props) {
@@ -16,10 +18,10 @@ class Semester extends React.Component {
             list: [],
             listNo: [],
             yearNo: props.location.state.yearNo,
-            yearKey:props.location.state.yearKey,
-            key:null,
+            yearKey: props.location.state.yearKey,
+            key: null,
             no: null,
-            time:null,
+            time: null,
             update: false
         }
         this.deleteSemester = this.updateComponent.bind(this)
@@ -50,22 +52,39 @@ class Semester extends React.Component {
             .ref('Student/' + this.state.year + "/semesters/" + parseInt(no)).remove(() => {
             console.log("Deleted");
         })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID').startAt('Y' + this.state.year + '.S' + no).on('value', (snapshot) => {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID').startAt('Y' + this.state.year + '.S' + no).on('value', (snapshot) => {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
+        })
     }
 
-    updateComponent(key,no,time) {
+    updateComponent(key, no, time) {
         let switchU = !this.state.update;
         this.setState({
             update: switchU,
             key: key,
             no: no,
-            time:time
+            time: time
         })
     }
 
     render() {
         return (
             <div>
-                <h4>Year - {this.state.yearNo} - Semester List</h4>
+                <h4 className="topic">Year - {this.state.yearNo} - Semester List
+                    <IconButton onClick={() => {
+                        this.props.history.goBack()
+                    }}>
+                        <ArrowBackIosIcon fontSize="inherit" size="small"/>
+                    </IconButton></h4>
                 <small><strong>Semester defined - 6 months period</strong></small>
                 <br/>
                 <hr/>
@@ -74,10 +93,11 @@ class Semester extends React.Component {
                         return (
                             <Row>
                                 <Col>
-                                    <Link to={{
+                                    <Link className="link" to={{
                                         pathname: "/Student/Semester/Programme",
                                         state: {
                                             year: this.state.yearNo,
+                                            yearKey: this.state.yearKey,
                                             semester: item.key
                                         }
                                     }}>
@@ -98,7 +118,7 @@ class Semester extends React.Component {
                                 <Col>
                                     <IconButton
                                         onClick={() =>
-                                            this.updateComponent(item.key, item.val().no,item.val().time_period)}>
+                                            this.updateComponent(item.key, item.val().no, item.val().time_period)}>
                                         <EditIcon fontSize="small"/>
                                     </IconButton>
 
@@ -111,10 +131,10 @@ class Semester extends React.Component {
                     })
                 }
                 {this.state.update ? <UpdateSemester id={this.state.key}
-                                                      year={this.state.yearKey}
-                                                      no={this.state.no}
+                                                     year={this.state.yearKey}
+                                                     no={this.state.no}
                                                      time={this.state.time}
-                                                      updateCom={this.updateComponent}/> : null}
+                                                     updateCom={this.updateComponent}/> : null}
                 <hr/>
                 <AddSemester list={this.state.list} year={this.state.yearNo}/>
             </div>

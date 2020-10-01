@@ -7,6 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import UpdateYear from "./Year/updateYear";
 import {Col, Row} from "react-bootstrap";
+import './common.css'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 class Student extends React.Component {
     constructor() {
@@ -37,9 +39,20 @@ class Student extends React.Component {
     }
 
     deleteYear(no) {
-        console.log(parseInt(no));
         firebase.database().ref('Student/' + parseInt(no)).remove(() => {
             console.log("Deleted");
+        })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID').startAt('Y' + no).on('value', (snapshot) => {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID').startAt('Y' + no).on('value', (snapshot) => {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
         })
     }
 
@@ -56,13 +69,21 @@ class Student extends React.Component {
     render() {
         return (
             <div>
-                <h4>Year List</h4>
+                <h4 className="topic">
+                    Year List
+                    <IconButton onClick={() => {
+                        this.props.history.goBack()
+                    }}>
+                        <ArrowBackIosIcon fontSize="inherit" size="small"/>
+                    </IconButton>
+                </h4>
+
                 {
                     this.state.list.map((item, key) => {
                         return (
                             <Row>
                                 <Col>
-                                    <Link to={{
+                                    <Link className="link" to={{
                                         pathname: "/Student/Semester",
                                         state: {
                                             yearNo: item.val().no,
@@ -73,7 +94,6 @@ class Student extends React.Component {
                                         <Row>
                                             <Col> <strong>Year</strong> {item.val().no}</Col>
                                             <Col><strong>Short Form </strong> {item.val().yearCode}</Col>
-                                            <Col><strong>Note</strong> {item.val().Note}</Col>
                                         </Row>
                                     </Link>
                                 </Col>
@@ -83,7 +103,7 @@ class Student extends React.Component {
                                             this.updateComponent(item.key, item.val().no, item.val().Note)}>
                                         <EditIcon fontSize="small"/></IconButton>
 
-                                    <IconButton onClick={() => this.deleteYear(item.val().no)}>
+                                    <IconButton onClick={() => this.deleteYear(item.key)}>
                                         <DeleteIcon fontSize="small"/></IconButton>
                                 </Col>
                             </Row>)

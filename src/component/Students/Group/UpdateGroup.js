@@ -12,7 +12,7 @@ class UpdateGroup extends React.Component {
             semester: this.props.semester,
             pro: this.props.pro,
             no: this.props.noU,
-            reference:this.props.reference
+            reference: this.props.reference
         }
         this.changeHandler = this.changeHandler.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
@@ -45,6 +45,19 @@ class UpdateGroup extends React.Component {
             .child(this.state.reference).update({
             ID: group.ID
         })
+
+
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID')
+            .startAt('Y' + this.state.year + ".S" + this.state.semester + "." + this.state.pro + "." + this.props.noU)
+            .on('value', (snapshot) => {
+                snapshot.forEach(function (data) {
+                    let startPart = data.val().ID.substring(0, 9)
+                    let endPart = data.val().ID.substring(11, 13)
+                    data.ref.update({
+                        ID: startPart +group.no+endPart
+                    })
+                })
+            })
 
         this.setState({
             no: ""

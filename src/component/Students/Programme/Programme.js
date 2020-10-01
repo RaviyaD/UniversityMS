@@ -9,6 +9,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import UpdateYear from "../Year/updateYear";
 import UpdateProgramme from "./UpdateProgramme";
 import {Col, Row} from "react-bootstrap";
+import "../common.css"
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+
 
 class Programme extends React.Component {
     constructor(props) {
@@ -16,6 +19,7 @@ class Programme extends React.Component {
         this.state = {
             list: [],
             year: props.location.state.year,
+            yearKey:props.location.state.yearKey,
             semester: props.location.state.semester,
             update: false,
             key: null,
@@ -27,7 +31,7 @@ class Programme extends React.Component {
     }
 
     componentDidMount() {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/")
+        firebase.database().ref('Student/' + this.state.yearKey + "/semesters/" + this.state.semester + "/programmes/")
             .on("value", snapshot => {
                 this.setState({
                     list: []
@@ -42,8 +46,26 @@ class Programme extends React.Component {
     }
 
     deleteProgramme(no) {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + no).remove(() => {
+        firebase.database()
+            .ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + no)
+            .remove(() => {
             console.log("Deleted");
+        })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID')
+            .startAt('Y'+this.state.year+'.S'+this.state.semester+"."+no)
+            .on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID')
+            .startAt('Y'+this.state.year+'.S'+this.state.semester+"."+no)
+            .on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
         })
     }
 
@@ -60,7 +82,11 @@ class Programme extends React.Component {
     render() {
         return (
             <div>
-                <h4>Year {this.state.year} - Semester {this.state.semester} -Programme List</h4>
+                <h4 className="topic">Year {this.state.year} - Semester {this.state.semester} -Programme List
+                    <IconButton onClick={()=>{this.props.history.goBack()}}>
+                        <ArrowBackIosIcon fontSize="inherit" size="small"/>
+                    </IconButton>
+                </h4>
                 <hr/>
                 {
                     this.state.list.map((item, key) => {
@@ -68,7 +94,7 @@ class Programme extends React.Component {
                         return (
                             <Row>
                                 <Col>
-                                    <Link to={{
+                                    <Link className="link" to={{
                                         pathname: "/Student/Semester/Programme/Group",
                                         state: {
                                             year: this.state.year,

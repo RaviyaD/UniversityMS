@@ -36,6 +36,26 @@ class updateSemester extends React.Component {
             .update({
                 'no':sem.no,'time_period':sem.time_period,'semCode':sem.semCode
             })
+
+        firebase.database().ref().child('GroupIDs').orderByChild('ID').startAt('Y'+this.state.year+".S"+this.props.no).on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                let startPart = data.val().ID.substring(0,3)
+                let endPart = data.val().ID.substring(5,11)
+                data.ref.update({
+                    ID : startPart+"S"+sem.no+endPart
+                })
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID').startAt('Y'+this.state.year+".S"+this.props.no).on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                let startPart = data.val().ID.substring(0,3)
+                let endPart = data.val().ID.substring(5,13)
+                data.ref.update({
+                    ID : startPart+"S"+sem.no+endPart
+                })
+            })
+        })
+
         this.setState({
             no: null,
             time_period: null
