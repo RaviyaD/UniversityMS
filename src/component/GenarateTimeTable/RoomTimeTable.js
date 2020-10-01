@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Table, Row, Col} from "react-bootstrap";
+import {Table, Row, Col, Button} from "react-bootstrap";
 import moment from "moment";
 import {Form, FormGroup, Input, Label} from "reactstrap";
+import ReactToPrint from "react-to-print";
 
 class RoomTimeTable extends Component {
 
@@ -21,9 +22,10 @@ class RoomTimeTable extends Component {
             return (
                 <div>
                     <div>
-                        <Form>
+
                             <Row>
                                 <Col>
+                                    <Form>
                                     <FormGroup className='col-4'>
                                         <Label for="exampleSelect">Select Room</Label>
                                         <Input type="select" name="select" id="exampleSelect" onChange={e => this.setState({value:e.target.value},()=>console.log(this.state.value))} >
@@ -35,11 +37,21 @@ class RoomTimeTable extends Component {
                                             }
                                         </Input>
                                     </FormGroup>
+                        </Form>
+                                </Col>
+                                <Col>
+                                    <ReactToPrint
+                                        trigger={() => {
+                                            return <Button hidden={this.state.value === ''} className='float-right mt-3'>Print</Button>;
+                                        }}
+                                        documentTitle = {"Room = " + this.state.value}
+                                        content={() => this.componentRef}
+                                    />
                                 </Col>
                             </Row>
-                        </Form>
+
                     </div>
-                    <Table bordered>
+                    <Table bordered ref={el => (this.componentRef = el)} >
                         <thead>
                         <tr style={{border: '3px solid black'}}>
                             <th colSpan={days.length+1} style={{fontFamily:'Optima',fontSize:'20px',border: '3px solid black'}} className={"text-center"}>
@@ -65,7 +77,7 @@ class RoomTimeTable extends Component {
                                             if (moment(index, 'HH:mm') >= moment(times.lunchStart, 'HH:mm') && moment(result[(k + 1)], 'HH:mm') <= moment(times.lunchEnd, 'HH:mm')) {
                                                 return (
                                                     <td className="text-center font-weight-normal p-0 pl-0" key={index1} className={"text-center"}
-                                                        style={{backgroundColor: 'RED'}}>{index} - {result[(k + 1)]}</td>
+                                                        style={{backgroundColor: 'RED'}}>---X---</td>
                                                 )
                                             } else
                                                 return <td className="text-center font-weight-normal p-0 pl-0" key={index1}>{this.chooseDataByGrpName(i, k,this.state.value)}</td>

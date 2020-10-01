@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Table, Row, Col} from "react-bootstrap";
+import {Table, Row, Col, Button} from "react-bootstrap";
 import moment from "moment";
 import {Form, FormGroup, Input, Label} from "reactstrap";
+import ReactToPrint from "react-to-print";
 
 class LecTimeTableView extends Component {
 
@@ -22,10 +23,10 @@ class LecTimeTableView extends Component {
             return (
                 <div>
                     <div>
-                        <Form>
                             <Row>
                                 <Col>
-                                    <FormGroup className='col-4'>
+                                    <Form>
+                                    <FormGroup className='col-6'>
                                         <Label for="exampleSelect">Select Lecture</Label>
                                         <Input type="select" name="select" id="exampleSelect" onChange={e => this.setState({value:e.target.value},()=>console.log())} >
                                             <option>Select</option>
@@ -36,11 +37,20 @@ class LecTimeTableView extends Component {
                                             }
                                         </Input>
                                     </FormGroup>
+                                    </Form>
+                                </Col>
+                                <Col>
+                                    <ReactToPrint
+                                        trigger={() => {
+                                            return <Button hidden={this.state.value === ''} className='float-right mt-3'>Print</Button>;
+                                        }}
+                                        documentTitle = {"Lecture = " + this.state.value}
+                                        content={() => this.componentRef}
+                                    />
                                 </Col>
                             </Row>
-                        </Form>
                     </div>
-                    <Table bordered>
+                    <Table bordered ref={el => (this.componentRef = el)}>
                         <thead>
                         <tr style={{border: '3px solid black'}}>
                             <th colSpan={days.length+1} style={{fontFamily:'Optima',fontSize:'20px',border: '3px solid black'}} className={"text-center"}>
@@ -66,7 +76,7 @@ class LecTimeTableView extends Component {
                                             if (moment(index, 'HH:mm') >= moment(times.lunchStart, 'HH:mm') && moment(result[(k + 1)], 'HH:mm') <= moment(times.lunchEnd, 'HH:mm')) {
                                                 return (
                                                     <td className={"text-center"} key={index1} className={"text-center"}
-                                                        style={{backgroundColor: 'RED'}}>{index} - {result[(k + 1)]}</td>
+                                                        style={{backgroundColor: 'RED'}}>---X---</td>
                                                 )
                                             } else
                                                 return <td className="text-center font-weight-normal" key={index1}>{this.chooseDataByLecName(i, k,this.state.value)}</td>
@@ -88,7 +98,7 @@ class LecTimeTableView extends Component {
         let Group, Room = ''
         let lec = []
         let no
-        let div = <div>X</div>
+        let div = <div>-X-</div>
         table.map((val,index) => {
             if (val.obj.day === day) {
                 no = val.obj.numOfSlot

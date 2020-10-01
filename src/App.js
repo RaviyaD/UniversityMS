@@ -25,7 +25,7 @@ import availableTime from "./component/AvailableTime/availableTime";
 import overLapping from "./component/OverLap/overLapping";
 import conSessions from "./component/ConsecutiveSessions/conSessions";
 import Genarate from "./component/GenarateTimeTable/Genarate";
-import RoomAllocationMain from "./Room Allocation/RoomAllocationMain";
+import RoomAllocationMain from "./component/Room Allocation/RoomAllocationMain";
 
 class App extends React.Component {
 
