@@ -83,7 +83,7 @@ class conSessions extends React.Component{
 
                     <br/>
                     <FormGroup>
-                        <button onClick={this.addSession}>Add new session</button>
+                        <input type="button" value="+ sessions" onClick={this.addSession}/>
                     </FormGroup>
 
                     <FormGroup>

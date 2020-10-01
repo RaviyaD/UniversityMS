@@ -18,6 +18,7 @@ class Navbar extends React.Component {
                     <Link to="/Tags">Tags</Link>
                     <Link to="/location-info">Locations</Link>
                     <Link to="/stat-info">Statistics</Link>
+                    <Link to="/room-allocation">Room Allocation</Link>
                     <Link to="/availableTime">Unavailability</Link>
                     <Link to="/OverLapping">Over Lapping sessions</Link>
                     <Link to="/consecutiveSessions">Consecutive Sessions</Link>
