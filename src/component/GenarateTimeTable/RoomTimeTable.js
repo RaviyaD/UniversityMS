@@ -77,7 +77,7 @@ class RoomTimeTable extends Component {
                                             if (moment(index, 'HH:mm') >= moment(times.lunchStart, 'HH:mm') && moment(result[(k + 1)], 'HH:mm') <= moment(times.lunchEnd, 'HH:mm')) {
                                                 return (
                                                     <td className="text-center font-weight-normal p-0 pl-0" key={index1} className={"text-center"}
-                                                        style={{backgroundColor: 'RED'}}>{index} - {result[(k + 1)]}</td>
+                                                        style={{backgroundColor: 'RED'}}>---X---</td>
                                                 )
                                             } else
                                                 return <td className="text-center font-weight-normal p-0 pl-0" key={index1}>{this.chooseDataByGrpName(i, k,this.state.value)}</td>

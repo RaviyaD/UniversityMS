@@ -76,7 +76,7 @@ class LecTimeTableView extends Component {
                                             if (moment(index, 'HH:mm') >= moment(times.lunchStart, 'HH:mm') && moment(result[(k + 1)], 'HH:mm') <= moment(times.lunchEnd, 'HH:mm')) {
                                                 return (
                                                     <td className={"text-center"} key={index1} className={"text-center"}
-                                                        style={{backgroundColor: 'RED'}}>{index} - {result[(k + 1)]}</td>
+                                                        style={{backgroundColor: 'RED'}}>---X---</td>
                                                 )
                                             } else
                                                 return <td className="text-center font-weight-normal" key={index1}>{this.chooseDataByLecName(i, k,this.state.value)}</td>
@@ -98,7 +98,7 @@ class LecTimeTableView extends Component {
         let Group, Room = ''
         let lec = []
         let no
-        let div = <div>X</div>
+        let div = <div>-X-</div>
         table.map((val,index) => {
             if (val.obj.day === day) {
                 no = val.obj.numOfSlot
