@@ -236,10 +236,7 @@ export default class LecturersAllocation extends Component{
                         console.log(err  + "unsuccess");
                     else
                         console.log("Successful !!!");
-                },this.setState({
-                    lecName:'',
-                    roomId:''
-                }))
+                })
         }
 
     }

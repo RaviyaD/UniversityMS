@@ -7,9 +7,6 @@ import SubjectAllocation from "./SubjectAllocation";
 import AddSession from "./AddSession";
 import LecturersAllocation from "./LecturersAllocation";
 
-
-
-
 export default class RoomAllocationMain extends React.Component{
     constructor(props) {
         super(props);
