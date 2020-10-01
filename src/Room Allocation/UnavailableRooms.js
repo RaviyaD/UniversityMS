@@ -103,13 +103,19 @@ export default class UnavailableRooms extends Component{
                 timeError = this.state.startTime +" - "+this.state.endTime+" - "+this.state.day+" already allocated to "+this.state.roomId
             }
         })
-        if (timeError) {
 
-            this.setState({timeError});
+        if((!this.state.roomId) || (!this.state.startTime) || (!this.state.endTime) || (!this.state.day)){
+            emptyError = "Fields cannot be empty"
+        }
+
+        if (timeError || emptyError) {
+
+            this.setState({timeError,emptyError});
             return false;
         }
         this.setState({
-            timeError:''
+            timeError:'',
+            emptyError:''
         })
 
         return true;
@@ -215,8 +221,9 @@ export default class UnavailableRooms extends Component{
                                     </Button>
                                 </Form.Group>
                             </Form>
-                            <div align="center" style={{ fontSize: 16, color: "red"}}>
+                            <div align="center" style={{ fontSize: 16, color: "red",marginBottom:'30%'}}>
                                 {this.state.timeError}
+                                {this.state.emptyError}
                             </div>
 
                         </Col>
