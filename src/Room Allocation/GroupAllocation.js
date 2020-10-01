@@ -253,23 +253,18 @@ export default class GroupAllocation extends Component{
     }
     normalGroupValidation(){
         let   normalGroupError='';
-        let emptyNError ='';
-        this.state.AllocatedGroups.map(allocatedG=>{
-            if(this.state.normalgname===allocatedG.name && this.state.roomId === allocatedG.normalRoomId){
+        this.state.AllocatedGroups.map(allocatedS=>{
+            if(this.state.normalgname===allocatedS.name && this.state.normalRoomId === allocatedS.roomId){
                 normalGroupError = this.state.normalgname + " is already assigned to " + this.state.normalRoomId
             }
         })
-        if(this.state.normalgname===null || this.state.normalRoomId===null){
-            emptyNError = "Fields cannot be empty"
-        }
-        if ( normalGroupError || emptyNError) {
+        if (normalGroupError) {
 
-            this.setState({normalGroupError , emptyNError});
+            this.setState({normalGroupError});
             return false;
         }
         this.setState({
-            normalGroupError:'',
-            emptyNError:''
+            normalGroupError:''
         })
 
         return true;
@@ -302,7 +297,7 @@ export default class GroupAllocation extends Component{
 
     addNormalGroups(e){
         e.preventDefault();
-        const isValidNormal = this.normalGroupValidation();
+        const isValid2 = this.normalGroupValidation();
         const myRef1 = firebase.database().ref('RoomAllocation').push().getKey();
         const ng_roomObject = {
             name: this.state.normalgname,
@@ -311,7 +306,7 @@ export default class GroupAllocation extends Component{
             type: "group"
 
         };
-        if(isValidNormal){
+        if(isValid2){
             firebase.database().ref('RoomAllocation/').child(myRef1).set(
                 ng_roomObject,
                 err => {
@@ -449,7 +444,7 @@ export default class GroupAllocation extends Component{
                                 </Form.Group>
                                 <div align="center" style={{ fontSize: 16, color: "red"}}>
                                     {this.state.normalGroupError}
-                                    {this.state.emptyNError}
+
                                 </div>
                             </Form>
                         </Col>
