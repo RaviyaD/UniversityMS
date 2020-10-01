@@ -173,8 +173,8 @@ export default class MainView extends Component{
     }
 
     sortDayArray = () => {
-        var list = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-        var sorted = []
+        const list = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        let sorted = []
         for(let i=0;i<7;i++){
             for(let j=0;j<this.state.selected.length;j++){
                 if(list[i] == this.state.selected[j])
