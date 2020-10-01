@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import UnavailableRooms from "./UnavailableRooms";
 import GroupAllocation from "./GroupAllocation";
 import SubjectAllocation from "./SubjectAllocation";
-import LecturerAllocation from "./LecturerAllocation";
 import AddSession from "./AddSession";
+import LecturersAllocation from "./LecturersAllocation";
 
 
 
@@ -103,7 +103,7 @@ export default class RoomAllocationMain extends React.Component{
                         <Card.Title>Location</Card.Title>
                         <Card.Text>
                             {this.state.addSession ? <AddSession/> : null}
-                            {this.state.addLecturer ?  <LecturerAllocation/>  : null}
+                            {this.state.addLecturer ?  <LecturersAllocation/>  : null}
                             {this.state.addSubject ? <SubjectAllocation/>  : null}
                             {this.state.addGroup ?  <GroupAllocation/>  : null}
                             {this.state.addUnavailability ?  <UnavailableRooms/>  : null}

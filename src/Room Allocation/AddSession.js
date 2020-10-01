@@ -111,9 +111,6 @@ export default class AddSession extends Component{
                 if(snap.val().type === "session"){
                     allAllocateSessions.push(snap.val().name);
                 }
-
-
-
             });
 
 
@@ -136,8 +133,9 @@ export default class AddSession extends Component{
 
             let nonC =[];
             allsessionNames.forEach(sn=>{
+                if(!this.state.AllocatedSessions.includes(sn)){
                 if(!(this.state.ConsecutiveSessions.includes(sn))){
-                    if(!this.state.AllocatedSessions.includes(sn)){
+
                         nonC.push(sn);
                     }
 
