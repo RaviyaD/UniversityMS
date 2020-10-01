@@ -12,6 +12,7 @@ class overLapping extends React.Component {
         }
         this.storeSessions = this.storeSessions.bind(this)
 
+
     }
 
     componentDidMount() {
@@ -46,7 +47,7 @@ class overLapping extends React.Component {
             })
     }
 
-    addSession() {
+    update() {
         this.setState((state) => ({
             list: [...state.list, ""]
         }))
@@ -60,6 +61,7 @@ class overLapping extends React.Component {
 
     storeSessions(event) {
         event.preventDefault();
+        console.log(event)
         const Ref = firebase.database().ref('overLapping/').push().getKey();
         firebase.database().ref("overLapping/" + Ref)
             .set({
@@ -67,10 +69,6 @@ class overLapping extends React.Component {
                 sessions: this.state.list
 
             })
-        // this.setState({
-        //     OverLapping: true,
-        //     sessions:[]
-        // })
 
     }
 
@@ -86,13 +84,13 @@ class overLapping extends React.Component {
                     <FormGroup>
                         <Form.Label>Choose : </Form.Label>
                         <br/>
-                        <input type="radio" value={true} name="overlapping" required/> Overlapping
-                        <input type="radio" value={false} name="overlapping" required/> Not Overlapping
+                        <input type="radio" id="id1" value={true} name="overlapping" required/> Overlapping
+                        <input type="radio" id="id2" value={false} name="overlapping" required/> Not Overlapping
                     </FormGroup>
 
                     <br/>
                     <FormGroup>
-                        <button onClick={this.addSession.bind(this)}>Add new session</button>
+                        <input type="button" id="id3" onClick={this.update.bind(this)} value="+ sessions"/>
                     </FormGroup>
 
                     <FormGroup>
@@ -108,9 +106,10 @@ class overLapping extends React.Component {
                                                 Select an Option
                                             </option>
                                             {
-                                                this.state.SessionList.map((item) => {
+                                                this.state.SessionList.map((item,index) => {
                                                     return (
-                                                        <option value={item} disabled={this.state.list.includes(item)}>{item}</option>
+                                                        <option key={index} value={item}
+                                                                disabled={this.state.list.includes(item)}>{item}</option>
                                                     )
                                                 })
                                             }
