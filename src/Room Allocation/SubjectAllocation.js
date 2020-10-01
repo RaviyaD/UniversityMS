@@ -296,7 +296,7 @@ export default class SubjectAllocation extends Component{
     render(){
 
         return(
-
+<div>
                 <div style={{marginLeft: '30px', marginRight: '25px', marginTop:'30px', 'border-style': 'solid', "border-color": "#888844"}}>
                     <Row>
                         <Col sm={9}>
@@ -430,7 +430,7 @@ export default class SubjectAllocation extends Component{
                         </Col>
                     </Row>
                 </div>
-
+</div>
         );
     }
 }
