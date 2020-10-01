@@ -7,6 +7,8 @@ import {ListGroup,ListGroupItem,Modal,ModalBody,ModalFooter,ModalHeader,Badge} f
 import {Button, Col, Row, Tab, Tabs} from "react-bootstrap";
 import GroupTimeTable from "./GroupTimeTable";
 import RoomTimeTable from "./RoomTimeTable";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 
 
@@ -260,14 +262,9 @@ class Genarate extends Component {
 
         return (
             <div>
-
-                <LoadingScreen
-                    loading={this.state.loadingData}
-                    bgColor='#ffffff'
-                    spinnerColor='#000000'
-                    textColor='#000000'
-                    text='Loading Data'
-                >
+               <div className='mr-auto ml-auto'>
+                   { this.state.loadingData ? <Loader type="ThreeDots" color="#00BFFF" height={40} width={40} timeout={3000} /> : null}
+               </div>
                     <Button className='float-right btn-warning' onClick={()=>this.setState({model:true})}>Errors<Badge pill>{this.state.errors.length}</Badge></Button>
                     <Modal isOpen={this.state.model} >
                         <ModalHeader >Errors & Warnings</ModalHeader>
@@ -275,7 +272,7 @@ class Genarate extends Component {
                             <ListGroup>
                                 {
                                     this.state.errors.map((val,i) => {
-                                        return <ListGroupItem className="justify-content-between">{val.msg}<Badge pill>{val.sid}</Badge></ListGroupItem>
+                                        return <ListGroupItem className="justify-content-between">{val.msg}<Badge pill className='badge-warning'>{val.sid}</Badge></ListGroupItem>
                                     })
                                 }
                             </ListGroup>
@@ -298,7 +295,7 @@ class Genarate extends Component {
                                             room={this.state.buildings} subgroup = {this.state.subGroup} sessions={this.state.sessions}/>
                         </Tab>
                     </Tabs>
-                </LoadingScreen>
+
             </div>
         );
     }
