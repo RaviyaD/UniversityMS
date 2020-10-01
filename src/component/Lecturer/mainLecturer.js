@@ -5,7 +5,6 @@ import ViewLecturer from "./viewLecturer";
 import Lecturer from "./lecturer";
 import Updatelecturer from "./updatelecturer";
 import DeleteLecturer from "./deleteLecturer";
-
 class MainLecturer extends React.Component{
     constructor(props) {
         super(props);
