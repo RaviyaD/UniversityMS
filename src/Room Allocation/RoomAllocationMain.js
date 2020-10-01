@@ -97,7 +97,7 @@ export default class RoomAllocationMain extends React.Component{
                         </Nav>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title>Location</Card.Title>
+                        <Card.Title>Room Allocation</Card.Title>
                         <Card.Text>
                             {this.state.addSession ? <AddSession/> : null}
                             {this.state.addLecturer ?  <LecturersAllocation/>  : null}
