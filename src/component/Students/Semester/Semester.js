@@ -5,11 +5,13 @@ import {Link} from "react-router-dom";
 import AddSemester from "./AddSemester";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Table} from "react-bootstrap";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateSemester from "../Semester/UpdateSemester";
 import "../common.css"
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import CallMadeIcon from '@material-ui/icons/CallMade';
+
 
 class Semester extends React.Component {
     constructor(props) {
@@ -88,48 +90,60 @@ class Semester extends React.Component {
                 <small><strong>Semester defined - 6 months period</strong></small>
                 <br/>
                 <hr/>
-                {
-                    this.state.list.map((item, key) => {
-                        return (
-                            <Row>
-                                <Col>
-                                    <Link className="link" to={{
-                                        pathname: "/Student/Semester/Programme",
-                                        state: {
-                                            year: this.state.yearNo,
-                                            yearKey: this.state.yearKey,
-                                            semester: item.key
-                                        }
-                                    }}>
-                                        <Row>
-                                            <Col>
-                                                <strong>Semester:</strong> {item.val().no}
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Semester no</th>
+                        <th> Code</th>
+                        <th> Time Period</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.list.map((item, key) => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <Link className="link" to={{
+                                            pathname: "/Student/Semester/Programme",
+                                            state: {
+                                                year: this.state.yearNo,
+                                                yearKey: this.state.yearKey,
+                                                semester: item.key
+                                            }
+                                        }}>
 
-                                            </Col>
-                                            <Col>
-                                                <strong>Code:</strong> {item.val().semCode}
-                                            </Col>
-                                            <Col>
-                                                <strong>Time:</strong> {item.val().time_period}
-                                            </Col>
-                                        </Row>
-                                    </Link>
-                                </Col>
-                                <Col>
-                                    <IconButton
-                                        onClick={() =>
-                                            this.updateComponent(item.key, item.val().no, item.val().time_period)}>
-                                        <EditIcon fontSize="small"/>
-                                    </IconButton>
+                                            <td>{item.val().no}<CallMadeIcon fontSize="small"/></td>
 
-                                    <IconButton onClick={() => this.deleteSemester(item.key)}> <DeleteIcon
-                                        fontSize="small"/></IconButton>
+                                        </Link>
+                                    </td>
 
-                                </Col>
-                            </Row>
-                        )
-                    })
-                }
+                                    <td>{item.val().semCode}</td>
+
+
+                                    <td>{item.val().time_period}</td>
+
+                                    <td>
+                                        <IconButton
+                                            onClick={() =>
+                                                this.updateComponent(item.key, item.val().no, item.val().time_period)}>
+                                            <EditIcon fontSize="small"/>
+                                        </IconButton>
+
+                                        <IconButton onClick={() => this.deleteSemester(item.key)}> <DeleteIcon
+                                            fontSize="small"/>
+                                        </IconButton>
+                                    </td>
+
+
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </Table>
+
                 {this.state.update ? <UpdateSemester id={this.state.key}
                                                      year={this.state.yearKey}
                                                      no={this.state.no}

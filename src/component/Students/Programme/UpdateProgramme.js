@@ -41,32 +41,36 @@ class UpdateProgramme extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.updateProgramme}>
-                <FormGroup>
-                    <Form.Label>Code Short Form</Form.Label>
-                    <Form.Control disabled type="text"
-                                  name="code"
-                                  onChange={this.changeHandler}
-                                  value={this.state.key} required/>
-                </FormGroup>
+            <div className="updateWidth container">
+                <h4>Update programme</h4>
+                <Form onSubmit={this.updateProgramme}>
+                    <FormGroup>
+                        <Form.Label>Code Short Form</Form.Label>
+                        <Form.Control disabled type="text"
+                                      name="code"
+                                      onChange={this.changeHandler}
+                                      value={this.state.key} required/>
+                    </FormGroup>
 
-                <FormGroup>
-                    <Form.Label>Name of Programme</Form.Label>
+                    <FormGroup>
+                        <Form.Label>Name of Programme</Form.Label>
 
-                    <Form.Control type="text" name="name"
-                                  onChange={this.changeHandler}
-                                  required value={this.state.name}/>
-                </FormGroup>
-                <FormGroup>
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control type="text" name="description"
-                                  onChange={this.changeHandler}
-                                  value={this.state.description}/>
-                </FormGroup>
+                        <Form.Control type="text" name="name"
+                                      onChange={this.changeHandler}
+                                      required value={this.state.name}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control type="text" name="description"
+                                      onChange={this.changeHandler}
+                                      value={this.state.description}/>
+                    </FormGroup>
 
 
-                <Button type="submit"> Update Programme</Button>
-            </Form>
+                    <Button type="submit" variant="dark"> Update Programme</Button>
+                </Form>
+            </div>
+
 
         )
     }

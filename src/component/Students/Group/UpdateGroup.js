@@ -71,14 +71,18 @@ class UpdateGroup extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.updateGroup}>
-                <FormGroup>
-                    <Form.Label>Group No</Form.Label>
-                    <Form.Control type="number" name="no" onChange={this.changeHandler}
-                                  value={this.state.no} required/>
-                </FormGroup>
-                <Button type="submit">Update Group</Button>
-            </Form>
+            <div className="updateWidth container">
+                <h4>Update group</h4>
+                <Form onSubmit={this.updateGroup}>
+                    <FormGroup>
+                        <Form.Label>Group No</Form.Label>
+                        <Form.Control type="number" name="no" onChange={this.changeHandler}
+                                      value={this.state.no} required/>
+                    </FormGroup>
+                    <Button type="submit" variant="dark">Update Group</Button>
+                </Form>
+            </div>
+
         )
     }
 }

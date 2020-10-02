@@ -1,13 +1,14 @@
 import React from "react";
 import firebase from "firebase";
-import {Button, Form, FormGroup} from "react-bootstrap";
+import {Button, Form, FormGroup, Table} from "react-bootstrap";
 
-class conSessions extends React.Component{
+class conSessions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             list: [],
             SessionList: [],
+            conSessionList:[]
         }
         this.storeSessions = this.storeSessions.bind(this)
         this.addSession = this.addSession.bind(this)
@@ -24,6 +25,18 @@ class conSessions extends React.Component{
                 snapshot.forEach(item => {
                     this.setState(state => ({
                         SessionList: [...state.SessionList, item.key]
+                    }))
+                })
+            })
+        firebase.database()
+            .ref('/ConsecutiveSessions')
+            .on("value", snapshot => {
+                this.setState({
+                    conSessionList: []
+                })
+                snapshot.forEach(item => {
+                    this.setState(state => ({
+                        conSessionList: [...state.conSessionList, item.val()]
                     }))
                 })
             })
@@ -60,15 +73,22 @@ class conSessions extends React.Component{
 
     storeSessions(event) {
         event.preventDefault();
-        const Ref = firebase.database().ref('ConsecutiveSessions/').push().getKey();
-        firebase.database().ref("ConsecutiveSessions/" + Ref)
-            .set({
-                sessions: this.state.list
 
-            })
-        // this.setState({
-        //     list:[]
-        // })
+        if (this.state.list.includes("")) {
+            alert('One of the session is not selected!')
+        } else if (this.state.list.length < 2) {
+            alert('More than 2 sessions need to select!')
+        } else {
+            const Ref = firebase.database().ref('ConsecutiveSessions/').push().getKey();
+            firebase.database().ref("ConsecutiveSessions/" + Ref)
+                .set({
+                    sessions: this.state.list
+
+                })
+        }
+        this.setState({
+            list:[]
+        })
     }
 
 
@@ -95,19 +115,20 @@ class conSessions extends React.Component{
 
                                         <select name="sessions" value={val || ''}
                                                 onChange={this.changeHandler.bind(this, idx)} required>
-                                            <option value="none" selected disabled hidden>
+                                            <option value="none" selected>
                                                 Select an Option
                                             </option>
                                             {
                                                 this.state.SessionList.map((item) => {
                                                     return (
-                                                        <option value={item} disabled={this.state.list.includes(item)}>{item}</option>
+                                                        <option value={item}
+                                                                disabled={this.state.list.includes(item)}>{item}</option>
                                                     )
                                                 })
                                             }
                                         </select>
 
-                                        <button onClick={this.removeClick.bind(this, idx)}>-</button>
+                                        <input type="button" value="-" onClick={this.removeClick.bind(this, idx)}/>
                                     </div>
 
 
@@ -117,8 +138,30 @@ class conSessions extends React.Component{
                     </FormGroup>
                     <Button type="submit">Add sessions as consecutive sessions</Button>
                 </Form>
+                <hr/>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Sessions </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    { this.state.conSessionList.map((val)=>{
+                        return (
+                            <tr>
+                                <td>
+                                    {val.sessions.map((session => {
+                                        return <td>{session}</td>
+                                    }))}
+                                </td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
+                </Table>
             </div>
         )
     }
 }
+
 export default conSessions;

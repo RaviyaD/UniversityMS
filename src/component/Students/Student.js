@@ -6,13 +6,14 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import UpdateYear from "./Year/updateYear";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Table} from "react-bootstrap";
 import './common.css'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import CallMadeIcon from '@material-ui/icons/CallMade';
 
 class Student extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             list: [],
             update: false,
@@ -77,38 +78,52 @@ class Student extends React.Component {
                         <ArrowBackIosIcon fontSize="inherit" size="small"/>
                     </IconButton>
                 </h4>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Year</th>
+                        <th> Short Form</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.list.map((item, key) => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <Link className="link" to={{
+                                            pathname: "/Student/Semester",
+                                            state: {
+                                                yearNo: item.val().no,
+                                                yearKey: item.key
+                                            }
+                                        }}
+                                              key={key}>
+                                            <td>{item.val().no} <CallMadeIcon fontSize="small"/> </td>
 
-                {
-                    this.state.list.map((item, key) => {
-                        return (
-                            <Row>
-                                <Col>
-                                    <Link className="link" to={{
-                                        pathname: "/Student/Semester",
-                                        state: {
-                                            yearNo: item.val().no,
-                                            yearKey: item.key
-                                        }
-                                    }}
-                                          key={key}>
-                                        <Row>
-                                            <Col> <strong>Year</strong> {item.val().no}</Col>
-                                            <Col><strong>Short Form </strong> {item.val().yearCode}</Col>
-                                        </Row>
-                                    </Link>
-                                </Col>
-                                <Col>
-                                    <IconButton
-                                        onClick={() =>
-                                            this.updateComponent(item.key, item.val().no, item.val().Note)}>
-                                        <EditIcon fontSize="small"/></IconButton>
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        {item.val().yearCode}
+                                    </td>
 
-                                    <IconButton onClick={() => this.deleteYear(item.key)}>
-                                        <DeleteIcon fontSize="small"/></IconButton>
-                                </Col>
-                            </Row>)
-                    })
-                }
+                                    <td>
+                                        <IconButton
+                                            onClick={() =>
+                                                this.updateComponent(item.key, item.val().no, item.val().Note)}>
+                                            <EditIcon fontSize="small"/></IconButton>
+
+                                        <IconButton onClick={() => this.deleteYear(item.key)}>
+                                            <DeleteIcon fontSize="small"/></IconButton>
+                                    </td>
+
+                                </tr>)
+                        })
+                    }
+                    </tbody>
+                </Table>
+
                 {this.state.update ? <UpdateYear id={this.state.key}
                                                  noU={this.state.no}
                                                  noteU={this.state.note}

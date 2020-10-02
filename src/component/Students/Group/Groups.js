@@ -6,9 +6,10 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateGroup from "./UpdateGroup";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Table} from "react-bootstrap";
 import '../common.css';
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import CallMadeIcon from "@material-ui/icons/CallMade";
 
 
 class Groups extends React.Component {
@@ -87,47 +88,58 @@ class Groups extends React.Component {
                     </IconButton>
                 </h4>
                 <hr/>
-                {
-                    this.state.list.map((item, key) => {
-                        return (
-                            <Row>
-                                <Col>
-                                    <Link className="link" to={{
-                                        pathname: "/Student/Semester/Programme/Group/SubGroup",
-                                        state: {
-                                            year: this.state.year,
-                                            semester: this.state.semester,
-                                            pro: this.state.pro,
-                                            group: item.val().no,
-                                            id: item.val().ID,
-                                            key: item.key
-                                        }
-                                    }}>
-                                        <Row>
-                                            <Col>
-                                                <strong>Group no</strong> {item.val().no}
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Group No</th>
+                        <th> Generated ID</th>
+                        <th></th>
 
-                                            </Col>
-                                            <Col>
-                                                <strong>Generated ID : </strong> {this.generatedID(item.val().no)}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.list.map((item, key) => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <Link className="link" to={{
+                                            pathname: "/Student/Semester/Programme/Group/SubGroup",
+                                            state: {
+                                                year: this.state.year,
+                                                semester: this.state.semester,
+                                                pro: this.state.pro,
+                                                group: item.val().no,
+                                                id: item.val().ID,
+                                                key: item.key
+                                            }
+                                        }}>
+                                            <td>
+                                                {item.val().no}
+                                                <CallMadeIcon fontSize="small"/>
+                                            </td>
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        {this.generatedID(item.val().no)}
 
-                                            </Col>
-                                        </Row>
-                                    </Link>
-                                </Col>
-                                <Col>
-                                    <IconButton
-                                        onClick={() => this.updateComponent(item.key, item.val().no, item.val().ref)}>
-                                        <EditIcon fontSize="small"/>
-                                    </IconButton>
-                                    <IconButton onClick={() => this.deleteGroup(item.key, item.val().ref)}>
-                                        <DeleteIcon fontSize="small"/>
-                                    </IconButton>
-                                </Col>
-                            </Row>
-                        )
-                    })
-                }
+                                    </td>
+                                    <td>
+                                        <IconButton
+                                            onClick={() => this.updateComponent(item.key, item.val().no, item.val().ref)}>
+                                            <EditIcon fontSize="small"/>
+                                        </IconButton>
+                                        <IconButton onClick={() => this.deleteGroup(item.key, item.val().ref)}>
+                                            <DeleteIcon fontSize="small"/>
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </Table>
+
                 <br/>
                 <hr/>
                 <div className="widthCommon">

@@ -6,10 +6,11 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateSubGroup from "../SubGroup/UpdateSubGroup";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Table} from "react-bootstrap";
 import "../common.css"
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import CallMadeIcon from "@material-ui/icons/CallMade";
 
 
 class SubGroups extends React.Component {
@@ -84,35 +85,47 @@ class SubGroups extends React.Component {
                     </IconButton>
                 </h4>
                 <hr/>
-                {
-                    this.state.list.map((item, key) => {
-                        return (
-                            <Row>
-                                <Col>
-                                    <Row>
-                                        <Col>
-                                            <strong>Sub - Group no:</strong> {item.val().no}
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Sub - Group no</th>
+                        <th> Generated ID</th>
+                        <th></th>
 
-                                        </Col>
-                                        <Col>
-                                            <strong> Generated ID:</strong> {this.generatedID(item.val().no)}
-                                        </Col>
-                                    </Row>
-                                </Col>
-                                <Col>
-                                    <IconButton
-                                        onClick={() => this.updateComponent(item.key, item.val().no, item.val().ref)}>
-                                        <EditIcon fontSize="small"/>
-                                    </IconButton>
-                                    <IconButton onClick={() => this.deleteSubGroup(item.key, item.val().ref)}>
-                                        <DeleteIcon
-                                            fontSize="small"/></IconButton>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.list.map((item, key) => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <td>
+                                            {item.val().no}
+                                            <CallMadeIcon fontSize="small"/>
+                                        </td>
 
-                                </Col>
-                            </Row>
-                        )
-                    })
-                }
+                                    </td>
+                                    <td>
+                                        {this.generatedID(item.val().no)}
+                                    </td>
+                                    <td>
+                                        <IconButton
+                                            onClick={() => this.updateComponent(item.key, item.val().no, item.val().ref)}>
+                                            <EditIcon fontSize="small"/>
+                                        </IconButton>
+                                        <IconButton onClick={() => this.deleteSubGroup(item.key, item.val().ref)}>
+                                            <DeleteIcon
+                                                fontSize="small"/></IconButton>
+
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </Table>
+
                 {this.state.update ? <UpdateSubGroup id={this.state.key}
                                                      idG={this.state.id}
                                                      year={this.state.year}

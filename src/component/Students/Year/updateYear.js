@@ -59,7 +59,8 @@ class UpdateYear extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="updateWidth container">
+                <h4>Update year</h4>
                 <Form onSubmit={this.updateYear}>
                     <FormGroup>
                         <Form.Label>Year</Form.Label>
@@ -73,7 +74,7 @@ class UpdateYear extends React.Component {
                                       onChange={this.changeHandler}
                                       value={this.state.note}/>
                     </FormGroup>
-                    <Button variant="primary" type="submit">Add</Button>
+                    <Button type="submit" variant="dark">Update year</Button>
                 </Form>
             </div>
         );
