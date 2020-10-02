@@ -3,42 +3,42 @@ import * as firebase from "firebase";
 import SubGroup from "../../../Class/Students/SubGroup";
 import {Button, Form, FormGroup} from "react-bootstrap";
 
-class UpdateSubGroups extends React.Component{
+class UpdateSubGroups extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            key:this.props.id,
-            year:this.props.year,
-            semester:this.props.semester,
-            pro:this.props.pro,
+            key: this.props.id,
+            year: this.props.year,
+            semester: this.props.semester,
+            pro: this.props.pro,
             group: this.props.group,
             id: this.props.idG,
             no: this.props.noU,
-            reference:this.props.reference,
+            reference: this.props.reference,
             keyCollection: this.props.keyCollection
         }
         this.changeHandler = this.changeHandler.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
     }
 
-    changeHandler(event){
+    changeHandler(event) {
         let name = event.target.name;
         let value = event.target.value;
         this.setState({
-            [name] : value
+            [name]: value
         })
         console.log(event.target.value)
     }
 
-    updateGroup(event){
+    updateGroup(event) {
         event.preventDefault();
         let subG = new SubGroup();
         subG.no = this.state.no;
         subG.ID = this.generateID(this.state.no);
         firebase.database().ref("Student/" + this.state.year + "/semesters/" + this.state.semester +
-            "/programmes/" + this.state.pro + "/Groups/" +parseInt(this.state.keyCollection)+"/subGroups/").child(this.state.key)
+            "/programmes/" + this.state.pro + "/Groups/" + parseInt(this.state.keyCollection) + "/subGroups/").child(this.state.key)
             .update({
-                no:subG.no
+                no: subG.no
             })
 
         firebase.database().ref('SubGroupIDs/')
@@ -47,28 +47,32 @@ class UpdateSubGroups extends React.Component{
         })
 
         this.setState({
-            no:""
+            no: ""
         })
-        this.props.updateCom('','');
+        this.props.updateCom('', '');
 
     }
 
     generateID(no) {
-        return "Y" + this.state.year + ".S" + this.state.semester + "." + this.state.pro + "." + this.state.group+"."+no;
+        return "Y" + this.state.year + ".S" + this.state.semester + "." + this.state.pro + "." + this.state.group + "." + no;
     }
 
     render() {
-        return(
-            <Form onSubmit={this.updateGroup}>
-                <FormGroup>
-                    <Form.Label>No</Form.Label>
-                    <Form.Control type="number" name="no" onChange={this.changeHandler}
-                       value={this.state.no} />
-                </FormGroup>
-                <Button type="submit" >Update Sub Group</Button>
+        return (
+            <div className="updateWidth container">
+                <h4>Update sub group</h4>
+                <Form onSubmit={this.updateGroup}>
+                    <FormGroup>
+                        <Form.Label>No</Form.Label>
+                        <Form.Control type="number" name="no" onChange={this.changeHandler}
+                                      value={this.state.no}/>
+                    </FormGroup>
+                    <Button type="submit" variant="dark">Update Sub Group</Button>
 
-            </Form>
+                </Form>
+            </div>
         )
     }
 }
+
 export default UpdateSubGroups;

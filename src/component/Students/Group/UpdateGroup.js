@@ -12,7 +12,7 @@ class UpdateGroup extends React.Component {
             semester: this.props.semester,
             pro: this.props.pro,
             no: this.props.noU,
-            reference:this.props.reference
+            reference: this.props.reference
         }
         this.changeHandler = this.changeHandler.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
@@ -46,6 +46,19 @@ class UpdateGroup extends React.Component {
             ID: group.ID
         })
 
+
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID')
+            .startAt('Y' + this.state.year + ".S" + this.state.semester + "." + this.state.pro + "." + this.props.noU)
+            .on('value', (snapshot) => {
+                snapshot.forEach(function (data) {
+                    let startPart = data.val().ID.substring(0, 9)
+                    let endPart = data.val().ID.substring(11, 13)
+                    data.ref.update({
+                        ID: startPart +group.no+endPart
+                    })
+                })
+            })
+
         this.setState({
             no: ""
         })
@@ -58,14 +71,18 @@ class UpdateGroup extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.updateGroup}>
-                <FormGroup>
-                    <Form.Label>Group No</Form.Label>
-                    <Form.Control type="number" name="no" onChange={this.changeHandler}
-                                  value={this.state.no} required/>
-                </FormGroup>
-                <Button type="submit">Update Group</Button>
-            </Form>
+            <div className="updateWidth container">
+                <h4>Update group</h4>
+                <Form onSubmit={this.updateGroup}>
+                    <FormGroup>
+                        <Form.Label>Group No</Form.Label>
+                        <Form.Control type="number" name="no" onChange={this.changeHandler}
+                                      value={this.state.no} required/>
+                    </FormGroup>
+                    <Button type="submit" variant="dark">Update Group</Button>
+                </Form>
+            </div>
+
         )
     }
 }
