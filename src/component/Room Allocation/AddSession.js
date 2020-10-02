@@ -27,9 +27,13 @@ export default class AddSession extends Component{
             sessionName:'',
             roomId:'',
             csid:'',
-            croomId:''
+            croomId:'',
+            sessionAllocateError:'',
+            sessionError:'',
+            csessionError:'',
+            csessionAllocateError:''
 
-            // srType:''
+
 
         }
     }
@@ -204,9 +208,27 @@ export default class AddSession extends Component{
             </Form.Control> </div>
 
     }
+    sessionValidation(){
+        let sessionError='';
+        if((!this.state.sessionName) || (!this.state.roomId)){
+            sessionError = "Fields cannot be empty"
+        }
+
+        if (sessionError) {
+
+            this.setState({sessionError});
+            return false;
+        }
+        this.setState({
+            sessionError:''
+        })
+
+        return true;
+    }
 
     addNonConsecutiveSessions(e){
         e.preventDefault();
+        const isValid = this.sessionValidation();
         const myRef = firebase.database().ref('RoomAllocation').push().getKey();
         const session_roomObject = {
             name: this.state.sessionName,
@@ -215,14 +237,17 @@ export default class AddSession extends Component{
             type: "session"
 
         };
-        firebase.database().ref('RoomAllocation/').child(myRef).set(
-            session_roomObject,
-            err => {
-                if (err)
-                    console.log(err  + "unsuccess");
-                else
-                    console.log("Successful !!!");
-            })
+        if(isValid){
+            firebase.database().ref('RoomAllocation/').child(myRef).set(
+                session_roomObject,
+                err => {
+                    if (err)
+                        console.log(err  + "unsuccess");
+                    else
+                        console.log("Successful !!!");
+                })
+        }
+
     }
 
     loadConsecutiveSessions(){
@@ -252,6 +277,8 @@ export default class AddSession extends Component{
             </Form.Control> </div>
     }
 
+
+
     setCRooms(){
         let conrooms=[];
         this.loadConsecutiveSessions().map(val=>{
@@ -280,9 +307,27 @@ export default class AddSession extends Component{
         return conrooms;
 
     }
+
+    csessionValidations(){
+        let csessionError='';
+        if((!this.state.csid) || (!this.state.croomId)){
+            csessionError = "Fields cannot be empty"
+        }
+
+        if (csessionError) {
+
+            this.setState({csessionError});
+            return false;
+        }
+        this.setState({
+            csessionError:''
+        })
+
+        return true;
+    }
     saveConsecutiveSessions(e){
         e.preventDefault();
-
+        const csessionValidate = this.csessionValidations();
         const csession_roomObject = {
             name: this.state.csid,
             Id: this.state.csid,
@@ -290,14 +335,17 @@ export default class AddSession extends Component{
             type: "consecutivesession"
 
         };
-        firebase.database().ref('RoomAllocation/').child(this.state.csid).set(
-            csession_roomObject,
-            err => {
-                if (err)
-                    console.log(err  + "unsuccess");
-                else
-                    console.log("Successful !!!");
-            })
+        if(csessionValidate){
+            firebase.database().ref('RoomAllocation/').child(this.state.csid).set(
+                csession_roomObject,
+                err => {
+                    if (err)
+                        console.log(err  + "unsuccess");
+                    else
+                        console.log("Successful !!!");
+                })
+        }
+
 
     }
     render(){
@@ -341,6 +389,9 @@ export default class AddSession extends Component{
                                 </Button>
                             </Form.Group>
                         </Form>
+                        <div align="center" style={{ fontSize: 16, color: "red" }}>
+                            {this.state.sessionError}
+                        </div>
                         <h5 style={{ margin: '30px', color: '#888844' }} >Add Rooms for Consecutive Sessions</h5>
                         <Form>
 
@@ -376,6 +427,9 @@ export default class AddSession extends Component{
                                 </Button>
                             </Form.Group>
                         </Form>
+                        <div align="center" style={{ fontSize: 16, color: "red",marginBottom:'20%' }}>
+                            {this.state.csessionError}
+                        </div>
                     </Col>
                     <Col sm={3} style={{'background-color': '#888844'}}>
 
