@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import * as firebase from "firebase";
-import LoadingScreen from "react-loading-screen";
 import moment from "moment";
 import LecTimeTableView from "./LecTimeTableView";
 import {ListGroup,ListGroupItem,Modal,ModalBody,ModalFooter,ModalHeader,Badge} from 'reactstrap'
-import {Button, Col, Row, Tab, Tabs} from "react-bootstrap";
+import {Button,Tab, Tabs} from "react-bootstrap";
 import GroupTimeTable from "./GroupTimeTable";
 import RoomTimeTable from "./RoomTimeTable";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -185,7 +184,7 @@ class Genarate extends Component {
                     sorted.push(this.state.workingDays[j])
             }
         }
-        this.setState({workingDays:sorted},()=> this.startGenarateTimetable())
+        this.setState({workingDays:sorted})
     }
 
     slot = () => {
@@ -263,16 +262,26 @@ class Genarate extends Component {
         return (
             <div>
                <div className='mr-auto ml-auto'>
-                   { this.state.loadingData ? <Loader type="ThreeDots" color="#00BFFF" height={40} width={40} timeout={3000} /> : null}
+
                </div>
-                    <Button className='float-right btn-warning' onClick={()=>this.setState({model:true})}>Errors<Badge pill>{this.state.errors.length}</Badge></Button>
-                    <Modal isOpen={this.state.model} >
+                <Button hidden={this.state.genaratedTabel.length === 0} className='float-right btn-warning' onClick={()=>this.setState({model:true})}>Errors<Badge pill>{this.state.errors.length}</Badge></Button>
+
+                { this.state.genaratedTabel.length === 0 ?
+
+                    <div className='container h-100'>
+                        <div className='row h-100 justify-content-center align-items-center'>
+                            { this.state.loadingData ? <Loader type="ThreeDots" color="#00BFFF" height={40} width={40} timeout={10000} /> :
+                                <Button className='col-4' style={{marginTop:'25%'}} onClick={this.startGenarateTimetable} >Start Genarate Time Tables</Button>}
+                   </div> </div> :
+
+                <div>
+                <Modal isOpen={this.state.model} >
                         <ModalHeader >Errors & Warnings</ModalHeader>
                         <ModalBody>
                             <ListGroup>
                                 {
                                     this.state.errors.map((val,i) => {
-                                        return <ListGroupItem className="justify-content-between">{val.msg}<Badge pill className='badge-warning'>{val.sid}</Badge></ListGroupItem>
+                                        return <ListGroupItem key={i} className="justify-content-between">{val.msg}<Badge pill className='badge-warning'>{val.sid}</Badge></ListGroupItem>
                                     })
                                 }
                             </ListGroup>
@@ -295,7 +304,7 @@ class Genarate extends Component {
                                             room={this.state.buildings} subgroup = {this.state.subGroup} sessions={this.state.sessions}/>
                         </Tab>
                     </Tabs>
-
+                    </div>}
             </div>
         );
     }
@@ -304,7 +313,6 @@ class Genarate extends Component {
         const {  sessions,roomAllocations, lectures, students, subGroup,workingDays, buildings, parallelSessions, consectiveSession, notAvalibleTime, workingTime} = this.state
         // slot of a day
         let slotArr = this.slot()
-        console.log(buildings)
         // Add Consective Session
         consectiveSession.forEach((sessionGroup) => {
             let  dayNum = 0
@@ -321,7 +329,7 @@ class Genarate extends Component {
                 this.alreadySetSession(session)
                 while (notOk){
                     if(this.checkGroupAvalability(groupNo,day,startSlot,numberSlot) && this.checkLecturesAvalability(lectures,day,startSlot,numberSlot) && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
-                        this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot)
+                        setTimeout(() =>this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot),1000)
                         notOk = false
                     }else {
                         startSlot++
@@ -354,7 +362,7 @@ class Genarate extends Component {
                     while (notOk){
 
                         if(this.checkGroupAvalability(groupNo,day,startSlot,numberSlot) && this.checkLecturesAvalability(lectures,day,startSlot,numberSlot) && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
-                            this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot)
+                            setTimeout(() => this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot),1000)
                             notOk = false
                         }else {
                             startSlot++
@@ -383,15 +391,17 @@ class Genarate extends Component {
                 while (notOk){
                     let day = this.state.workingDays[dayNum]
                     if(this.checkLecturesAvalability(lectures,day,startSlot,numberSlot) && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
-                        this.allocateToTimeTable(session.key, lectures, groupNo, roomName, day, numberSlot, startSlot)
+                        setTimeout(()=> this.allocateToTimeTable(session.key, lectures, groupNo, roomName, day, numberSlot, startSlot), 1000)
                         notOk = false
                     }else {
                         startSlot++
                         if(startSlot+numberSlot >= this.slot().length){
                             dayNum++
                             startSlot = 0
-                            if(dayNum > this.state.workingDays.length)
-                                this.addErrorMessage('This session is not inserted',session)
+                            if(dayNum > this.state.workingDays.length) {
+                                this.addErrorMessage('This session is not inserted', session)
+                                notOk = false
+                            }
                         }
 
                     }
@@ -425,18 +435,18 @@ class Genarate extends Component {
         return batch
     }
 
-    getDurationBySessionId = (sid) => {
-        const {sessions} = this.state
-        let duration = ''
-        sessions.map(value => {
-            if(value.key === sid){
-                duration = value.data.Duration
-            }
-        })
-        if(this.state.workingTime.timeSlot === 30)
-            duration = duration * 2
-        return duration
-    }
+    // getDurationBySessionId = (sid) => {
+    //     const {sessions} = this.state
+    //     let duration = 1
+    //     sessions.map(value => {
+    //         if(value.key === sid){
+    //             duration = value.data.Duration
+    //         }
+    //     })
+    //     if(this.state.workingTime.timeSlot === 30)
+    //         duration = duration * 2
+    //     return duration
+    // }
 
     getRoomNameConSession = (sid) => {
         let room = ''
@@ -498,7 +508,7 @@ class Genarate extends Component {
             }
            a.push({"obj":obj})
 
-        this.setState({genaratedTabel:a})
+        this.setState({genaratedTabel:a}, () => console.log(this.state.genaratedTabel))
     }
 
     checkRoomAvalability = (room,day,startSlot,numOfSlot) => {
@@ -592,13 +602,15 @@ class Genarate extends Component {
     }
 
     getDurationBySessionID = (sid) => {
-        const {lectures,sessions} = this.state
-        let duration = ''
+        const {sessions} = this.state
+        let duration = 1
         sessions.map(value => {
             if(value.key === sid){
-                duration = value.data.Duration
+                duration = parseInt(value.data.Duration)
             }
         })
+        if(this.state.workingTime.timeSlot === 30)
+            duration = duration * 2
         return duration
     }
 
@@ -624,7 +636,7 @@ class Genarate extends Component {
             msg : msg
         }
         a.push(obj)
-        this.setState({errors:a},()=>console.log(this.state.errors))
+        this.setState({errors:a})
     }
 
 

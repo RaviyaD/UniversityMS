@@ -28,6 +28,8 @@ export default class LecturersAllocation extends Component{
             AllocatedSessions:[],
             AllocatedLecturers:[],
             sessionLecError:'',
+            sessionEmpty:'',
+            normalEmpty:'',
             normalLecError:''
         }
     }
@@ -180,18 +182,23 @@ export default class LecturersAllocation extends Component{
     }
     lectureSessionValidation(){
         let sessionLecError='';
+        let sessionError='';
         this.state.AllocatedLecturers.map(allocatedL=>{
             if(this.state.lecName===allocatedL.name && this.state.roomId === allocatedL.roomId){
                  sessionLecError = this.state.lecName + "is already assigned to" + this.state.roomId
             }
         })
-        if (sessionLecError) {
+        if((!this.state.lecName) || (!this.state.lecName)){
+            sessionError = "Fields cannot be empty"
+        }
+        if (sessionLecError || sessionError) {
 
-            this.setState({sessionLecError});
+            this.setState({sessionLecError,sessionError});
             return false;
         }
         this.setState({
-           sessionLecError:''
+           sessionLecError:'',
+            sessionError:''
         })
 
         return true;
@@ -199,18 +206,24 @@ export default class LecturersAllocation extends Component{
 
     lectureNormalValidation(){
         let   normalLecError='';
+        let normalError='';
         this.state.AllocatedLecturers.map(allocatedL=>{
             if(this.state.normalLecname===allocatedL.name && this.state.normalRoomId === allocatedL.roomId){
             normalLecError = this.state.normalLecname + " is already assigned to " + this.state.normalRoomId
             }
         })
-        if (normalLecError) {
+        if((!this.state.normalLecname) || (!this.state.normalRoomId)){
 
-            this.setState({normalLecError});
+            normalError = "Fields cannot be empty"
+        }
+        if (normalLecError || normalError) {
+
+            this.setState({normalLecError, normalError});
             return false;
         }
         this.setState({
-            normalLecError:''
+            normalLecError:'',
+            normalError:''
         })
 
         return true;
@@ -318,6 +331,7 @@ export default class LecturersAllocation extends Component{
                             </Form>
                             <div align="center" style={{ fontSize: 16, color: "red" }}>
                                 {this.state.sessionLecError}
+                                {this.state.sessionError}
                             </div>
 
                             <h5 style={{ margin: '30px', color: '#888844' }} >Add Preferred Rooms for Lecturers</h5>
@@ -365,6 +379,7 @@ export default class LecturersAllocation extends Component{
                                 </Form.Group>
                                 <div align="center" style={{ fontSize: 16, color: "red"}}>
                                     {this.state.normalLecError}
+                                    {this.state.normalError}
                                 </div>
                             </Form>
                         </Col>

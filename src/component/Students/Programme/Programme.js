@@ -8,7 +8,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import UpdateYear from "../Year/updateYear";
 import UpdateProgramme from "./UpdateProgramme";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Table} from "react-bootstrap";
+import "../common.css"
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import CallMadeIcon from "@material-ui/icons/CallMade";
+
 
 class Programme extends React.Component {
     constructor(props) {
@@ -16,6 +20,7 @@ class Programme extends React.Component {
         this.state = {
             list: [],
             year: props.location.state.year,
+            yearKey: props.location.state.yearKey,
             semester: props.location.state.semester,
             update: false,
             key: null,
@@ -27,7 +32,7 @@ class Programme extends React.Component {
     }
 
     componentDidMount() {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/")
+        firebase.database().ref('Student/' + this.state.yearKey + "/semesters/" + this.state.semester + "/programmes/")
             .on("value", snapshot => {
                 this.setState({
                     list: []
@@ -42,9 +47,27 @@ class Programme extends React.Component {
     }
 
     deleteProgramme(no) {
-        firebase.database().ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + no).remove(() => {
-            console.log("Deleted");
-        })
+        firebase.database()
+            .ref('Student/' + this.state.year + "/semesters/" + this.state.semester + "/programmes/" + no)
+            .remove(() => {
+                console.log("Deleted");
+            })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID')
+            .startAt('Y' + this.state.year + '.S' + this.state.semester + "." + no)
+            .on('value', (snapshot) => {
+                snapshot.forEach(function (data) {
+                    data.ref.remove();
+
+                })
+            })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID')
+            .startAt('Y' + this.state.year + '.S' + this.state.semester + "." + no)
+            .on('value', (snapshot) => {
+                snapshot.forEach(function (data) {
+                    data.ref.remove();
+
+                })
+            })
     }
 
     updateComponent(key, description, name) {
@@ -60,45 +83,62 @@ class Programme extends React.Component {
     render() {
         return (
             <div>
-                <h4>Year {this.state.year} - Semester {this.state.semester} -Programme List</h4>
+                <h4 className="topic">Year {this.state.year} - Semester {this.state.semester} -Programme List
+                    <IconButton onClick={() => {
+                        this.props.history.goBack()
+                    }}>
+                        <ArrowBackIosIcon fontSize="inherit" size="small"/>
+                    </IconButton>
+                </h4>
                 <hr/>
-                {
-                    this.state.list.map((item, key) => {
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Name</th>
+                        <th> Short Code</th>
+                        <th> Description</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.list.map((item, key) => {
 
-                        return (
-                            <Row>
-                                <Col>
-                                    <Link to={{
-                                        pathname: "/Student/Semester/Programme/Group",
-                                        state: {
-                                            year: this.state.year,
-                                            semester: this.state.semester,
-                                            pro: item.key
-                                        }
-                                    }}>
-                                        <Row>
-                                            <Col><strong>Name : </strong>{item.val().name}</Col>
-                                            <Col><strong>Short code : </strong> {item.key}</Col>
-                                            <Col><strong>Description : </strong> {item.val().description}</Col>
-                                        </Row>
+                            return (
+                                <tr>
+                                    <td>
+                                        <Link className="link" to={{
+                                            pathname: "/Student/Semester/Programme/Group",
+                                            state: {
+                                                year: this.state.year,
+                                                semester: this.state.semester,
+                                                pro: item.key
+                                            }
+                                        }}>
+                                            <td>{item.val().name} <CallMadeIcon fontSize="small"/></td>
 
-                                    </Link>
-                                </Col>
-                                <Col>
-                                    <IconButton
-                                        onClick={() => this.updateComponent(item.key, item.val().description, item.val().name)}>
-                                        <EditIcon fontSize="small"/>
-                                    </IconButton>
+                                        </Link>
+                                    </td>
+                                    <td> {item.key}</td>
+                                    <td>{item.val().description}</td>
+                                    <td>
+                                        <IconButton
+                                            onClick={() => this.updateComponent(item.key, item.val().description, item.val().name)}>
+                                            <EditIcon fontSize="small"/>
+                                        </IconButton>
 
-                                    <IconButton onClick={() => this.deleteProgramme(item.key)}> <DeleteIcon
-                                        fontSize="small"/></IconButton>
+                                        <IconButton onClick={() => this.deleteProgramme(item.key)}> <DeleteIcon
+                                            fontSize="small"/></IconButton>
 
-                                </Col>
+                                    </td>
 
-                            </Row>
-                        )
-                    })
-                }
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </Table>
+
                 {this.state.update ? <UpdateProgramme id={this.state.key}
                                                       year={this.state.year}
                                                       semester={this.state.semester}

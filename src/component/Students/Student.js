@@ -6,11 +6,14 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import UpdateYear from "./Year/updateYear";
-import {Col, Row} from "react-bootstrap";
+import {Col, Row, Table} from "react-bootstrap";
+import './common.css'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import CallMadeIcon from '@material-ui/icons/CallMade';
 
 class Student extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             list: [],
             update: false,
@@ -37,9 +40,20 @@ class Student extends React.Component {
     }
 
     deleteYear(no) {
-        console.log(parseInt(no));
         firebase.database().ref('Student/' + parseInt(no)).remove(() => {
             console.log("Deleted");
+        })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID').startAt('Y' + no).on('value', (snapshot) => {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID').startAt('Y' + no).on('value', (snapshot) => {
+            snapshot.forEach(function (data) {
+                data.ref.remove();
+
+            })
         })
     }
 
@@ -56,39 +70,60 @@ class Student extends React.Component {
     render() {
         return (
             <div>
-                <h4>Year List</h4>
-                {
-                    this.state.list.map((item, key) => {
-                        return (
-                            <Row>
-                                <Col>
-                                    <Link to={{
-                                        pathname: "/Student/Semester",
-                                        state: {
-                                            yearNo: item.val().no,
-                                            yearKey: item.key
-                                        }
-                                    }}
-                                          key={key}>
-                                        <Row>
-                                            <Col> <strong>Year</strong> {item.val().no}</Col>
-                                            <Col><strong>Short Form </strong> {item.val().yearCode}</Col>
-                                            <Col><strong>Note</strong> {item.val().Note}</Col>
-                                        </Row>
-                                    </Link>
-                                </Col>
-                                <Col>
-                                    <IconButton
-                                        onClick={() =>
-                                            this.updateComponent(item.key, item.val().no, item.val().Note)}>
-                                        <EditIcon fontSize="small"/></IconButton>
+                <h4 className="topic">
+                    Year List
+                    <IconButton onClick={() => {
+                        this.props.history.goBack()
+                    }}>
+                        <ArrowBackIosIcon fontSize="inherit" size="small"/>
+                    </IconButton>
+                </h4>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Year</th>
+                        <th> Short Form</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.list.map((item, key) => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <Link className="link" to={{
+                                            pathname: "/Student/Semester",
+                                            state: {
+                                                yearNo: item.val().no,
+                                                yearKey: item.key
+                                            }
+                                        }}
+                                              key={key}>
+                                            <td>{item.val().no} <CallMadeIcon fontSize="small"/> </td>
 
-                                    <IconButton onClick={() => this.deleteYear(item.val().no)}>
-                                        <DeleteIcon fontSize="small"/></IconButton>
-                                </Col>
-                            </Row>)
-                    })
-                }
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        {item.val().yearCode}
+                                    </td>
+
+                                    <td>
+                                        <IconButton
+                                            onClick={() =>
+                                                this.updateComponent(item.key, item.val().no, item.val().Note)}>
+                                            <EditIcon fontSize="small"/></IconButton>
+
+                                        <IconButton onClick={() => this.deleteYear(item.key)}>
+                                            <DeleteIcon fontSize="small"/></IconButton>
+                                    </td>
+
+                                </tr>)
+                        })
+                    }
+                    </tbody>
+                </Table>
+
                 {this.state.update ? <UpdateYear id={this.state.key}
                                                  noU={this.state.no}
                                                  noteU={this.state.note}

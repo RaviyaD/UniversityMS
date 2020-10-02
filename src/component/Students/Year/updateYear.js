@@ -34,6 +34,22 @@ class UpdateYear extends React.Component {
         firebase.database().ref("Student/").child(this.state.key).update({
             'Note': this.state.note, 'no': this.state.year, 'yearCode': "Y" + this.state.year
         })
+        firebase.database().ref().child('GroupIDs').orderByChild('ID').startAt('Y'+this.props.noU).on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                let endPart = data.val().ID.substring(2,11)
+                data.ref.update({
+                    ID : "Y"+year.no+endPart
+                })
+            })
+        })
+        firebase.database().ref().child('SubGroupIDs').orderByChild('ID').startAt('Y'+this.props.noU).on('value',(snapshot)=> {
+            snapshot.forEach(function (data) {
+                let endPart = data.val().ID.substring(2,13)
+                data.ref.update({
+                    ID : "Y"+year.no+endPart
+                })
+            })
+        })
         this.setState({
             year: "",
             note: ""
@@ -43,7 +59,8 @@ class UpdateYear extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="updateWidth container">
+                <h4>Update year</h4>
                 <Form onSubmit={this.updateYear}>
                     <FormGroup>
                         <Form.Label>Year</Form.Label>
@@ -57,7 +74,7 @@ class UpdateYear extends React.Component {
                                       onChange={this.changeHandler}
                                       value={this.state.note}/>
                     </FormGroup>
-                    <Button variant="primary" type="submit">Add</Button>
+                    <Button type="submit" variant="dark">Update year</Button>
                 </Form>
             </div>
         );

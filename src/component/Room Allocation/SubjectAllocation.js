@@ -32,7 +32,9 @@ export default class SubjectAllocation extends Component{
             AllocatedSessions:[],
             AllocatedSubjects:[],
             sessionSubError:'',
-            normalSubError:''
+            normalSubError:'',
+            sessionEmpty:'',
+            normalEmpty:''
         }
     }
 
@@ -204,6 +206,7 @@ export default class SubjectAllocation extends Component{
 
     sessionSubjectValidation(){
         let sessionSubError='';
+        let sessionEmpty='';
         this.state.AllocatedSubjects.map(allocatedS=>{
             if(this.state.subName===allocatedS.name && this.state.roomId === allocatedS.roomId
                 && this.state.tagName === allocatedS.roomType
@@ -211,19 +214,24 @@ export default class SubjectAllocation extends Component{
                 sessionSubError = this.state.subName + " is already assigned to " + this.state.roomId
             }
         })
-        if (sessionSubError) {
+        if((!this.state.subName) || (!this.state.roomId) || (!this.state.tagName)){
+            sessionEmpty= "Fields cannot be empty"
+        }
+        if (sessionSubError || sessionEmpty) {
 
-            this.setState({sessionSubError});
+            this.setState({sessionSubError,sessionEmpty});
             return false;
         }
         this.setState({
-            sessionSubError:''
+            sessionSubError:'',
+            sessionEmpty:''
         })
 
         return true;
     }
     normalSubjectValidation(){
         let normalSubError='';
+        let normalEmpty='';
         this.state.AllocatedSubjects.map(allocatedS=>{
             if(this.state.normalSubname===allocatedS.name && this.state.normalRoomId === allocatedS.roomId
                 && this.state.normalTagname === allocatedS.roomType
@@ -231,13 +239,18 @@ export default class SubjectAllocation extends Component{
                 normalSubError = this.state.normalSubname + " is already assigned to " + this.state.normalRoomId
             }
         })
-        if (normalSubError) {
 
-            this.setState({normalSubError});
+        if((!this.state.normalSubname) || (!this.state.normalRoomId) || (!this.state.normalTagname)){
+            normalEmpty = "Fields cannot be empty"
+        }
+        if (normalSubError || normalEmpty) {
+
+            this.setState({normalSubError,normalEmpty});
             return false;
         }
         this.setState({
-            normalSubError:''
+            normalSubError:'',
+            normalEmpty:''
         })
 
         return true;
@@ -361,6 +374,7 @@ export default class SubjectAllocation extends Component{
                             </Form>
                             <div align="center" style={{ fontSize: 16, color: "red" }}>
                                 {this.state.sessionSubError}
+                                {this.state.sessionEmpty}
                             </div>
 
                             <h5 style={{ margin: '30px', color: '#888844' }} >Add Preferred Rooms for Subjects</h5>
@@ -420,8 +434,9 @@ export default class SubjectAllocation extends Component{
                                         ADD ROOM
                                     </Button>
                                 </Form.Group>
-                                <div align="center" style={{ fontSize: 16, color: "red"}}>
+                                <div align="center" style={{ fontSize: 16, color: "red",marginBottom:'20%'}}>
                                     {this.state.normalSubError}
+                                    {this.state.normalEmpty}
                                 </div>
                             </Form>
                         </Col>

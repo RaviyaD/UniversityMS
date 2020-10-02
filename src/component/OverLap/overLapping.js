@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, FormGroup} from "react-bootstrap";
+import {Button, Form, FormGroup, Table} from "react-bootstrap";
 import firebase from "firebase";
 
 class overLapping extends React.Component {
@@ -8,11 +8,16 @@ class overLapping extends React.Component {
         this.state = {
             list: [],
             SessionList: [],
-            overlapping: true
+            overlapping: true,
+            OverlapList: []
         }
         this.storeSessions = this.storeSessions.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-
+    handleChange(event) {
+        console.log(event.target.value)
+        this.setState({overlapping: event.target.value});
     }
 
     componentDidMount() {
@@ -28,6 +33,19 @@ class overLapping extends React.Component {
                     }))
                 })
             })
+        firebase.database()
+            .ref('/overLapping')
+            .on("value", snapshot => {
+                this.setState({
+                    OverlapList: []
+                })
+                snapshot.forEach(item => {
+                    this.setState(state => ({
+                        OverlapList: [...state.OverlapList, item.val()]
+                    }))
+                })
+            })
+
     }
 
     changeHandler(i, event) {
@@ -62,13 +80,23 @@ class overLapping extends React.Component {
     storeSessions(event) {
         event.preventDefault();
         console.log(event)
-        const Ref = firebase.database().ref('overLapping/').push().getKey();
-        firebase.database().ref("overLapping/" + Ref)
-            .set({
-                OverLapping: this.state.overlapping,
-                sessions: this.state.list
 
-            })
+        if (this.state.list.includes("")) {
+            alert('One of the session is not selected!')
+        } else if (this.state.list.length < 2) {
+            alert('More than 2 sessions need to select!')
+        } else {
+            const Ref = firebase.database().ref('overLapping/').push().getKey();
+            firebase.database().ref("overLapping/" + Ref)
+                .set({
+                    OverLapping: this.state.overlapping,
+                    sessions: this.state.list
+
+                })
+        }
+        this.setState({
+            availableList:[]
+        })
 
     }
 
@@ -84,8 +112,11 @@ class overLapping extends React.Component {
                     <FormGroup>
                         <Form.Label>Choose : </Form.Label>
                         <br/>
-                        <input type="radio" id="id1" value={true} name="overlapping" required/> Overlapping
-                        <input type="radio" id="id2" value={false} name="overlapping" required/> Not Overlapping
+                        <input onChange={this.handleChange} type="radio" id="id1" value={true}
+                               name="overlapping" required/> Overlapping
+                        <br/>
+                        <input onChange={this.handleChange} type="radio" id="id2" value={false}
+                               name="overlapping" required/> Not Overlapping
                     </FormGroup>
 
                     <br/>
@@ -102,20 +133,22 @@ class overLapping extends React.Component {
 
                                         <select name="sessions" value={val || ''}
                                                 onChange={this.changeHandler.bind(this, idx)} required>
-                                            <option value="none" selected disabled hidden>
+                                            <option value="none" selected>
                                                 Select an Option
                                             </option>
                                             {
-                                                this.state.SessionList.map((item,index) => {
+                                                this.state.SessionList.map((item, index) => {
                                                     return (
                                                         <option key={index} value={item}
-                                                                disabled={this.state.list.includes(item)}>{item}</option>
+                                                                disabled={this.state.list.includes(item)}>
+                                                            {item}
+                                                        </option>
                                                     )
                                                 })
                                             }
                                         </select>
-
-                                        <button onClick={this.removeClick.bind(this, idx)}>-</button>
+                                        <input type="button" id="id1"
+                                               onClick={this.removeClick.bind(this, idx)} value="-"/>
                                     </div>
 
 
@@ -125,7 +158,48 @@ class overLapping extends React.Component {
                     </FormGroup>
                     <Button type="submit">Add sessions</Button>
                 </Form>
+                <br/>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th>Over Lapping </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    { this.state.OverlapList.map((val)=>{
+                        return (
+                            val.OverLapping === 'true' ? (<tr>
+                                <td>
+                                    {val.sessions.map((session => {
+                                        return <td>{session}</td>
+                                    }))}
+                                </td>
+                            </tr>) : null
+                        )
+                    })}
+                    </tbody>
+                </Table>
 
+                <Table striped bordered hover size="sm">
+                    <thead>
+                    <tr>
+                        <th> Not over lapping</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    { this.state.OverlapList.map((val)=>{
+                        return (
+                            val.OverLapping === 'false' ? (<tr>
+                                <td>
+                                    {val.sessions.map((session => {
+                                        return <td>{session}</td>
+                                    }))}
+                                </td>
+                            </tr> ): null
+                        )
+                    })}
+                    </tbody>
+                </Table>
 
             </div>
         )
