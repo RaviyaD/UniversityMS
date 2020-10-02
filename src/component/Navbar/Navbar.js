@@ -12,16 +12,16 @@ class Navbar extends React.Component {
                     <a to="javascript:void(0)" className="closebtn" onClick={this.props.closeNav}>&times;</a>
                     <Link to="/lecturer">Lecturer</Link>
                     <Link to="/subject">Subject</Link>
-                    <Link to="/Session">Session</Link>
                     <Link to="/workingView">Working Times</Link>
                     <Link to="/Student">Students</Link>
                     <Link to="/Tags">Tags</Link>
                     <Link to="/location-info">Locations</Link>
                     <Link to="/stat-info">Statistics</Link>
+                    <Link to="/Session">Sessions</Link>
+                    <Link  to="/OverLapping">Over Lapping Sessions</Link>
+                    <Link  to="/consecutiveSessions">Consecutive Sessions</Link>
+                    <Link  to="/availableTime">Unavailability</Link>
                     <Link to="/room-allocation">Room Allocation</Link>
-                    <Link to="/availableTime">Unavailability</Link>
-                    <Link to="/OverLapping">Over Lapping sessions</Link>
-                    <Link to="/consecutiveSessions">Consecutive Sessions</Link>
                     <Link to="/genarate">Genarate Time Table</Link>
                     <Link to="/"><HomeRounded/>Home</Link>
 

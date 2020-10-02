@@ -32,7 +32,7 @@ class AddSession extends React.Component {
             LectNames:[],
             validated: false,
             sessionList:[],
-            inSessionList:false
+            inSessionList:false,
         };
         this.handleSubject = this.handleSubject.bind(this);
         this.SettingGroupList = this.SettingGroupList.bind(this);
@@ -253,7 +253,11 @@ class AddSession extends React.Component {
                                                             tag: '',
                                                             Gid: '',
                                                             Studcount: '',
-                                                            duration: ''
+                                                            duration: '',
+                                                            lects:[],
+                                                            LectNames:[],
+                                                            Llist:this.state.Llist,
+                                                            inSessionList:false
                                                         });
                                                         swal("OK!!", "Session Modified!", "success").then(() => null);
 
@@ -266,7 +270,11 @@ class AddSession extends React.Component {
                                                         tag: '',
                                                         Gid: '',
                                                         Studcount: '',
-                                                        duration: ''
+                                                        duration: '',
+                                                        lects:[],
+                                                        LectNames:[],
+                                                        Llist:this.state.Llist,
+                                                        inSessionList:false
                                                     });
                                                 }
                                             })
@@ -294,7 +302,11 @@ class AddSession extends React.Component {
                                                 tag: '',
                                                 Gid: '',
                                                 Studcount:'',
-                                                duration:''
+                                                duration:'',
+                                                lects:[],
+                                                LectNames:[],
+                                                Llist:this.state.Llist,
+                                                inSessionList:false
                                             });
                                         });
                                     }
@@ -334,7 +346,7 @@ class AddSession extends React.Component {
                         </Form.Label>
                         <Col sm="10">
                             <div style={{ marginLeft: '30px', marginRight: '30px'}} >
-                                <Select isMulti options={Lecturers} onChange={this.handleLecturers} />
+                                <Select isMulti value={this.state.lects} options={Lecturers} onChange={this.handleLecturers} />
                             </div>
                         </Col>
                     </Form.Group>
