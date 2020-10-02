@@ -66,7 +66,8 @@
     "files": [
       "build/**/*",
       "node_modules/**/*",
-      "package.json"
+      "package.json",
+      "images"
     ],
     "directories": {
       "buildResources": "assets"
