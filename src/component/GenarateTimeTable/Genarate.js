@@ -309,10 +309,15 @@ class Genarate extends Component {
         );
     }
 
-    startGenarateTimetable = () => {
+     sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    startGenarateTimetable = async  () => {
         const {  sessions,roomAllocations, lectures, students, subGroup,workingDays, buildings, parallelSessions, consectiveSession, notAvalibleTime, workingTime} = this.state
         // slot of a day
         let slotArr = this.slot()
+        console.log(buildings)
         // Add Consective Session
         consectiveSession.forEach((sessionGroup) => {
             let  dayNum = 0
@@ -321,15 +326,19 @@ class Genarate extends Component {
             let numberSlot = 0
             let groupNo = this.getBatchDetailsBySessionID(sessionGroup.obj.sessions[0])
             let roomName = this.getRoomNameConSession(sessionGroup.id)
-
+            this.sleep(2000)
             sessionGroup.obj.sessions.forEach((session) => {
                 let notOk = true
                 let lectures = this.getLectureDetailsBySessionID(session)
                 numberSlot = parseInt(this.getDurationBySessionID(session))
                 this.alreadySetSession(session)
+                this.sleep(2000)
                 while (notOk){
-                    if(this.checkGroupAvalability(groupNo,day,startSlot,numberSlot) && this.checkLecturesAvalability(lectures,day,startSlot,numberSlot) && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
-                        setTimeout(() =>this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot),1000)
+                    let l = this.checkLecturesAvalability(lectures,day,startSlot,numberSlot)
+                    this.sleep(2000)
+                    if(this.checkGroupAvalability(groupNo,day,startSlot,numberSlot) && l && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
+                      setTimeout(() =>this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot),200)
+                        //this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot)
                         notOk = false
                     }else {
                         startSlot++
@@ -357,12 +366,16 @@ class Genarate extends Component {
                     let groupNo = this.getBatchDetailsBySessionID(session)
                     let lectures = this.getLectureDetailsBySessionID(session)
                     let roomName = this.selectPreferedRoom(lectures,groupNo,session)[0]
+                    this.sleep(2000)
                     let numberSlot = parseInt(this.getDurationBySessionID(session))
                     this.alreadySetSession(session)
+                    this.sleep(2000)
                     while (notOk){
-
-                        if(this.checkGroupAvalability(groupNo,day,startSlot,numberSlot) && this.checkLecturesAvalability(lectures,day,startSlot,numberSlot) && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
-                            setTimeout(() => this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot),1000)
+                        let l = this.checkLecturesAvalability(lectures,day,startSlot,numberSlot)
+                        this.sleep(2000)
+                        if(this.checkGroupAvalability(groupNo,day,startSlot,numberSlot) && l && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
+                            setTimeout(() => this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot),200)
+                           // this.allocateToTimeTable(session, lectures, groupNo, roomName, day, numberSlot, startSlot)
                             notOk = false
                         }else {
                             startSlot++
@@ -388,10 +401,14 @@ class Genarate extends Component {
                 let groupNo = this.getBatchDetailsBySessionID(session.key)
                 let lectures = this.getLectureDetailsBySessionID(session.key)
                 let roomName = this.selectPreferedRoom(lectures,groupNo,session.key)[0]
+                this.sleep(2000)
                 while (notOk){
                     let day = this.state.workingDays[dayNum]
-                    if(this.checkLecturesAvalability(lectures,day,startSlot,numberSlot) && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
-                        setTimeout(()=> this.allocateToTimeTable(session.key, lectures, groupNo, roomName, day, numberSlot, startSlot), 1000)
+                    let l = this.checkLecturesAvalability(lectures,day,startSlot,numberSlot)
+                    this.sleep(2000)
+                    if( l && this.checkRoomAvalability(roomName,day,startSlot,numberSlot) && this.slot()[startSlot].type) {
+                       setTimeout(()=> this.allocateToTimeTable(session.key, lectures, groupNo, roomName, day, numberSlot, startSlot), 200)
+                      //  this.allocateToTimeTable(session.key, lectures, groupNo, roomName, day, numberSlot, startSlot)
                         notOk = false
                     }else {
                         startSlot++
@@ -457,8 +474,8 @@ class Genarate extends Component {
 
         if(room === '') {
             room = this.selectRandomRoom(sid,'Not room set for this Consective session id. Random room is selected')
+            this.sleep(2000)
         }
-
         return room
     }
 
@@ -467,17 +484,24 @@ class Genarate extends Component {
         let room = []
         roomAllocations.map(value => {
           lec.map(ln => {
-              if(ln === value.name)
+              if(ln === value.name) {
                   room.push(value.roomId)
+                  this.sleep(2000)
+              }
           })
-              if(grp === value.name)
+              if(grp === value.name) {
                   room.push(value.roomId)
-              else if (sid === value.name)
+                  this.sleep(2000)
+              }
+              else if (sid === value.name) {
                   room.push(value.roomId)
+                  this.sleep(2000)
+              }
 
         })
         if(room.length === 0){
-            room.push( room = this.selectRandomRoom(sid,'Not room set for this session id. Random room is selected'))
+            room.push(this.selectRandomRoom(sid,'Not room set for this session id. Random room is selected'))
+            this.sleep(2000)
         }
         return room
     }
@@ -493,7 +517,7 @@ class Genarate extends Component {
         return Array.from(Array.from(Array(Math.ceil((end-start)/step)).keys()), x => start+ x*step);
     }
 
-    allocateToTimeTable = (sessionId,lecNames,grpName,RoomNo,day,numOfSlot,startSlot) => {
+    allocateToTimeTable = async (sessionId,lecNames,grpName,RoomNo,day,numOfSlot,startSlot) => {
         let a = this.state.genaratedTabel
 
             let obj = {
@@ -508,7 +532,8 @@ class Genarate extends Component {
             }
            a.push({"obj":obj})
 
-        this.setState({genaratedTabel:a}, () => console.log(this.state.genaratedTabel))
+       await this.setState({genaratedTabel:a}, () => this.sleep(5000))
+
     }
 
     checkRoomAvalability = (room,day,startSlot,numOfSlot) => {
@@ -559,21 +584,25 @@ class Genarate extends Component {
         return status
     }
 
-    checkLecturesAvalability = (lecture,day,startSlot,numOfSlot) => {
+    checkLecturesAvalability = async (lecture,day,startSlot,numOfSlot) => {
         const {genaratedTabel} = this.state
+        await this.sleep(2000)
         let status = true
-        genaratedTabel.forEach((row) => {
+       await genaratedTabel.forEach((row) => {
             lecture.map(lname => {
                 if(row.obj.lecName.includes('Dulmini Dissanayake')){
                     if(row.obj.day === day){
                         if(row.obj.startSlot === startSlot){
                             status = false
+                            this.sleep(2000)
                         }else {
                             let s = this.range(startSlot,(startSlot+numOfSlot),1)
                             s.map(v => {
                                 row.obj.slots.map(y => {
-                                    if(v === y)
+                                    if(v === y) {
                                         status = false
+                                        this.sleep(2000)
+                                    }
                                 })
                             })
                         }
@@ -583,6 +612,7 @@ class Genarate extends Component {
             })
 
         })
+        await this.sleep(2000)
         return status
     }
 
