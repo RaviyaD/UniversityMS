@@ -234,18 +234,23 @@ export default class GroupAllocation extends Component{
 
     sessionGroupValidation(){
         let   sessionGroupError='';
+        let emptySError='';
         this.state.AllocatedGroups.map(allocatedG=>{
             if(this.state.gName===allocatedG.name && this.state.roomId === allocatedG.roomId){
                 sessionGroupError = this.state.gName + " is already assigned to " + this.state.roomId
             }
         })
-        if (sessionGroupError) {
+        if((!this.state.gName) || (!this.state.roomId)){
+            emptySError="Fields cannot be empty"
+        }
+        if (sessionGroupError || emptySError) {
 
-            this.setState({sessionGroupError});
+            this.setState({sessionGroupError,emptySError});
             return false;
         }
         this.setState({
-            sessionGroupError:''
+            sessionGroupError:'',
+            emptySError:''
         })
 
         return true;
@@ -253,18 +258,23 @@ export default class GroupAllocation extends Component{
     }
     normalGroupValidation(){
         let   normalGroupError='';
+        let emptyNError='';
         this.state.AllocatedGroups.map(allocatedS=>{
             if(this.state.normalgname===allocatedS.name && this.state.normalRoomId === allocatedS.roomId){
                 normalGroupError = this.state.normalgname + " is already assigned to " + this.state.normalRoomId
             }
         })
-        if (normalGroupError) {
+        if((!this.state.normalgname) || (!this.state.normalRoomId)){
+            emptyNError = "Fields cannot be empty"
+        }
+        if (normalGroupError || emptyNError) {
 
-            this.setState({normalGroupError});
+            this.setState({normalGroupError,emptyNError});
             return false;
         }
         this.setState({
-            normalGroupError:''
+            normalGroupError:'',
+            emptyNError:''
         })
 
         return true;
@@ -385,6 +395,7 @@ export default class GroupAllocation extends Component{
                             </Form>
                             <div align="center" style={{ fontSize: 16, color: "red" }}>
                                 {this.state.sessionGroupError}
+                                {this.state.emptySError}
                             </div>
 
                             <h5 style={{ margin: '30px', color: '#888844' }} >Add Preferred Rooms for Groups & Sub Groups</h5>
@@ -442,8 +453,9 @@ export default class GroupAllocation extends Component{
                                         ADD ROOM
                                     </Button>
                                 </Form.Group>
-                                <div align="center" style={{ fontSize: 16, color: "red"}}>
+                                <div align="center" style={{ fontSize: 16, color: "red",marginBottom:'20%'}}>
                                     {this.state.normalGroupError}
+                                    {this.state.emptyNError}
 
                                 </div>
                             </Form>

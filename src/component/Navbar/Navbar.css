@@ -38,4 +38,15 @@
     cursor: pointer;
 }
 
+.dropdown-nav{
+    font-size: 6px;
+    margin-left: 6px;
+    border: black;
+}
+
+.dropdown-nav-menu{
+    background-color: #e6ffcc;
+    margin: 0px;
+    font-size: 2px;
+}
 

@@ -3,7 +3,7 @@ import {Table, Row, Col, Button} from "react-bootstrap";
 import moment from "moment";
 import {Form, FormGroup, Input, Label} from "reactstrap";
 import ReactToPrint from "react-to-print";
-
+const split = require('split-string')
 class GroupTimeTable extends Component {
 
     constructor() {
@@ -32,7 +32,7 @@ class GroupTimeTable extends Component {
                                             <option>Select</option>
                                             {
                                                 this.props.group.map((val,key) => {
-                                                    return( <option key={key} value={val}>{val}</option>)
+                                                    return( <option hidden={this.isGroupId(val)} key={key} value={val}>{val}</option>)
                                                 })
                                             }
                                         </Input>
@@ -104,7 +104,7 @@ class GroupTimeTable extends Component {
             if (val.obj.day === day) {
                 no = val.obj.numOfSlot
                 if(val.obj.slots.includes(slot)){
-                    if (val.obj.grpName === gname) {
+                    if (this.isSub(val.obj.grpName) === gname) {
                             Group = val.obj.grpName
                             Room = val.obj.RoomNo
                         subj = subj + this.getSubBySessionId(val.obj.sessionId)
@@ -143,6 +143,32 @@ class GroupTimeTable extends Component {
             }
         })
         return sub
+    }
+
+    isGroupId = (gno) => {
+        let status = true
+        this.props.table.map(val => {
+            if(val.obj.grpName === gno)
+                status = false
+        })
+        return status
+    }
+
+    isSub = (gno) => {
+
+        let n = split(gno)
+        let c = ''
+        if(n.length === 5){
+            for(let i=0; i<4 ; i++ ){
+                c += n[i]
+                if(i<3){
+                    c += '.'
+                }
+            }
+            console.log(c)
+            return c
+        }
+        return gno
     }
 }
 
